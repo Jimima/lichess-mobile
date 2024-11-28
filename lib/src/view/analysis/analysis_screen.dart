@@ -18,6 +18,9 @@ import 'package:lichess_mobile/src/model/engine/engine.dart';
 import 'package:lichess_mobile/src/model/engine/evaluation_service.dart';
 import 'package:lichess_mobile/src/model/game/game_repository_providers.dart';
 import 'package:lichess_mobile/src/model/game/game_share_service.dart';
+import 'package:lichess_mobile/src/model/game/material_diff.dart';
+import 'package:lichess_mobile/src/model/game/player.dart';
+import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
 import 'package:lichess_mobile/src/network/connectivity.dart';
 import 'package:lichess_mobile/src/network/http.dart';
 import 'package:lichess_mobile/src/styles/lichess_icons.dart';
@@ -30,12 +33,14 @@ import 'package:lichess_mobile/src/view/analysis/analysis_share_screen.dart';
 import 'package:lichess_mobile/src/view/board_editor/board_editor_screen.dart';
 import 'package:lichess_mobile/src/view/engine/engine_gauge.dart';
 import 'package:lichess_mobile/src/view/engine/engine_lines.dart';
+import 'package:lichess_mobile/src/view/game/game_player.dart';
 import 'package:lichess_mobile/src/view/opening_explorer/opening_explorer_screen.dart';
 import 'package:lichess_mobile/src/widgets/adaptive_action_sheet.dart';
 import 'package:lichess_mobile/src/widgets/adaptive_bottom_sheet.dart';
 import 'package:lichess_mobile/src/widgets/bottom_bar.dart';
 import 'package:lichess_mobile/src/widgets/bottom_bar_button.dart';
 import 'package:lichess_mobile/src/widgets/buttons.dart';
+import 'package:lichess_mobile/src/widgets/clock.dart';
 import 'package:lichess_mobile/src/widgets/feedback.dart';
 import 'package:lichess_mobile/src/widgets/list.dart';
 import 'package:lichess_mobile/src/widgets/platform.dart';
@@ -365,6 +370,54 @@ class _Body extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      //TODO player stuff
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: GamePlayer(
+                              player: const Player(
+                                name: 'White',
+                              ), //gameState.game.black,
+                              materialDiff: MaterialDiffSide(
+                                pieces: IMap(const {
+                                  Role.bishop: 2,
+                                  Role.king: 0,
+                                  Role.pawn: 3,
+                                  Role.knight: 0,
+                                  Role.queen: 0,
+                                  Role.rook: 0,
+                                }),
+                                score: 5,
+                              ),
+                              timeToMove: null,
+                              mePlaying: false,
+                              zenMode: false,
+                              clockPosition: ClockPosition.left,
+                              confirmMoveCallbacks: null,
+                              clock: const Clock(
+                                timeLeft: Duration(seconds: 45),
+                              ),
+                            ),
+                          ),
+                          const Flexible(
+                            child: GamePlayer(
+                              player: Player(
+                                name: 'Black',
+                              ), //gameState.game.black,
+                              materialDiff: null,
+                              timeToMove: null,
+                              mePlaying: false,
+                              zenMode: false,
+                              clockPosition: ClockPosition.right,
+                              confirmMoveCallbacks: null,
+                              clock: Clock(
+                                timeLeft: Duration(seconds: 45),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       _ColumnTopTable(ctrlProvider),
                       if (isTablet)
                         Padding(
