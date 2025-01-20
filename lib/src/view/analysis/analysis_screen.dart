@@ -396,7 +396,7 @@ class _Body extends ConsumerWidget {
                               clockPosition: ClockPosition.left,
                               confirmMoveCallbacks: null,
                               clock: const Clock(
-                                timeLeft: Duration(seconds: 45),
+                                timeLeft: Duration(hours: 2, seconds: 45),
                               ),
                             ),
                           ),
