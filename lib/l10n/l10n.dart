@@ -204,47 +204,41 @@ abstract class AppLocalizations {
     Locale('zh', 'TW')
   ];
 
-  /// No description provided for @mobileHomeTab.
+  /// No description provided for @mobileAllGames.
   ///
   /// In en, this message translates to:
-  /// **'Home'**
-  String get mobileHomeTab;
+  /// **'All games'**
+  String get mobileAllGames;
 
-  /// No description provided for @mobilePuzzlesTab.
+  /// No description provided for @mobileAreYouSure.
   ///
   /// In en, this message translates to:
-  /// **'Puzzles'**
-  String get mobilePuzzlesTab;
+  /// **'Are you sure?'**
+  String get mobileAreYouSure;
 
-  /// No description provided for @mobileToolsTab.
+  /// No description provided for @mobileCancelTakebackOffer.
   ///
   /// In en, this message translates to:
-  /// **'Tools'**
-  String get mobileToolsTab;
+  /// **'Cancel takeback offer'**
+  String get mobileCancelTakebackOffer;
 
-  /// No description provided for @mobileWatchTab.
+  /// No description provided for @mobileClearButton.
   ///
   /// In en, this message translates to:
-  /// **'Watch'**
-  String get mobileWatchTab;
+  /// **'Clear'**
+  String get mobileClearButton;
 
-  /// No description provided for @mobileSettingsTab.
+  /// No description provided for @mobileCorrespondenceClearSavedMove.
   ///
   /// In en, this message translates to:
-  /// **'Settings'**
-  String get mobileSettingsTab;
+  /// **'Clear saved move'**
+  String get mobileCorrespondenceClearSavedMove;
 
-  /// No description provided for @mobileMustBeLoggedIn.
+  /// No description provided for @mobileCustomGameJoinAGame.
   ///
   /// In en, this message translates to:
-  /// **'You must be logged in to view this page.'**
-  String get mobileMustBeLoggedIn;
-
-  /// No description provided for @mobileSystemColors.
-  ///
-  /// In en, this message translates to:
-  /// **'System colors'**
-  String get mobileSystemColors;
+  /// **'Join a game'**
+  String get mobileCustomGameJoinAGame;
 
   /// No description provided for @mobileFeedbackButton.
   ///
@@ -252,11 +246,119 @@ abstract class AppLocalizations {
   /// **'Feedback'**
   String get mobileFeedbackButton;
 
+  /// No description provided for @mobileGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, {param}'**
+  String mobileGreeting(String param);
+
+  /// No description provided for @mobileGreetingWithoutName.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello'**
+  String get mobileGreetingWithoutName;
+
+  /// No description provided for @mobileHideVariation.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide variation'**
+  String get mobileHideVariation;
+
+  /// No description provided for @mobileHomeTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get mobileHomeTab;
+
+  /// No description provided for @mobileLiveStreamers.
+  ///
+  /// In en, this message translates to:
+  /// **'Live streamers'**
+  String get mobileLiveStreamers;
+
+  /// No description provided for @mobileMustBeLoggedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be logged in to view this page.'**
+  String get mobileMustBeLoggedIn;
+
+  /// No description provided for @mobileNoSearchResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results'**
+  String get mobileNoSearchResults;
+
+  /// No description provided for @mobileNotFollowingAnyUser.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not following any user.'**
+  String get mobileNotFollowingAnyUser;
+
   /// No description provided for @mobileOkButton.
   ///
   /// In en, this message translates to:
   /// **'OK'**
   String get mobileOkButton;
+
+  /// No description provided for @mobilePlayersMatchingSearchTerm.
+  ///
+  /// In en, this message translates to:
+  /// **'Players with \"{param}\"'**
+  String mobilePlayersMatchingSearchTerm(String param);
+
+  /// No description provided for @mobilePrefMagnifyDraggedPiece.
+  ///
+  /// In en, this message translates to:
+  /// **'Magnify dragged piece'**
+  String get mobilePrefMagnifyDraggedPiece;
+
+  /// No description provided for @mobilePuzzleStormConfirmEndRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to end this run?'**
+  String get mobilePuzzleStormConfirmEndRun;
+
+  /// No description provided for @mobilePuzzleStormFilterNothingToShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to show, please change the filters'**
+  String get mobilePuzzleStormFilterNothingToShow;
+
+  /// No description provided for @mobilePuzzleStormNothingToShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to show. Play some runs of Puzzle Storm.'**
+  String get mobilePuzzleStormNothingToShow;
+
+  /// No description provided for @mobilePuzzleStormSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Solve as many puzzles as possible in 3 minutes.'**
+  String get mobilePuzzleStormSubtitle;
+
+  /// No description provided for @mobilePuzzleStreakAbortWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'You will lose your current streak and your score will be saved.'**
+  String get mobilePuzzleStreakAbortWarning;
+
+  /// No description provided for @mobilePuzzleThemesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Play puzzles from your favorite openings, or choose a theme.'**
+  String get mobilePuzzleThemesSubtitle;
+
+  /// No description provided for @mobilePuzzlesTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Puzzles'**
+  String get mobilePuzzlesTab;
+
+  /// No description provided for @mobileRecentSearches.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent searches'**
+  String get mobileRecentSearches;
 
   /// No description provided for @mobileSettingsHapticFeedback.
   ///
@@ -276,71 +378,11 @@ abstract class AppLocalizations {
   /// **'Hide system UI while playing. Use this if you are bothered by the system\'s navigation gestures at the edges of the screen. Applies to game and Puzzle Storm screens.'**
   String get mobileSettingsImmersiveModeSubtitle;
 
-  /// No description provided for @mobileNotFollowingAnyUser.
+  /// No description provided for @mobileSettingsTab.
   ///
   /// In en, this message translates to:
-  /// **'You are not following any user.'**
-  String get mobileNotFollowingAnyUser;
-
-  /// No description provided for @mobileAllGames.
-  ///
-  /// In en, this message translates to:
-  /// **'All games'**
-  String get mobileAllGames;
-
-  /// No description provided for @mobileRecentSearches.
-  ///
-  /// In en, this message translates to:
-  /// **'Recent searches'**
-  String get mobileRecentSearches;
-
-  /// No description provided for @mobileClearButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Clear'**
-  String get mobileClearButton;
-
-  /// No description provided for @mobilePlayersMatchingSearchTerm.
-  ///
-  /// In en, this message translates to:
-  /// **'Players with \"{param}\"'**
-  String mobilePlayersMatchingSearchTerm(String param);
-
-  /// No description provided for @mobileNoSearchResults.
-  ///
-  /// In en, this message translates to:
-  /// **'No results'**
-  String get mobileNoSearchResults;
-
-  /// No description provided for @mobileAreYouSure.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure?'**
-  String get mobileAreYouSure;
-
-  /// No description provided for @mobilePuzzleStreakAbortWarning.
-  ///
-  /// In en, this message translates to:
-  /// **'You will lose your current streak and your score will be saved.'**
-  String get mobilePuzzleStreakAbortWarning;
-
-  /// No description provided for @mobilePuzzleStormNothingToShow.
-  ///
-  /// In en, this message translates to:
-  /// **'Nothing to show. Play some runs of Puzzle Storm.'**
-  String get mobilePuzzleStormNothingToShow;
-
-  /// No description provided for @mobileSharePuzzle.
-  ///
-  /// In en, this message translates to:
-  /// **'Share this puzzle'**
-  String get mobileSharePuzzle;
-
-  /// No description provided for @mobileShareGameURL.
-  ///
-  /// In en, this message translates to:
-  /// **'Share game URL'**
-  String get mobileShareGameURL;
+  /// **'Settings'**
+  String get mobileSettingsTab;
 
   /// No description provided for @mobileShareGamePGN.
   ///
@@ -348,23 +390,23 @@ abstract class AppLocalizations {
   /// **'Share PGN'**
   String get mobileShareGamePGN;
 
+  /// No description provided for @mobileShareGameURL.
+  ///
+  /// In en, this message translates to:
+  /// **'Share game URL'**
+  String get mobileShareGameURL;
+
   /// No description provided for @mobileSharePositionAsFEN.
   ///
   /// In en, this message translates to:
   /// **'Share position as FEN'**
   String get mobileSharePositionAsFEN;
 
-  /// No description provided for @mobileShowVariations.
+  /// No description provided for @mobileSharePuzzle.
   ///
   /// In en, this message translates to:
-  /// **'Show variations'**
-  String get mobileShowVariations;
-
-  /// No description provided for @mobileHideVariation.
-  ///
-  /// In en, this message translates to:
-  /// **'Hide variation'**
-  String get mobileHideVariation;
+  /// **'Share this puzzle'**
+  String get mobileSharePuzzle;
 
   /// No description provided for @mobileShowComments.
   ///
@@ -372,53 +414,17 @@ abstract class AppLocalizations {
   /// **'Show comments'**
   String get mobileShowComments;
 
-  /// No description provided for @mobilePuzzleStormConfirmEndRun.
+  /// No description provided for @mobileShowResult.
   ///
   /// In en, this message translates to:
-  /// **'Do you want to end this run?'**
-  String get mobilePuzzleStormConfirmEndRun;
+  /// **'Show result'**
+  String get mobileShowResult;
 
-  /// No description provided for @mobilePuzzleStormFilterNothingToShow.
+  /// No description provided for @mobileShowVariations.
   ///
   /// In en, this message translates to:
-  /// **'Nothing to show, please change the filters'**
-  String get mobilePuzzleStormFilterNothingToShow;
-
-  /// No description provided for @mobileCancelTakebackOffer.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel takeback offer'**
-  String get mobileCancelTakebackOffer;
-
-  /// No description provided for @mobileWaitingForOpponentToJoin.
-  ///
-  /// In en, this message translates to:
-  /// **'Waiting for opponent to join...'**
-  String get mobileWaitingForOpponentToJoin;
-
-  /// No description provided for @mobileBlindfoldMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Blindfold'**
-  String get mobileBlindfoldMode;
-
-  /// No description provided for @mobileLiveStreamers.
-  ///
-  /// In en, this message translates to:
-  /// **'Live streamers'**
-  String get mobileLiveStreamers;
-
-  /// No description provided for @mobileCustomGameJoinAGame.
-  ///
-  /// In en, this message translates to:
-  /// **'Join a game'**
-  String get mobileCustomGameJoinAGame;
-
-  /// No description provided for @mobileCorrespondenceClearSavedMove.
-  ///
-  /// In en, this message translates to:
-  /// **'Clear saved move'**
-  String get mobileCorrespondenceClearSavedMove;
+  /// **'Show variations'**
+  String get mobileShowVariations;
 
   /// No description provided for @mobileSomethingWentWrong.
   ///
@@ -426,41 +432,35 @@ abstract class AppLocalizations {
   /// **'Something went wrong.'**
   String get mobileSomethingWentWrong;
 
-  /// No description provided for @mobileShowResult.
+  /// No description provided for @mobileSystemColors.
   ///
   /// In en, this message translates to:
-  /// **'Show result'**
-  String get mobileShowResult;
+  /// **'System colors'**
+  String get mobileSystemColors;
 
-  /// No description provided for @mobilePuzzleThemesSubtitle.
+  /// No description provided for @mobileTheme.
   ///
   /// In en, this message translates to:
-  /// **'Play puzzles from your favorite openings, or choose a theme.'**
-  String get mobilePuzzleThemesSubtitle;
+  /// **'Theme'**
+  String get mobileTheme;
 
-  /// No description provided for @mobilePuzzleStormSubtitle.
+  /// No description provided for @mobileToolsTab.
   ///
   /// In en, this message translates to:
-  /// **'Solve as many puzzles as possible in 3 minutes.'**
-  String get mobilePuzzleStormSubtitle;
+  /// **'Tools'**
+  String get mobileToolsTab;
 
-  /// No description provided for @mobileGreeting.
+  /// No description provided for @mobileWaitingForOpponentToJoin.
   ///
   /// In en, this message translates to:
-  /// **'Hello, {param}'**
-  String mobileGreeting(String param);
+  /// **'Waiting for opponent to join...'**
+  String get mobileWaitingForOpponentToJoin;
 
-  /// No description provided for @mobileGreetingWithoutName.
+  /// No description provided for @mobileWatchTab.
   ///
   /// In en, this message translates to:
-  /// **'Hello'**
-  String get mobileGreetingWithoutName;
-
-  /// No description provided for @mobilePrefMagnifyDraggedPiece.
-  ///
-  /// In en, this message translates to:
-  /// **'Magnify dragged piece'**
-  String get mobilePrefMagnifyDraggedPiece;
+  /// **'Watch'**
+  String get mobileWatchTab;
 
   /// No description provided for @activityActivity.
   ///
@@ -665,18 +665,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Upcoming'**
   String get broadcastUpcoming;
-
-  /// No description provided for @broadcastCompleted.
-  ///
-  /// In en, this message translates to:
-  /// **'Completed'**
-  String get broadcastCompleted;
-
-  /// No description provided for @broadcastCompletedHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'Lichess detects round completion, but can get it wrong. Use this to set it manually.'**
-  String get broadcastCompletedHelp;
 
   /// No description provided for @broadcastRoundName.
   ///
@@ -942,6 +930,12 @@ abstract class AppLocalizations {
   /// **'Standings'**
   String get broadcastStandings;
 
+  /// No description provided for @broadcastOfficialStandings.
+  ///
+  /// In en, this message translates to:
+  /// **'Official Standings'**
+  String get broadcastOfficialStandings;
+
   /// No description provided for @broadcastIframeHelp.
   ///
   /// In en, this message translates to:
@@ -989,6 +983,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Score'**
   String get broadcastScore;
+
+  /// No description provided for @broadcastAllTeams.
+  ///
+  /// In en, this message translates to:
+  /// **'All teams'**
+  String get broadcastAllTeams;
+
+  /// No description provided for @broadcastTournamentFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Tournament format'**
+  String get broadcastTournamentFormat;
+
+  /// No description provided for @broadcastTournamentLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Tournament Location'**
+  String get broadcastTournamentLocation;
+
+  /// No description provided for @broadcastTopPlayers.
+  ///
+  /// In en, this message translates to:
+  /// **'Top players'**
+  String get broadcastTopPlayers;
+
+  /// No description provided for @broadcastTimezone.
+  ///
+  /// In en, this message translates to:
+  /// **'Time zone'**
+  String get broadcastTimezone;
+
+  /// No description provided for @broadcastFideRatingCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'FIDE rating category'**
+  String get broadcastFideRatingCategory;
+
+  /// No description provided for @broadcastOptionalDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional details'**
+  String get broadcastOptionalDetails;
+
+  /// No description provided for @broadcastPastBroadcasts.
+  ///
+  /// In en, this message translates to:
+  /// **'Past broadcasts'**
+  String get broadcastPastBroadcasts;
+
+  /// No description provided for @broadcastAllBroadcastsByMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'View all broadcasts by month'**
+  String get broadcastAllBroadcastsByMonth;
+
+  /// No description provided for @broadcastBackToLiveMove.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to live move'**
+  String get broadcastBackToLiveMove;
+
+  /// No description provided for @broadcastSinceHideResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Since you chose to hide the results, all the preview boards are empty to avoid spoilers.'**
+  String get broadcastSinceHideResults;
 
   /// No description provided for @broadcastNbBroadcasts.
   ///
@@ -1452,6 +1512,12 @@ abstract class AppLocalizations {
   /// **'In-game only'**
   String get preferencesInGameOnly;
 
+  /// No description provided for @preferencesExceptInGame.
+  ///
+  /// In en, this message translates to:
+  /// **'Except in-game'**
+  String get preferencesExceptInGame;
+
   /// No description provided for @preferencesChessClock.
   ///
   /// In en, this message translates to:
@@ -1733,6 +1799,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bell notification sound'**
   String get preferencesBellNotificationSound;
+
+  /// No description provided for @preferencesBlindfold.
+  ///
+  /// In en, this message translates to:
+  /// **'Blindfold'**
+  String get preferencesBlindfold;
 
   /// No description provided for @puzzlePuzzles.
   ///
@@ -2532,6 +2604,30 @@ abstract class AppLocalizations {
   /// **'Instead of playing the expected move, first interpose another move posing an immediate threat that the opponent must answer. Also known as \"Zwischenzug\" or \"In between\".'**
   String get puzzleThemeIntermezzoDescription;
 
+  /// No description provided for @puzzleThemeKillBoxMate.
+  ///
+  /// In en, this message translates to:
+  /// **'Kill box mate'**
+  String get puzzleThemeKillBoxMate;
+
+  /// No description provided for @puzzleThemeKillBoxMateDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'A rook is next to the enemy king and supported by a queen that also blocks the king\'s escape squares. The rook and the queen catch the enemy king in a 3 by 3 \"kill box\".'**
+  String get puzzleThemeKillBoxMateDescription;
+
+  /// No description provided for @puzzleThemeVukovicMate.
+  ///
+  /// In en, this message translates to:
+  /// **'Vukovic mate'**
+  String get puzzleThemeVukovicMate;
+
+  /// No description provided for @puzzleThemeVukovicMateDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'A rook and knight team up to mate the king. The rook delivers mate while supported by a third piece, and the knight is used to block the king\'s escape squares.'**
+  String get puzzleThemeVukovicMateDescription;
+
   /// No description provided for @puzzleThemeKnightEndgame.
   ///
   /// In en, this message translates to:
@@ -2958,29 +3054,23 @@ abstract class AppLocalizations {
   /// **'Your account is managed, and cannot be closed.'**
   String get settingsManagedAccountCannotBeClosed;
 
-  /// No description provided for @settingsClosingIsDefinitive.
-  ///
-  /// In en, this message translates to:
-  /// **'Closing is definitive. There is no going back. Are you sure?'**
-  String get settingsClosingIsDefinitive;
-
   /// No description provided for @settingsCantOpenSimilarAccount.
   ///
   /// In en, this message translates to:
-  /// **'You will not be allowed to open a new account with the same name, even if the case is different.'**
+  /// **'The username will NOT be available for registration again.'**
   String get settingsCantOpenSimilarAccount;
 
-  /// No description provided for @settingsChangedMindDoNotCloseAccount.
+  /// No description provided for @settingsCancelKeepAccount.
   ///
   /// In en, this message translates to:
-  /// **'I changed my mind, don\'t close my account'**
-  String get settingsChangedMindDoNotCloseAccount;
+  /// **'Cancel and keep my account'**
+  String get settingsCancelKeepAccount;
 
-  /// No description provided for @settingsCloseAccountExplanation.
+  /// No description provided for @settingsCloseAccountAreYouSure.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to close your account? Closing your account is a permanent decision. You will NEVER be able to log in EVER AGAIN.'**
-  String get settingsCloseAccountExplanation;
+  /// **'Are you sure you want to close your account?'**
+  String get settingsCloseAccountAreYouSure;
 
   /// No description provided for @settingsThisAccountIsClosed.
   ///
@@ -3635,12 +3725,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'By CPL'**
   String get byCPL;
-
-  /// No description provided for @openStudy.
-  ///
-  /// In en, this message translates to:
-  /// **'Open study'**
-  String get openStudy;
 
   /// No description provided for @enable.
   ///
@@ -4883,12 +4967,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unblock'**
   String get unblock;
-
-  /// No description provided for @followsYou.
-  ///
-  /// In en, this message translates to:
-  /// **'Follows you'**
-  String get followsYou;
 
   /// No description provided for @xStartedFollowingY.
   ///
@@ -6720,6 +6798,12 @@ abstract class AppLocalizations {
   /// **'Follow and challenge friends'**
   String get followAndChallengeFriends;
 
+  /// No description provided for @noChallenges.
+  ///
+  /// In en, this message translates to:
+  /// **'No challenges.'**
+  String get noChallenges;
+
   /// No description provided for @gameAnalysis.
   ///
   /// In en, this message translates to:
@@ -7794,23 +7878,11 @@ abstract class AppLocalizations {
   /// **'Reopen your account'**
   String get reopenYourAccount;
 
-  /// No description provided for @closedAccountChangedMind.
+  /// No description provided for @reopenYourAccountDescription.
   ///
   /// In en, this message translates to:
-  /// **'If you closed your account, but have since changed your mind, you get one chance of getting your account back.'**
-  String get closedAccountChangedMind;
-
-  /// No description provided for @onlyWorksOnce.
-  ///
-  /// In en, this message translates to:
-  /// **'This will only work once.'**
-  String get onlyWorksOnce;
-
-  /// No description provided for @cantDoThisTwice.
-  ///
-  /// In en, this message translates to:
-  /// **'If you close your account a second time, there will be no way of recovering it.'**
-  String get cantDoThisTwice;
+  /// **'If you closed your account, but have since changed your mind, you get a chance of getting your account back.'**
+  String get reopenYourAccountDescription;
 
   /// No description provided for @emailAssociatedToaccount.
   ///
@@ -7944,17 +8016,35 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{{count} blunder} other{{count} blunders}}'**
   String nbBlunders(int count);
 
+  /// No description provided for @numberBlunders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} Blunder} other{{count} Blunders}}'**
+  String numberBlunders(int count);
+
   /// No description provided for @nbMistakes.
   ///
   /// In en, this message translates to:
   /// **'{count, plural, =1{{count} mistake} other{{count} mistakes}}'**
   String nbMistakes(int count);
 
+  /// No description provided for @numberMistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} Mistake} other{{count} Mistakes}}'**
+  String numberMistakes(int count);
+
   /// No description provided for @nbInaccuracies.
   ///
   /// In en, this message translates to:
   /// **'{count, plural, =1{{count} inaccuracy} other{{count} inaccuracies}}'**
   String nbInaccuracies(int count);
+
+  /// No description provided for @numberInaccuracies.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} Inaccuracy} other{{count} Inaccuracies}}'**
+  String numberInaccuracies(int count);
 
   /// No description provided for @nbPlayers.
   ///
@@ -8748,6 +8838,12 @@ abstract class AppLocalizations {
   /// **'Playing'**
   String get studyPlaying;
 
+  /// No description provided for @studyShowResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Results'**
+  String get studyShowResults;
+
   /// No description provided for @studyShowEvalBar.
   ///
   /// In en, this message translates to:
@@ -9408,6 +9504,12 @@ abstract class AppLocalizations {
   /// **'Congratulations! You completed this lesson.'**
   String get studyYouCompletedThisLesson;
 
+  /// No description provided for @studyPerPage.
+  ///
+  /// In en, this message translates to:
+  /// **'{param} per page'**
+  String studyPerPage(String param);
+
   /// No description provided for @studyNbChapters.
   ///
   /// In en, this message translates to:
@@ -9429,8 +9531,116 @@ abstract class AppLocalizations {
   /// No description provided for @studyPasteYourPgnTextHereUpToNbGames.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, =1{Paste your PGN text here, up to {count} game} other{Paste your PGN text here, up to {count} games}}'**
+  /// **'{count, plural, =1{Paste your PGN text here, up to {count} game} other{Paste games as PGN text here. For each game, a new chapter is created. The study can have up to {count} chapters.}}'**
   String studyPasteYourPgnTextHereUpToNbGames(int count);
+
+  /// No description provided for @timeagoJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get timeagoJustNow;
+
+  /// No description provided for @timeagoRightNow.
+  ///
+  /// In en, this message translates to:
+  /// **'right now'**
+  String get timeagoRightNow;
+
+  /// No description provided for @timeagoCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'completed'**
+  String get timeagoCompleted;
+
+  /// No description provided for @timeagoInNbSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in {count} second} other{in {count} seconds}}'**
+  String timeagoInNbSeconds(int count);
+
+  /// No description provided for @timeagoInNbMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in {count} minute} other{in {count} minutes}}'**
+  String timeagoInNbMinutes(int count);
+
+  /// No description provided for @timeagoInNbHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in {count} hour} other{in {count} hours}}'**
+  String timeagoInNbHours(int count);
+
+  /// No description provided for @timeagoInNbDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in {count} day} other{in {count} days}}'**
+  String timeagoInNbDays(int count);
+
+  /// No description provided for @timeagoInNbWeeks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in {count} week} other{in {count} weeks}}'**
+  String timeagoInNbWeeks(int count);
+
+  /// No description provided for @timeagoInNbMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in {count} month} other{in {count} months}}'**
+  String timeagoInNbMonths(int count);
+
+  /// No description provided for @timeagoInNbYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{in {count} year} other{in {count} years}}'**
+  String timeagoInNbYears(int count);
+
+  /// No description provided for @timeagoNbMinutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} minute ago} other{{count} minutes ago}}'**
+  String timeagoNbMinutesAgo(int count);
+
+  /// No description provided for @timeagoNbHoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} hour ago} other{{count} hours ago}}'**
+  String timeagoNbHoursAgo(int count);
+
+  /// No description provided for @timeagoNbDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} day ago} other{{count} days ago}}'**
+  String timeagoNbDaysAgo(int count);
+
+  /// No description provided for @timeagoNbWeeksAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} week ago} other{{count} weeks ago}}'**
+  String timeagoNbWeeksAgo(int count);
+
+  /// No description provided for @timeagoNbMonthsAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} month ago} other{{count} months ago}}'**
+  String timeagoNbMonthsAgo(int count);
+
+  /// No description provided for @timeagoNbYearsAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} year ago} other{{count} years ago}}'**
+  String timeagoNbYearsAgo(int count);
+
+  /// No description provided for @timeagoNbMinutesRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} minute remaining} other{{count} minutes remaining}}'**
+  String timeagoNbMinutesRemaining(int count);
+
+  /// No description provided for @timeagoNbHoursRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{{count} hour remaining} other{{count} hours remaining}}'**
+  String timeagoNbHoursRemaining(int count);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

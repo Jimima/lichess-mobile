@@ -7,6 +7,7 @@ import 'package:lichess_mobile/src/model/study/study_filter.dart';
 import 'package:lichess_mobile/src/model/study/study_list_paginator.dart';
 import 'package:lichess_mobile/src/styles/lichess_icons.dart';
 import 'package:lichess_mobile/src/styles/styles.dart';
+import 'package:lichess_mobile/src/utils/l10n.dart';
 import 'package:lichess_mobile/src/utils/l10n_context.dart';
 import 'package:lichess_mobile/src/utils/lichess_assets.dart';
 import 'package:lichess_mobile/src/utils/navigation.dart';
@@ -19,7 +20,6 @@ import 'package:lichess_mobile/src/widgets/platform_scaffold.dart';
 import 'package:lichess_mobile/src/widgets/platform_search_bar.dart';
 import 'package:lichess_mobile/src/widgets/user_full_name.dart';
 import 'package:logging/logging.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 final _logger = Logger('StudyListScreen');
 
@@ -27,35 +27,35 @@ final _logger = Logger('StudyListScreen');
 class StudyListScreen extends ConsumerWidget {
   const StudyListScreen({super.key});
 
+  static Route<dynamic> buildRoute(BuildContext context) {
+    return buildScreenRoute(context, screen: const StudyListScreen());
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoggedIn = ref.watch(authSessionProvider)?.user.id != null;
 
     final filter = ref.watch(studyFilterProvider);
-    final title = Text(
-      isLoggedIn ? filter.category.l10n(context.l10n) : context.l10n.studyMenu,
-    );
+    final title = Text(isLoggedIn ? filter.category.l10n(context.l10n) : context.l10n.studyMenu);
 
     return PlatformScaffold(
-      appBar: PlatformAppBar(
-        title: title,
-        actions: [
-          AppBarIconButton(
-            icon: const Icon(Icons.tune),
-            // TODO: translate
-            semanticsLabel: 'Filter studies',
-            onPressed: () => showAdaptiveBottomSheet<void>(
-              context: context,
-              isScrollControlled: true,
-              showDragHandle: true,
-              builder: (_) => _StudyFilterSheet(
-                isLoggedIn: isLoggedIn,
+      backgroundColor: Styles.listingsScreenBackgroundColor(context),
+      appBarTitle: title,
+      appBarActions: [
+        AppBarIconButton(
+          icon: const Icon(Icons.filter_list),
+          // TODO: translate
+          semanticsLabel: 'Filter studies',
+          onPressed:
+              () => showAdaptiveBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                showDragHandle: true,
+                builder: (_) => _StudyFilterSheet(isLoggedIn: isLoggedIn),
               ),
-            ),
-          ),
-        ],
-      ),
-      body: SafeArea(child: _Body(filter: filter)),
+        ),
+      ],
+      body: SafeArea(top: false, child: _Body(filter: filter)),
     );
   }
 }
@@ -79,8 +79,8 @@ class _StudyFilterSheet extends ConsumerWidget {
             choices: StudyCategory.values,
             choiceSelected: (choice) => filter.category == choice,
             choiceLabel: (category) => Text(category.l10n(context.l10n)),
-            onSelected: (value, selected) =>
-                ref.read(studyFilterProvider.notifier).setCategory(value),
+            onSelected:
+                (value, selected) => ref.read(studyFilterProvider.notifier).setCategory(value),
           ),
           const PlatformDivider(thickness: 1, indent: 0),
           const SizedBox(height: 10.0),
@@ -92,8 +92,7 @@ class _StudyFilterSheet extends ConsumerWidget {
           choices: StudyListOrder.values,
           choiceSelected: (choice) => filter.order == choice,
           choiceLabel: (order) => Text(order.l10n(context.l10n)),
-          onSelected: (value, selected) =>
-              ref.read(studyFilterProvider.notifier).setOrder(value),
+          onSelected: (value, selected) => ref.read(studyFilterProvider.notifier).setOrder(value),
         ),
       ],
     );
@@ -101,9 +100,7 @@ class _StudyFilterSheet extends ConsumerWidget {
 }
 
 class _Body extends ConsumerStatefulWidget {
-  const _Body({
-    required this.filter,
-  });
+  const _Body({required this.filter});
 
   final StudyFilterState filter;
 
@@ -121,10 +118,7 @@ class _BodyState extends ConsumerState<_Body> {
   bool requestedNextPage = false;
 
   StudyListPaginatorProvider get paginatorProvider =>
-      StudyListPaginatorProvider(
-        filter: widget.filter,
-        search: search,
-      );
+      StudyListPaginatorProvider(filter: widget.filter, search: search);
 
   @override
   void initState() {
@@ -142,8 +136,7 @@ class _BodyState extends ConsumerState<_Body> {
 
   void _scrollListener() {
     if (!requestedNextPage &&
-        _scrollController.position.pixels >=
-            0.75 * _scrollController.position.maxScrollExtent) {
+        _scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 300) {
       final studiesList = ref.read(paginatorProvider);
 
       if (!studiesList.isLoading) {
@@ -176,10 +169,11 @@ class _BodyState extends ConsumerState<_Body> {
       padding: Styles.bodySectionPadding,
       child: PlatformSearchBar(
         controller: _searchController,
-        onClear: () => setState(() {
-          search = null;
-          _searchController.clear();
-        }),
+        onClear:
+            () => setState(() {
+              search = null;
+              _searchController.clear();
+            }),
         hintText: search ?? context.l10n.searchSearch,
         onSubmitted: (term) {
           setState(() {
@@ -195,24 +189,23 @@ class _BodyState extends ConsumerState<_Body> {
           shrinkWrap: true,
           itemCount: studies.studies.length + 1,
           controller: _scrollController,
-          separatorBuilder: (context, index) => index == 0
-              ? const SizedBox.shrink()
-              : const PlatformDivider(
-                  height: 1,
-                  cupertinoHasLeading: true,
-                ),
-          itemBuilder: (context, index) => index == 0
-              ? searchBar
-              : _StudyListItem(study: studies.studies[index - 1]),
+          separatorBuilder:
+              (context, index) =>
+                  index == 0
+                      ? const SizedBox.shrink()
+                      : Theme.of(context).platform == TargetPlatform.iOS
+                      ? const PlatformDivider(height: 1, cupertinoHasLeading: true)
+                      : const PlatformDivider(height: 1, color: Colors.transparent),
+          itemBuilder:
+              (context, index) =>
+                  index == 0 ? searchBar : _StudyListItem(study: studies.studies[index - 1]),
         );
       },
       loading: () {
         return Column(
           children: [
             searchBar,
-            const Expanded(
-              child: Center(child: CircularProgressIndicator.adaptive()),
-            ),
+            const Expanded(child: Center(child: CircularProgressIndicator.adaptive())),
           ],
         );
       },
@@ -225,77 +218,63 @@ class _BodyState extends ConsumerState<_Body> {
 }
 
 class _StudyListItem extends StatelessWidget {
-  const _StudyListItem({
-    required this.study,
-  });
+  const _StudyListItem({required this.study});
 
   final StudyPageData study;
 
   @override
   Widget build(BuildContext context) {
     return PlatformListTile(
-      padding: Styles.bodyPadding,
-      title: Row(
-        children: [
-          _StudyFlair(
-            flair: study.flair,
-            size: 30,
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  study.name,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                ),
-                _StudySubtitle(
-                  study: study,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+      padding:
+          Theme.of(context).platform == TargetPlatform.iOS
+              ? const EdgeInsets.symmetric(horizontal: 14.0, vertical: 12.0)
+              : null,
+      leading: _StudyFlair(flair: study.flair, size: 30),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [Text(study.name, overflow: TextOverflow.ellipsis, maxLines: 2)],
       ),
-      subtitle: DefaultTextStyle.merge(
-        style: const TextStyle(
-          fontSize: 12,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 4,
-              child: _StudyChapters(study: study),
-            ),
-            Expanded(
-              flex: 3,
-              child: _StudyMembers(
-                study: study,
-              ),
-            ),
-          ],
-        ),
-      ),
-      onTap: () => pushPlatformRoute(
-        context,
-        rootNavigator: true,
-        builder: (context) => StudyScreen(id: study.id),
-      ),
+      subtitle: _StudySubtitle(study: study),
+      onTap:
+          () => Navigator.of(
+            context,
+            rootNavigator: true,
+          ).push(StudyScreen.buildRoute(context, study.id)),
+      onLongPress: () {
+        showAdaptiveBottomSheet<void>(
+          context: context,
+          useRootNavigator: true,
+          isDismissible: true,
+          isScrollControlled: true,
+          showDragHandle: true,
+          constraints: BoxConstraints(minHeight: MediaQuery.sizeOf(context).height * 0.5),
+          builder: (context) => _ContextMenu(study: study),
+        );
+      },
+    );
+  }
+}
+
+class _ContextMenu extends ConsumerWidget {
+  const _ContextMenu({required this.study});
+
+  final StudyPageData study;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return BottomSheetScrollableContainer(
+      padding: const EdgeInsets.all(16.0),
+      children: [
+        _StudyChapters(study: study),
+        const SizedBox(height: 10.0),
+        _StudyMembers(study: study),
+      ],
     );
   }
 }
 
 class _StudyChapters extends StatelessWidget {
-  const _StudyChapters({
-    required this.study,
-  });
+  const _StudyChapters({required this.study});
 
   final StudyPageData study;
 
@@ -316,9 +295,7 @@ class _StudyChapters extends StatelessWidget {
                     size: DefaultTextStyle.of(context).style.fontSize,
                   ),
                 ),
-                TextSpan(
-                  text: ' $chapter',
-                ),
+                TextSpan(text: ' $chapter'),
               ],
             ),
           ),
@@ -329,9 +306,7 @@ class _StudyChapters extends StatelessWidget {
 }
 
 class _StudyMembers extends StatelessWidget {
-  const _StudyMembers({
-    required this.study,
-  });
+  const _StudyMembers({required this.study});
 
   final StudyPageData study;
 
@@ -349,19 +324,14 @@ class _StudyMembers extends StatelessWidget {
                 WidgetSpan(
                   alignment: PlaceholderAlignment.middle,
                   child: Icon(
-                    member.role == 'w'
-                        ? LichessIcons.radio_tower_lichess
-                        : Icons.remove_red_eye,
+                    member.role == 'w' ? LichessIcons.radio_tower_lichess : Icons.remove_red_eye,
                     size: DefaultTextStyle.of(context).style.fontSize,
                   ),
                 ),
                 const TextSpan(text: ' '),
                 WidgetSpan(
                   alignment: PlaceholderAlignment.bottom,
-                  child: UserFullNameWidget(
-                    user: member.user,
-                    showFlair: false,
-                  ),
+                  child: UserFullNameWidget(user: member.user, showFlair: false),
                 ),
               ],
             ),
@@ -381,31 +351,23 @@ class _StudyFlair extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconIfNoFlair = Icon(
-      LichessIcons.study,
-      size: size,
-    );
+    final iconIfNoFlair = Icon(LichessIcons.study, size: size);
 
     return (flair != null)
         ? CachedNetworkImage(
-            imageUrl: lichessFlairSrc(flair!),
-            errorWidget: (_, __, ___) => iconIfNoFlair,
-            width: size,
-            height: size,
-          )
+          imageUrl: lichessFlairSrc(flair!),
+          errorWidget: (_, __, ___) => iconIfNoFlair,
+          width: size,
+          height: size,
+        )
         : iconIfNoFlair;
   }
 }
 
 class _StudySubtitle extends StatelessWidget {
-  const _StudySubtitle({
-    required this.study,
-    required this.style,
-  });
+  const _StudySubtitle({required this.study});
 
   final StudyPageData study;
-
-  final TextStyle style;
 
   @override
   Widget build(BuildContext context) {
@@ -414,30 +376,18 @@ class _StudySubtitle extends StatelessWidget {
         children: [
           WidgetSpan(
             alignment: PlaceholderAlignment.middle,
-            child: Icon(
-              Icons.favorite_outline,
-              size: style.fontSize,
-            ),
+            child: Icon(study.liked ? Icons.favorite : Icons.favorite_outline, size: 14),
           ),
-          TextSpan(text: ' ${study.likes}', style: style),
-          TextSpan(text: ' • ', style: style),
+          TextSpan(text: ' ${study.likes}'),
+          const TextSpan(text: ' • '),
           if (study.owner != null) ...[
             WidgetSpan(
-              alignment: PlaceholderAlignment.bottom,
-              child: UserFullNameWidget(
-                user: study.owner,
-                style: style,
-                showFlair: false,
-              ),
+              alignment: PlaceholderAlignment.middle,
+              child: UserFullNameWidget(user: study.owner, showFlair: false),
             ),
-            TextSpan(text: ' • ', style: style),
+            const TextSpan(text: ' • '),
           ],
-          TextSpan(
-            text: timeago.format(
-              study.updatedAt,
-            ),
-            style: style,
-          ),
+          TextSpan(text: relativeDate(context.l10n, study.updatedAt)),
         ],
       ),
     );

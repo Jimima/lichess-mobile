@@ -1,5 +1,5 @@
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'l10n.dart';
 
 // ignore_for_file: type=lint
@@ -9,31 +9,86 @@ class AppLocalizationsFi extends AppLocalizations {
   AppLocalizationsFi([String locale = 'fi']) : super(locale);
 
   @override
-  String get mobileHomeTab => 'Etusivu';
+  String get mobileAllGames => 'Kaikki pelit';
 
   @override
-  String get mobilePuzzlesTab => 'Tehtävät';
+  String get mobileAreYouSure => 'Oletko varma?';
 
   @override
-  String get mobileToolsTab => 'Työkalut';
+  String get mobileCancelTakebackOffer => 'Peruuta siirron peruutuspyyntö';
 
   @override
-  String get mobileWatchTab => 'Seuraa';
+  String get mobileClearButton => 'Tyhjennä';
 
   @override
-  String get mobileSettingsTab => 'Asetukset';
+  String get mobileCorrespondenceClearSavedMove => 'Poista tallennettu siirto';
 
   @override
-  String get mobileMustBeLoggedIn => 'Sinun täytyy olla kirjautuneena nähdäksesi tämän sivun.';
-
-  @override
-  String get mobileSystemColors => 'Järjestelmän värit';
+  String get mobileCustomGameJoinAGame => 'Liity peliin';
 
   @override
   String get mobileFeedbackButton => 'Palaute';
 
   @override
+  String mobileGreeting(String param) {
+    return 'Hei $param';
+  }
+
+  @override
+  String get mobileGreetingWithoutName => 'Hei';
+
+  @override
+  String get mobileHideVariation => 'Piilota muunnelma';
+
+  @override
+  String get mobileHomeTab => 'Etusivu';
+
+  @override
+  String get mobileLiveStreamers => 'Live-striimaajat';
+
+  @override
+  String get mobileMustBeLoggedIn => 'Sinun täytyy olla kirjautuneena nähdäksesi tämän sivun.';
+
+  @override
+  String get mobileNoSearchResults => 'Ei hakutuloksia';
+
+  @override
+  String get mobileNotFollowingAnyUser => 'Et seuraa yhtäkään käyttäjää.';
+
+  @override
   String get mobileOkButton => 'OK';
+
+  @override
+  String mobilePlayersMatchingSearchTerm(String param) {
+    return 'Pelaajat, joiden tunnuksesta löytyy \"$param\"';
+  }
+
+  @override
+  String get mobilePrefMagnifyDraggedPiece => 'Suurenna vedettävä nappula';
+
+  @override
+  String get mobilePuzzleStormConfirmEndRun => 'Haluatko lopettaa tämän sarjan?';
+
+  @override
+  String get mobilePuzzleStormFilterNothingToShow => 'Ei näytettävää, muuta suodatusehtoja';
+
+  @override
+  String get mobilePuzzleStormNothingToShow => 'Ei näytettävää. Pelaa ensin muutama sarja Puzzle Stormia.';
+
+  @override
+  String get mobilePuzzleStormSubtitle => 'Ratkaise mahdollisimman monta tehtävää 3 minuutissa.';
+
+  @override
+  String get mobilePuzzleStreakAbortWarning => 'Parhaillaan menossa oleva putkesi päättyy, ja pistemääräsi tallennetaan.';
+
+  @override
+  String get mobilePuzzleThemesSubtitle => 'Tee tehtäviä suosikkiavauksistasi tai valitse tehtäväteema.';
+
+  @override
+  String get mobilePuzzlesTab => 'Tehtävät';
+
+  @override
+  String get mobileRecentSearches => 'Viimeisimmät haut';
 
   @override
   String get mobileSettingsHapticFeedback => 'Kosketuspalaute';
@@ -45,101 +100,46 @@ class AppLocalizationsFi extends AppLocalizations {
   String get mobileSettingsImmersiveModeSubtitle => 'Piilota laitteen käyttöliittymä pelatessasi. Valitse tämä, jos laitteesi navigointieleet näytön laidoilla ovat sinulle häiriöksi. Asetus vaikuttaa peli- ja Puzzle Storm -näkymiin.';
 
   @override
-  String get mobileNotFollowingAnyUser => 'Et seuraa yhtäkään käyttäjää.';
-
-  @override
-  String get mobileAllGames => 'Kaikki pelit';
-
-  @override
-  String get mobileRecentSearches => 'Viimeisimmät haut';
-
-  @override
-  String get mobileClearButton => 'Tyhjennä';
-
-  @override
-  String mobilePlayersMatchingSearchTerm(String param) {
-    return 'Pelaajat, joiden tunnuksesta löytyy \"$param\"';
-  }
-
-  @override
-  String get mobileNoSearchResults => 'Ei hakutuloksia';
-
-  @override
-  String get mobileAreYouSure => 'Oletko varma?';
-
-  @override
-  String get mobilePuzzleStreakAbortWarning => 'Parhaillaan menossa oleva putkesi päättyy, ja pistemääräsi tallennetaan.';
-
-  @override
-  String get mobilePuzzleStormNothingToShow => 'Ei näytettävää. Pelaa ensin muutama sarja Puzzle Stormia.';
-
-  @override
-  String get mobileSharePuzzle => 'Jaa tämä tehtävä';
-
-  @override
-  String get mobileShareGameURL => 'Jaa pelin URL';
+  String get mobileSettingsTab => 'Asetukset';
 
   @override
   String get mobileShareGamePGN => 'Jaa PGN';
 
   @override
+  String get mobileShareGameURL => 'Jaa pelin URL';
+
+  @override
   String get mobileSharePositionAsFEN => 'Jaa asema FEN:nä';
 
   @override
-  String get mobileShowVariations => 'Näytä muunnelmat';
-
-  @override
-  String get mobileHideVariation => 'Piilota muunnelma';
+  String get mobileSharePuzzle => 'Jaa tämä tehtävä';
 
   @override
   String get mobileShowComments => 'Näytä kommentit';
 
   @override
-  String get mobilePuzzleStormConfirmEndRun => 'Haluatko lopettaa tämän sarjan?';
+  String get mobileShowResult => 'Näytä lopputulos';
 
   @override
-  String get mobilePuzzleStormFilterNothingToShow => 'Ei näytettävää, muuta suodatusehtoja';
-
-  @override
-  String get mobileCancelTakebackOffer => 'Peruuta siirron peruutuspyyntö';
-
-  @override
-  String get mobileWaitingForOpponentToJoin => 'Odotetaan vastustajan löytymistä...';
-
-  @override
-  String get mobileBlindfoldMode => 'Sokko';
-
-  @override
-  String get mobileLiveStreamers => 'Live streamers';
-
-  @override
-  String get mobileCustomGameJoinAGame => 'Liity peliin';
-
-  @override
-  String get mobileCorrespondenceClearSavedMove => 'Poista tallennettu siirto';
+  String get mobileShowVariations => 'Näytä muunnelmat';
 
   @override
   String get mobileSomethingWentWrong => 'Jokin meni vikaan.';
 
   @override
-  String get mobileShowResult => 'Näytä lopputulos';
+  String get mobileSystemColors => 'Järjestelmän värit';
 
   @override
-  String get mobilePuzzleThemesSubtitle => 'Tee tehtäviä suosikkiavauksistasi tai valitse tehtäväteema.';
+  String get mobileTheme => 'Teema';
 
   @override
-  String get mobilePuzzleStormSubtitle => 'Ratkaise mahdollisimman monta tehtävää 3 minuutissa.';
+  String get mobileToolsTab => 'Työkalut';
 
   @override
-  String mobileGreeting(String param) {
-    return 'Hei $param';
-  }
+  String get mobileWaitingForOpponentToJoin => 'Odotetaan vastustajan löytymistä...';
 
   @override
-  String get mobileGreetingWithoutName => 'Hei';
-
-  @override
-  String get mobilePrefMagnifyDraggedPiece => 'Suurenna vedettävä nappula';
+  String get mobileWatchTab => 'Seuraa';
 
   @override
   String get activityActivity => 'Toiminta';
@@ -390,12 +390,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get broadcastUpcoming => 'Tulossa';
 
   @override
-  String get broadcastCompleted => 'Päättyneet';
-
-  @override
-  String get broadcastCompletedHelp => 'Lichess tunnistaa lähteenä olevista peleistä, milloin kierros on viety päätökseen. Lähteen puuttuessa voit käyttää tätä asetusta.';
-
-  @override
   String get broadcastRoundName => 'Kierroksen nimi';
 
   @override
@@ -515,12 +509,12 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String broadcastBoardsCanBeLoaded(String param) {
-    return 'Boards can be loaded with a source or via the $param';
+    return 'Laudat voidaan ladata lähteen kautta tai $param kautta';
   }
 
   @override
   String broadcastStartsAfter(String param) {
-    return 'Alkuun on aikaa $param';
+    return 'Alkaa $param:n jälkeen';
   }
 
   @override
@@ -534,6 +528,9 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get broadcastStandings => 'Tulostaulu';
+
+  @override
+  String get broadcastOfficialStandings => 'Virallinen tulostaulu';
 
   @override
   String broadcastIframeHelp(String param) {
@@ -564,6 +561,39 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get broadcastScore => 'Pisteet';
+
+  @override
+  String get broadcastAllTeams => 'Kaikki joukkueet';
+
+  @override
+  String get broadcastTournamentFormat => 'Turnauksen laji';
+
+  @override
+  String get broadcastTournamentLocation => 'Turnauksen sijainti';
+
+  @override
+  String get broadcastTopPlayers => 'Parhaat pelaajat';
+
+  @override
+  String get broadcastTimezone => 'Aikavyöhyke';
+
+  @override
+  String get broadcastFideRatingCategory => 'Kategoria (FIDE-vahvuuslukujen mukaan)';
+
+  @override
+  String get broadcastOptionalDetails => 'Mahdolliset lisätiedot';
+
+  @override
+  String get broadcastPastBroadcasts => 'Menneet lähetykset';
+
+  @override
+  String get broadcastAllBroadcastsByMonth => 'Näytä kaikki lähetykset kuukausikohtaisesti';
+
+  @override
+  String get broadcastBackToLiveMove => 'Takaisin siirtojen reaaliaikaiseen seurantaan';
+
+  @override
+  String get broadcastSinceHideResults => 'Koska olet päättänyt piilottaa tulokset ja koska vältämme spoilereita, ovat kaikkien lautojen esikatselut tyhjiä.';
 
   @override
   String broadcastNbBroadcasts(int count) {
@@ -835,6 +865,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get preferencesInGameOnly => 'Vain pelin aikana';
 
   @override
+  String get preferencesExceptInGame => 'Paitsi pelin aikana';
+
+  @override
   String get preferencesChessClock => 'Shakkikello';
 
   @override
@@ -974,6 +1007,9 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get preferencesBellNotificationSound => 'Ilmoitusten kilahdusääni';
+
+  @override
+  String get preferencesBlindfold => 'Sokko';
 
   @override
   String get puzzlePuzzles => 'Tehtävät';
@@ -1429,6 +1465,18 @@ class AppLocalizationsFi extends AppLocalizations {
   String get puzzleThemeIntermezzoDescription => 'Tee odotetun siirron sijaan ensin toinen siirto, jonka synnyttämään välittömään uhkaan vastustajasi täytyy vastata. Tunnetaan myös nimellä \"Zwischenzug\".';
 
   @override
+  String get puzzleThemeKillBoxMate => 'Tapponeliömatti';
+
+  @override
+  String get puzzleThemeKillBoxMateDescription => 'Torni on vastustajan kuninkaan vieressä, ja sitä suojelee daami, joka myös vie kuninkaalta pakoruudut. Vastustajan kuningas jää kiinni tornin ja daamin muodostamaan 3x3-ruudun \"tapponeliöön\".';
+
+  @override
+  String get puzzleThemeVukovicMate => 'Vukovićin matti';
+
+  @override
+  String get puzzleThemeVukovicMateDescription => 'Torni ja ratsu matittavat kuninkaan yhdessä. Torni tekee matin kolmannen nappulan suojaamana, ja ratsua käytetään kuninkaan pakoruutujen tilkitsemiseen.';
+
+  @override
   String get puzzleThemeKnightEndgame => 'Ratsuloppupeli';
 
   @override
@@ -1644,16 +1692,13 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsManagedAccountCannotBeClosed => 'Käyttäjätunnuksesi on hallinnassa, eikä sitä voi sulkea.';
 
   @override
-  String get settingsClosingIsDefinitive => 'Tunnuksen sulku on lopullinen. Et voi myöhemmin peruuttaa sitä. Oletko varma?';
-
-  @override
   String get settingsCantOpenSimilarAccount => 'Et voi luoda uutta käyttäjätunnusta samalla nimellä, et vaikka muuttaisit isoja kirjaimia pieniksi tai päinvastoin.';
 
   @override
-  String get settingsChangedMindDoNotCloseAccount => 'Muutin mieleni, älä sulje tunnustani';
+  String get settingsCancelKeepAccount => 'Peruuta ja säilytä tunnukseni';
 
   @override
-  String get settingsCloseAccountExplanation => 'Haluatko varmasti sulkea tilisi? Sulkeminen on pysyvä päätös. Et voi ENÄÄ KOSKAAN kirjautua sisään.';
+  String get settingsCloseAccountAreYouSure => 'Oletko varma, että haluat sulkea käyttäjätunnuksesi?';
 
   @override
   String get settingsThisAccountIsClosed => 'Tämä tunnus on suljettu.';
@@ -1991,9 +2036,6 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get byCPL => 'Virheet';
-
-  @override
-  String get openStudy => 'Avaa tutkielma';
 
   @override
   String get enable => 'Käytössä';
@@ -2661,9 +2703,6 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get unblock => 'Poista esto';
-
-  @override
-  String get followsYou => 'Seuraa sinua';
 
   @override
   String xStartedFollowingY(String param1, String param2) {
@@ -3649,6 +3688,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get followAndChallengeFriends => 'Seuraa ja haasta kavereitasi';
 
   @override
+  String get noChallenges => 'Ei haasteita.';
+
+  @override
   String get gameAnalysis => 'Pelianalyysi';
 
   @override
@@ -4244,13 +4286,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get reopenYourAccount => 'Avaa käyttäjätunnuksesi uudelleen';
 
   @override
-  String get closedAccountChangedMind => 'Jos olet sulkenut käyttäjätunnuksesi mutta sen jälkeen muuttanut mieltäsi, saat yhden mahdollisuuden palauttaa tunnuksesi.';
-
-  @override
-  String get onlyWorksOnce => 'Tämä toimii vain kerran.';
-
-  @override
-  String get cantDoThisTwice => 'Jos suljet tunnuksesi toisen kerran, sitä ei voi palauttaa enää millään tavalla.';
+  String get reopenYourAccountDescription => 'Jos olet sulkenut käyttäjätunnuksesi mutta sen jälkeen muuttanut mieltäsi, saat mahdollisuuden palauttaa tunnuksesi.';
 
   @override
   String get emailAssociatedToaccount => 'Tunnukseen kuuluva sähköpostiosoite';
@@ -4345,6 +4381,17 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String numberBlunders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Vakavaa virhettä',
+      one: '$count Vakava virhe',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbMistakes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -4356,12 +4403,34 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String numberMistakes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Virhettä',
+      one: '$count Virhe',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbInaccuracies(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: '$count epätarkkuutta',
       one: '$count epätarkkuus',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberInaccuracies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Epätarkkuutta',
+      one: '$count Epätarkkuus',
     );
     return '$_temp0';
   }
@@ -5083,6 +5152,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get studyPlaying => 'Meneillään';
 
   @override
+  String get studyShowResults => 'Tulokset';
+
+  @override
   String get studyShowEvalBar => 'Arviopalkit';
 
   @override
@@ -5425,6 +5497,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get studyYouCompletedThisLesson => 'Onnittelut! Olet suorittanut tämän oppiaiheen.';
 
   @override
+  String studyPerPage(String param) {
+    return '$param per sivu';
+  }
+
+  @override
   String studyNbChapters(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -5464,6 +5541,180 @@ class AppLocalizationsFi extends AppLocalizations {
       locale: localeName,
       other: 'Liitä PGN tähän, enintään $count peliä',
       one: 'Liitä PGN tähän, enintään $count peli',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeagoJustNow => 'juuri äsken';
+
+  @override
+  String get timeagoRightNow => 'juuri nyt';
+
+  @override
+  String get timeagoCompleted => 'suoritettu';
+
+  @override
+  String timeagoInNbSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sekunnin kuluttua',
+      one: '$count sekunnin kuluttua',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minuutin kuluttua',
+      one: '$count minuutin kuluttua',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tunnin kuluttua',
+      one: '$count tunnin kuluttua',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count päivän kuluttua',
+      one: '$count päivän kuluttua',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count viikon kuluttua',
+      one: '$count viikon kuluttua',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kuukauden kuluttua',
+      one: '$count kuukauden kuluttua',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count vuoden kuluttua',
+      one: '$count vuoden kuluttua',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minuuttia sitten',
+      one: '$count minuutti sitten',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tuntia sitten',
+      one: '$count tunti sitten',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count päivää sitten',
+      one: '$count päivä sitten',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbWeeksAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count viikkoa sitten',
+      one: '$count viikko sitten',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count kuukautta sitten',
+      one: '$count kuukausi sitten',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count vuotta sitten',
+      one: '$count vuosi sitten',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minuuttia jäljellä',
+      one: '$count minuutti jäljellä',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tuntia jäljellä',
+      one: '$count tunti jäljellä',
     );
     return '$_temp0';
   }

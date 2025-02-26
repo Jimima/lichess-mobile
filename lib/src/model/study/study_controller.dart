@@ -12,11 +12,13 @@ import 'package:lichess_mobile/src/model/common/id.dart';
 import 'package:lichess_mobile/src/model/common/node.dart';
 import 'package:lichess_mobile/src/model/common/service/move_feedback.dart';
 import 'package:lichess_mobile/src/model/common/service/sound_service.dart';
+import 'package:lichess_mobile/src/model/common/socket.dart';
 import 'package:lichess_mobile/src/model/common/uci.dart';
 import 'package:lichess_mobile/src/model/engine/evaluation_service.dart';
 import 'package:lichess_mobile/src/model/engine/work.dart';
 import 'package:lichess_mobile/src/model/study/study.dart';
 import 'package:lichess_mobile/src/model/study/study_repository.dart';
+import 'package:lichess_mobile/src/network/socket.dart';
 import 'package:lichess_mobile/src/utils/rate_limit.dart';
 import 'package:lichess_mobile/src/view/engine/engine_gauge.dart';
 import 'package:lichess_mobile/src/widgets/pgn.dart';
@@ -32,19 +34,31 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
   final _engineEvalDebounce = Debouncer(const Duration(milliseconds: 150));
 
   Timer? _startEngineEvalTimer;
-
   Timer? _opponentFirstMoveTimer;
+  StreamSubscription<SocketEvent>? _socketSubscription;
+  final _likeDebouncer = Debouncer(const Duration(milliseconds: 500));
+
+  late final SocketClient _socketClient;
 
   @override
   Future<StudyState> build(StudyId id) async {
+    final socketPool = ref.watch(socketPoolProvider);
     final evaluationService = ref.watch(evaluationServiceProvider);
+    _socketClient = socketPool.open(Uri(path: '/study/$id/socket/v6'));
     ref.onDispose(() {
       _startEngineEvalTimer?.cancel();
       _opponentFirstMoveTimer?.cancel();
       _engineEvalDebounce.dispose();
+      _socketSubscription?.cancel();
+      _likeDebouncer.dispose();
       evaluationService.disposeEngine();
     });
-    return _fetchChapter(id);
+    final chapter = await _fetchChapter(id);
+
+    _socketSubscription?.cancel();
+    _socketSubscription = _socketClient.stream.listen(_handleSocketEvent);
+
+    return chapter;
   }
 
   Future<void> nextChapter() async {
@@ -58,20 +72,11 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
   }
 
   Future<void> goToChapter(StudyChapterId chapterId) async {
-    state = const AsyncValue.loading();
-    state = AsyncValue.data(
-      await _fetchChapter(
-        state.requireValue.study.id,
-        chapterId: chapterId,
-      ),
-    );
+    state = AsyncValue.data(await _fetchChapter(state.requireValue.study.id, chapterId: chapterId));
     _ensureItsOurTurnIfGamebook();
   }
 
-  Future<StudyState> _fetchChapter(
-    StudyId id, {
-    StudyChapterId? chapterId,
-  }) async {
+  Future<StudyState> _fetchChapter(StudyId id, {StudyChapterId? chapterId}) async {
     final (study, pgn) = await ref
         .read(studyRepositoryProvider)
         .getStudy(id: id, chapterId: chapterId);
@@ -97,7 +102,7 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
         currentNode: StudyCurrentNode.illegalPosition(),
         pgnRootComments: rootComments,
         pov: orientation,
-        isLocalEvaluationAllowed: false,
+        isComputerAnalysisAllowed: false,
         isLocalEvaluationEnabled: false,
         gamebookActive: false,
         pgn: pgn,
@@ -121,8 +126,7 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
       pgnRootComments: rootComments,
       lastMove: lastMove,
       pov: orientation,
-      isLocalEvaluationAllowed:
-          study.chapter.features.computer && !study.chapter.gamebook,
+      isComputerAnalysisAllowed: study.chapter.features.computer && !study.chapter.gamebook,
       isLocalEvaluationEnabled: prefs.enableLocalEvaluation,
       gamebookActive: study.chapter.gamebook,
       pgn: pgn,
@@ -133,21 +137,44 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
       await evaluationService.disposeEngine();
 
       evaluationService
-          .initEngine(
-        _evaluationContext(studyState.variant),
-        options: EvaluationOptions(
-          multiPv: prefs.numEvalLines,
-          cores: prefs.numEngineCores,
-        ),
-      )
+          .initEngine(_evaluationContext(studyState.variant), options: _evaluationOptions)
           .then((_) {
-        _startEngineEvalTimer = Timer(const Duration(milliseconds: 250), () {
-          _startEngineEval();
-        });
-      });
+            _startEngineEvalTimer = Timer(const Duration(milliseconds: 250), () {
+              _startEngineEval();
+            });
+          });
     }
 
     return studyState;
+  }
+
+  void toggleLike() {
+    _likeDebouncer(() {
+      if (!state.hasValue) return;
+      final liked = state.requireValue.study.liked;
+      _socketClient.send('like', {'liked': !liked});
+      state = AsyncValue.data(
+        state.requireValue.copyWith(study: state.requireValue.study.copyWith(liked: !liked)),
+      );
+    });
+  }
+
+  void _handleSocketEvent(SocketEvent event) {
+    if (!state.hasValue) {
+      assert(false, 'received a game SocketEvent while StudyState is null');
+      return;
+    }
+    switch (event.topic) {
+      case 'liking':
+        final data = (event.data as Map<String, dynamic>)['l'] as Map<String, dynamic>;
+        final likes = data['likes'] as int;
+        final bool meLiked = data['me'] as bool;
+        state = AsyncValue.data(
+          state.requireValue.copyWith(
+            study: state.requireValue.study.copyWith(liked: meLiked, likes: likes),
+          ),
+        );
+    }
   }
 
   // The PGNs of some gamebook studies start with the opponent's turn, so trigger their move after a delay
@@ -163,10 +190,11 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
     }
   }
 
-  EvaluationContext _evaluationContext(Variant variant) => EvaluationContext(
-        variant: variant,
-        initialPosition: _root.position,
-      );
+  EvaluationContext _evaluationContext(Variant variant) =>
+      EvaluationContext(variant: variant, initialPosition: _root.position);
+
+  EvaluationOptions get _evaluationOptions =>
+      ref.read(analysisPreferencesProvider).evaluationOptions;
 
   void onUserMove(NormalMove move) {
     if (!state.hasValue || state.requireValue.position == null) return;
@@ -178,14 +206,9 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
       return;
     }
 
-    final (newPath, isNewNode) =
-        _root.addMoveAt(state.requireValue.currentPath, move);
+    final (newPath, isNewNode) = _root.addMoveAt(state.requireValue.currentPath, move);
     if (newPath != null) {
-      _setPath(
-        newPath,
-        shouldRecomputeRootView: isNewNode,
-        shouldForceShowVariation: true,
-      );
+      _setPath(newPath, shouldRecomputeRootView: isNewNode, shouldForceShowVariation: true);
     }
 
     if (state.requireValue.gamebookActive) {
@@ -285,13 +308,12 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
 
     final node = _root.nodeAt(path);
 
-    final childrenToShow =
-        _root.isOnMainline(path) ? node.children.skip(1) : node.children;
+    final childrenToShow = _root.isOnMainline(path) ? node.children.skip(1) : node.children;
 
     for (final child in childrenToShow) {
-      child.isHidden = false;
+      child.isCollapsed = false;
       for (final grandChild in child.children) {
-        grandChild.isHidden = false;
+        grandChild.isCollapsed = false;
       }
     }
     state = AsyncValue.data(state.requireValue.copyWith(root: _root.view));
@@ -304,7 +326,7 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
     final node = _root.nodeAt(path);
 
     for (final child in node.children) {
-      child.isHidden = true;
+      child.isCollapsed = true;
     }
 
     state = AsyncValue.data(state.requireValue.copyWith(root: _root.view));
@@ -316,10 +338,7 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
     if (state == null) return;
     _root.promoteAt(path, toMainline: toMainline);
     this.state = AsyncValue.data(
-      state.copyWith(
-        isOnMainline: _root.isOnMainline(state.currentPath),
-        root: _root.view,
-      ),
+      state.copyWith(isOnMainline: _root.isOnMainline(state.currentPath), root: _root.view),
     );
   }
 
@@ -334,9 +353,7 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
   Future<void> toggleLocalEvaluation() async {
     if (!state.hasValue) return;
 
-    ref
-        .read(analysisPreferencesProvider.notifier)
-        .toggleEnableLocalEvaluation();
+    ref.read(analysisPreferencesProvider.notifier).toggleEnableLocalEvaluation();
 
     state = AsyncValue.data(
       state.requireValue.copyWith(
@@ -345,14 +362,9 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
     );
 
     if (state.requireValue.isEngineAvailable) {
-      final prefs = ref.read(analysisPreferencesProvider);
-      await ref.read(evaluationServiceProvider).initEngine(
-            _evaluationContext(state.requireValue.variant),
-            options: EvaluationOptions(
-              multiPv: prefs.numEvalLines,
-              cores: prefs.numEngineCores,
-            ),
-          );
+      await ref
+          .read(evaluationServiceProvider)
+          .initEngine(_evaluationContext(state.requireValue.variant), options: _evaluationOptions);
       _startEngineEval();
     } else {
       _stopEngineEval();
@@ -363,24 +375,15 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
   void setNumEvalLines(int numEvalLines) {
     if (!state.hasValue) return;
 
-    ref
-        .read(analysisPreferencesProvider.notifier)
-        .setNumEvalLines(numEvalLines);
+    ref.read(analysisPreferencesProvider.notifier).setNumEvalLines(numEvalLines);
 
-    ref.read(evaluationServiceProvider).setOptions(
-          EvaluationOptions(
-            multiPv: numEvalLines,
-            cores: ref.read(analysisPreferencesProvider).numEngineCores,
-          ),
-        );
+    ref.read(evaluationServiceProvider).setOptions(_evaluationOptions);
 
     _root.updateAll((node) => node.eval = null);
 
     state = AsyncValue.data(
       state.requireValue.copyWith(
-        currentNode: StudyCurrentNode.fromNode(
-          _root.nodeAt(state.requireValue.currentPath),
-        ),
+        currentNode: StudyCurrentNode.fromNode(_root.nodeAt(state.requireValue.currentPath)),
       ),
     );
 
@@ -388,16 +391,17 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
   }
 
   void setEngineCores(int numEngineCores) {
-    ref
-        .read(analysisPreferencesProvider.notifier)
-        .setEngineCores(numEngineCores);
+    ref.read(analysisPreferencesProvider.notifier).setEngineCores(numEngineCores);
 
-    ref.read(evaluationServiceProvider).setOptions(
-          EvaluationOptions(
-            multiPv: ref.read(analysisPreferencesProvider).numEvalLines,
-            cores: numEngineCores,
-          ),
-        );
+    ref.read(evaluationServiceProvider).setOptions(_evaluationOptions);
+
+    _startEngineEval();
+  }
+
+  void setEngineSearchTime(Duration searchTime) {
+    ref.read(analysisPreferencesProvider.notifier).setEngineSearchTime(searchTime);
+
+    ref.read(evaluationServiceProvider).setOptions(_evaluationOptions);
 
     _startEngineEval();
   }
@@ -415,20 +419,16 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
     final currentNode = _root.nodeAt(path);
 
     // always show variation if the user plays a move
-    if (shouldForceShowVariation &&
-        currentNode is Branch &&
-        currentNode.isHidden) {
+    if (shouldForceShowVariation && currentNode is Branch && currentNode.isCollapsed) {
       _root.updateAt(path, (node) {
-        if (node is Branch) node.isHidden = false;
+        if (node is Branch) node.isCollapsed = false;
       });
     }
 
     // root view is only used to display move list, so we need to
     // recompute the root view only when the nodelist length changes
     // or a variation is hidden/shown
-    final rootView = shouldForceShowVariation || shouldRecomputeRootView
-        ? _root.view
-        : state.root;
+    final rootView = shouldForceShowVariation || shouldRecomputeRootView ? _root.view : state.root;
 
     final isForward = path.size > state.currentPath.size;
     if (currentNode is Branch) {
@@ -436,9 +436,7 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
         if (isForward) {
           final isCheck = currentNode.sanMove.isCheck;
           if (currentNode.sanMove.isCapture) {
-            ref
-                .read(moveFeedbackServiceProvider)
-                .captureFeedback(check: isCheck);
+            ref.read(moveFeedbackServiceProvider).captureFeedback(check: isCheck);
           } else {
             ref.read(moveFeedbackServiceProvider).moveFeedback(check: isCheck);
           }
@@ -480,22 +478,38 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
     }
   }
 
+  void _refreshCurrentNode({bool shouldRecomputeRootView = false}) {
+    state = AsyncData(
+      state.requireValue.copyWith(
+        root: shouldRecomputeRootView ? _root.view : state.requireValue.root,
+        currentNode: StudyCurrentNode.fromNode(_root.nodeAt(state.requireValue.currentPath)),
+      ),
+    );
+  }
+
   void _startEngineEval() {
-    final state = this.state.valueOrNull;
-    if (state == null || !state.isEngineAvailable) return;
+    final curState = state.valueOrNull;
+    if (curState == null || !curState.isEngineAvailable) return;
 
     ref
         .read(evaluationServiceProvider)
         .start(
-          state.currentPath,
-          _root.branchesOn(state.currentPath).map(Step.fromNode),
+          curState.currentPath,
+          _root.branchesOn(curState.currentPath).map(Step.fromNode),
           // Note: AnalysisController passes _root.eval as initialPositionEval here,
           // but for studies this leads to false positive cache hits when switching between chapters.
-          shouldEmit: (work) => work.path == state.currentPath,
+          shouldEmit: (work) => work.path == state.valueOrNull?.currentPath,
         )
-        ?.forEach(
-          (t) => _root.updateAt(t.$1.path, (node) => node.eval = t.$2),
-        );
+        ?.forEach((t) {
+          final (work, eval) = t;
+          _root.updateAt(work.path, (node) => node.eval = eval);
+          if (work.path == state.requireValue.currentPath) {
+            _refreshCurrentNode(
+              shouldRecomputeRootView:
+                  eval.evalString != state.valueOrNull?.currentNode.eval?.evalString,
+            );
+          }
+        });
   }
 
   void _debouncedStartEngineEval() {
@@ -509,24 +523,11 @@ class StudyController extends _$StudyController implements PgnTreeNotifier {
 
     if (!state.hasValue) return;
 
-    // update the current node with last cached eval
-    state = AsyncValue.data(
-      state.requireValue.copyWith(
-        currentNode: StudyCurrentNode.fromNode(
-          _root.nodeAt(state.requireValue.currentPath),
-        ),
-      ),
-    );
+    _refreshCurrentNode(shouldRecomputeRootView: true);
   }
 }
 
-enum GamebookState {
-  startLesson,
-  findTheMove,
-  correctMove,
-  incorrectMove,
-  lessonComplete
-}
+enum GamebookState { startLesson, findTheMove, correctMove, incorrectMove, lessonComplete }
 
 @freezed
 class StudyState with _$StudyState {
@@ -559,7 +560,7 @@ class StudyState with _$StudyState {
     required Side pov,
 
     /// Whether local evaluation is allowed for this study.
-    required bool isLocalEvaluationAllowed,
+    required bool isComputerAnalysisAllowed,
 
     /// Whether we're currently in gamebook mode, where the user has to find the right moves.
     required bool gamebookActive,
@@ -577,35 +578,33 @@ class StudyState with _$StudyState {
     IList<PgnComment>? pgnRootComments,
   }) = _StudyState;
 
-  IMap<Square, ISet<Square>> get validMoves => currentNode.position != null
-      ? makeLegalMoves(currentNode.position!)
-      : const IMap.empty();
+  IMap<Square, ISet<Square>> get validMoves =>
+      currentNode.position != null ? makeLegalMoves(currentNode.position!) : const IMap.empty();
 
   /// Whether the engine is available for evaluation
   bool get isEngineAvailable =>
-      isLocalEvaluationAllowed &&
+      isComputerAnalysisAllowed &&
       engineSupportedVariants.contains(variant) &&
       isLocalEvaluationEnabled;
 
-  EngineGaugeParams? get engineGaugeParams => isEngineAvailable
-      ? (
-          orientation: pov,
-          isLocalEngineAvailable: isEngineAvailable,
-          position: position!,
-          savedEval: currentNode.eval,
-        )
-      : null;
+  bool get isOpeningExplorerAvailable => !gamebookActive && study.chapter.features.explorer;
+
+  EngineGaugeParams? get engineGaugeParams =>
+      isEngineAvailable
+          ? (
+            orientation: pov,
+            isLocalEngineAvailable: isEngineAvailable,
+            position: position!,
+            savedEval: currentNode.eval,
+          )
+          : null;
 
   Position? get position => currentNode.position;
   StudyChapter get currentChapter => study.chapter;
   bool get canGoNext => currentNode.children.isNotEmpty;
   bool get canGoBack => currentPath.size > UciPath.empty.size;
 
-  String get currentChapterTitle => study.chapters
-      .firstWhere(
-        (chapter) => chapter.id == currentChapter.id,
-      )
-      .name;
+  String get currentChapterTitle => study.getChapterIndexedName(study.chapter.id);
   bool get hasNextChapter => study.chapter.id != study.chapters.last.id;
 
   bool get isAtEndOfChapter => isOnMainline && currentNode.children.isEmpty;
@@ -613,22 +612,20 @@ class StudyState with _$StudyState {
   bool get isAtStartOfChapter => currentPath.isEmpty;
 
   String? get gamebookComment {
-    final comment =
-        (currentNode.isRoot ? pgnRootComments : currentNode.comments)
-            ?.map((comment) => comment.text)
-            .nonNulls
-            .join('\n');
+    final comment = (currentNode.isRoot ? pgnRootComments : currentNode.comments)
+        ?.map((comment) => comment.text)
+        .nonNulls
+        .join('\n');
     return comment?.isNotEmpty == true
         ? comment
         : gamebookState == GamebookState.incorrectMove
-            ? gamebookDeviationComment
-            : null;
+        ? gamebookDeviationComment
+        : null;
   }
 
   String? get gamebookHint => study.hints.getOrNull(currentPath.size);
 
-  String? get gamebookDeviationComment =>
-      study.deviationComments.getOrNull(currentPath.size);
+  String? get gamebookDeviationComment => study.deviationComments.getOrNull(currentPath.size);
 
   GamebookState get gamebookState {
     if (isAtEndOfChapter) return GamebookState.lessonComplete;
@@ -639,22 +636,20 @@ class StudyState with _$StudyState {
     return myTurn
         ? GamebookState.findTheMove
         : isOnMainline
-            ? GamebookState.correctMove
-            : GamebookState.incorrectMove;
+        ? GamebookState.correctMove
+        : GamebookState.incorrectMove;
   }
 
-  bool get isIntroductoryChapter =>
-      currentNode.isRoot && currentNode.children.isEmpty;
+  bool get isIntroductoryChapter => currentNode.isRoot && currentNode.children.isEmpty;
 
   IList<PgnCommentShape> get pgnShapes => IList(
-        (currentNode.isRoot ? pgnRootComments : currentNode.comments)
-            ?.map((comment) => comment.shapes)
-            .flattened,
-      );
+    (currentNode.isRoot ? pgnRootComments : currentNode.comments)
+        ?.map((comment) => comment.shapes)
+        .flattened,
+  );
 
-  PlayerSide get playerSide => gamebookActive
-      ? (pov == Side.white ? PlayerSide.white : PlayerSide.black)
-      : PlayerSide.both;
+  PlayerSide get playerSide =>
+      gamebookActive ? (pov == Side.white ? PlayerSide.white : PlayerSide.black) : PlayerSide.both;
 }
 
 @freezed
@@ -674,11 +669,7 @@ class StudyCurrentNode with _$StudyCurrentNode {
   }) = _StudyCurrentNode;
 
   factory StudyCurrentNode.illegalPosition() {
-    return const StudyCurrentNode(
-      position: null,
-      children: [],
-      isRoot: true,
-    );
+    return const StudyCurrentNode(position: null, children: [], isRoot: true);
   }
 
   factory StudyCurrentNode.fromNode(Node node) {

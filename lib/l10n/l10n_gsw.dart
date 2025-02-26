@@ -1,5 +1,5 @@
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'l10n.dart';
 
 // ignore_for_file: type=lint
@@ -9,31 +9,86 @@ class AppLocalizationsGsw extends AppLocalizations {
   AppLocalizationsGsw([String locale = 'gsw']) : super(locale);
 
   @override
-  String get mobileHomeTab => 'Afangssite';
+  String get mobileAllGames => 'All Schpiel';
 
   @override
-  String get mobilePuzzlesTab => 'Ufgabe';
+  String get mobileAreYouSure => 'Bisch sicher?';
 
   @override
-  String get mobileToolsTab => 'Werchzüg';
+  String get mobileCancelTakebackOffer => 'Zugsrücknam-Offerte zruggzieh';
 
   @override
-  String get mobileWatchTab => 'Luege';
+  String get mobileClearButton => 'Leere';
 
   @override
-  String get mobileSettingsTab => 'Ischtelle';
+  String get mobileCorrespondenceClearSavedMove => 'Lösch die gschpeicherete Züg';
 
   @override
-  String get mobileMustBeLoggedIn => 'Muesch iglogt si, zum die Site z\'gseh.';
-
-  @override
-  String get mobileSystemColors => 'Syschtem-Farbe';
+  String get mobileCustomGameJoinAGame => 'Es Schpiel mitschpille';
 
   @override
   String get mobileFeedbackButton => 'Rückmäldig';
 
   @override
+  String mobileGreeting(String param) {
+    return 'Hoi, $param';
+  }
+
+  @override
+  String get mobileGreetingWithoutName => 'Hoi';
+
+  @override
+  String get mobileHideVariation => 'Variante verberge';
+
+  @override
+  String get mobileHomeTab => 'Afangssite';
+
+  @override
+  String get mobileLiveStreamers => 'Live Streamer';
+
+  @override
+  String get mobileMustBeLoggedIn => 'Muesch iglogt si, zum die Site z\'gseh.';
+
+  @override
+  String get mobileNoSearchResults => 'Nüt g\'funde';
+
+  @override
+  String get mobileNotFollowingAnyUser => 'Du folgsch keim Schpiller.';
+
+  @override
   String get mobileOkButton => 'OK';
+
+  @override
+  String mobilePlayersMatchingSearchTerm(String param) {
+    return 'Schpiller mit \"$param%';
+  }
+
+  @override
+  String get mobilePrefMagnifyDraggedPiece => 'Vegrösserig vu de zogene Figur';
+
+  @override
+  String get mobilePuzzleStormConfirmEndRun => 'Wottsch de Lauf beände?';
+
+  @override
+  String get mobilePuzzleStormFilterNothingToShow => 'Nüt zum Zeige, bitte d\'Filter ändere';
+
+  @override
+  String get mobilePuzzleStormNothingToShow => 'Es git nüt zum Zeige. Schpill zerscht ochli Puzzle Storm.';
+
+  @override
+  String get mobilePuzzleStormSubtitle => 'Lös i 3 Minute so vill Ufgabe wie möglich.';
+
+  @override
+  String get mobilePuzzleStreakAbortWarning => 'Du verlürsch din aktuelle Lauf und din Rekord wird g\'schpeicheret.';
+
+  @override
+  String get mobilePuzzleThemesSubtitle => 'Schpill Ufgabe mit dine Lieblings-Eröffnige oder wähl es Thema.';
+
+  @override
+  String get mobilePuzzlesTab => 'Ufgabe';
+
+  @override
+  String get mobileRecentSearches => 'Kürzlich Gsuechts';
 
   @override
   String get mobileSettingsHapticFeedback => 'Rückmäldig mit Vibration';
@@ -45,101 +100,46 @@ class AppLocalizationsGsw extends AppLocalizations {
   String get mobileSettingsImmersiveModeSubtitle => 'UI-Syschtem während em schpille usblände. Benutz die Option, wänn dich d\'Navigationsgeschte, vum Sysychtem, am Bildschirmrand störed. Das gilt für Schpiel- und Puzzle Storm-Bildschirm.';
 
   @override
-  String get mobileNotFollowingAnyUser => 'Du folgsch keim Schpiller.';
-
-  @override
-  String get mobileAllGames => 'All Schpiel';
-
-  @override
-  String get mobileRecentSearches => 'Kürzlich Gsuechts';
-
-  @override
-  String get mobileClearButton => 'Leere';
-
-  @override
-  String mobilePlayersMatchingSearchTerm(String param) {
-    return 'Schpiller mit \"$param%';
-  }
-
-  @override
-  String get mobileNoSearchResults => 'Nüt g\'funde';
-
-  @override
-  String get mobileAreYouSure => 'Bisch sicher?';
-
-  @override
-  String get mobilePuzzleStreakAbortWarning => 'Du verlürsch din aktuelle Lauf und din Rekord wird g\'schpeicheret.';
-
-  @override
-  String get mobilePuzzleStormNothingToShow => 'Es git nüt zum Zeige. Schpill zerscht ochli Puzzle Storm.';
-
-  @override
-  String get mobileSharePuzzle => 'Teil die Ufgab';
-
-  @override
-  String get mobileShareGameURL => 'Teil d\'Schpiel-URL';
+  String get mobileSettingsTab => 'Ischtelle';
 
   @override
   String get mobileShareGamePGN => 'Teil s\'PGN';
 
   @override
+  String get mobileShareGameURL => 'Teil d\'Schpiel-URL';
+
+  @override
   String get mobileSharePositionAsFEN => 'Teil d\'Position als FEN';
 
   @override
-  String get mobileShowVariations => 'Zeig Variante';
-
-  @override
-  String get mobileHideVariation => 'Variante verberge';
+  String get mobileSharePuzzle => 'Teil die Ufgab';
 
   @override
   String get mobileShowComments => 'Zeig Kommentär';
 
   @override
-  String get mobilePuzzleStormConfirmEndRun => 'Wottsch de Lauf beände?';
+  String get mobileShowResult => 'Resultat zeige';
 
   @override
-  String get mobilePuzzleStormFilterNothingToShow => 'Nüt zum Zeige, bitte d\'Filter ändere';
-
-  @override
-  String get mobileCancelTakebackOffer => 'Zugsrücknam-Offerte zruggzieh';
-
-  @override
-  String get mobileWaitingForOpponentToJoin => 'Warte bis en Gegner erschint...';
-
-  @override
-  String get mobileBlindfoldMode => 'Blind schpille';
-
-  @override
-  String get mobileLiveStreamers => 'Live Streamer';
-
-  @override
-  String get mobileCustomGameJoinAGame => 'Es Schpiel mitschpille';
-
-  @override
-  String get mobileCorrespondenceClearSavedMove => 'Lösch die gschpeicherete Züg';
+  String get mobileShowVariations => 'Zeig Variante';
 
   @override
   String get mobileSomethingWentWrong => 'Es isch öppis schief gange.';
 
   @override
-  String get mobileShowResult => 'Resultat zeige';
+  String get mobileSystemColors => 'Syschtem-Farbe';
 
   @override
-  String get mobilePuzzleThemesSubtitle => 'Schpill Ufgabe mit dine Lieblings-Eröffnige oder wähl es Thema.';
+  String get mobileTheme => 'Farbschema';
 
   @override
-  String get mobilePuzzleStormSubtitle => 'Lös i 3 Minute so vill Ufgabe wie möglich.';
+  String get mobileToolsTab => 'Werchzüg';
 
   @override
-  String mobileGreeting(String param) {
-    return 'Hoi, $param';
-  }
+  String get mobileWaitingForOpponentToJoin => 'Warte bis en Gegner erschint...';
 
   @override
-  String get mobileGreetingWithoutName => 'Hoi';
-
-  @override
-  String get mobilePrefMagnifyDraggedPiece => 'Vegrösserig vu de zogene Figur';
+  String get mobileWatchTab => 'Luege';
 
   @override
   String get activityActivity => 'Aktivitäte';
@@ -390,12 +390,6 @@ class AppLocalizationsGsw extends AppLocalizations {
   String get broadcastUpcoming => 'Demnächscht';
 
   @override
-  String get broadcastCompleted => 'Beändet';
-
-  @override
-  String get broadcastCompletedHelp => 'Lichess erkännt de Rundeschluss oder au nöd! De Schalter setz das uf \"manuell\".';
-
-  @override
   String get broadcastRoundName => 'Runde Name';
 
   @override
@@ -536,6 +530,9 @@ class AppLocalizationsGsw extends AppLocalizations {
   String get broadcastStandings => 'Tabälle';
 
   @override
+  String get broadcastOfficialStandings => 'Offizielli Ranglischte';
+
+  @override
   String broadcastIframeHelp(String param) {
     return 'Meh Optionen uf $param';
   }
@@ -564,6 +561,39 @@ class AppLocalizationsGsw extends AppLocalizations {
 
   @override
   String get broadcastScore => 'Resultat';
+
+  @override
+  String get broadcastAllTeams => 'Alli Teams';
+
+  @override
+  String get broadcastTournamentFormat => 'Turnier-Format';
+
+  @override
+  String get broadcastTournamentLocation => 'Turnier-Lokal';
+
+  @override
+  String get broadcastTopPlayers => 'Top-Schpiller';
+
+  @override
+  String get broadcastTimezone => 'Zitzone';
+
+  @override
+  String get broadcastFideRatingCategory => 'FIDE-Wertigskategorie';
+
+  @override
+  String get broadcastOptionalDetails => 'Optionali Details';
+
+  @override
+  String get broadcastPastBroadcasts => 'G\'machti Überträgige';
+
+  @override
+  String get broadcastAllBroadcastsByMonth => 'Zeig alli Überträgige im Monet';
+
+  @override
+  String get broadcastBackToLiveMove => 'Zrugg zum \"Live-Zieh\"';
+
+  @override
+  String get broadcastSinceHideResults => 'Will du entschide häsch, dini Ergäbnis z\'verberge, sind - zum Spoiler verhindere - all Vorschau-Brätter leer.';
 
   @override
   String broadcastNbBroadcasts(int count) {
@@ -835,6 +865,9 @@ class AppLocalizationsGsw extends AppLocalizations {
   String get preferencesInGameOnly => 'Nur im Schpiel';
 
   @override
+  String get preferencesExceptInGame => 'Ussert im Schpiel';
+
+  @override
   String get preferencesChessClock => 'Schachuhr';
 
   @override
@@ -974,6 +1007,9 @@ class AppLocalizationsGsw extends AppLocalizations {
 
   @override
   String get preferencesBellNotificationSound => 'Ton für Benachrichtige';
+
+  @override
+  String get preferencesBlindfold => 'Blind schpille';
 
   @override
   String get puzzlePuzzles => 'Ufgabe';
@@ -1429,6 +1465,18 @@ class AppLocalizationsGsw extends AppLocalizations {
   String get puzzleThemeIntermezzoDescription => 'Anstatt de erwarteti Zug, zerscht en Andere mache, wo diräkt droht, so dass de Gägner muess reagiere. Isch au bekannt als \"Zwüschezug\".';
 
   @override
+  String get puzzleThemeKillBoxMate => 'Kill Box Matt';
+
+  @override
+  String get puzzleThemeKillBoxMateDescription => 'En Turm staht näbem gegnerische König und wird vu de Dame unterschtützt, wo au d\'Fluchtfälder vum König blockiert. De Turm und d\'Dame fanged so de König inere 3x3 Fälder grosse, sogenannte „Killbox“.';
+
+  @override
+  String get puzzleThemeVukovicMate => 'Vuković-Matt';
+
+  @override
+  String get puzzleThemeVukovicMateDescription => 'En Turm und es Rössli schpanned zämme, zum de König matt setze: De Turm setzt de König mit Hilf vunere dritte Figur matt und s\'Rössli blockiert em König d\'Fluchtfälder.';
+
+  @override
   String get puzzleThemeKnightEndgame => 'Schpringer Ändschpil';
 
   @override
@@ -1644,16 +1692,13 @@ class AppLocalizationsGsw extends AppLocalizations {
   String get settingsManagedAccountCannotBeClosed => 'Dis Konto wird verwaltet, es chann nöd geschlosse werde.';
 
   @override
-  String get settingsClosingIsDefinitive => 'Die Schlüssig isch ändgültig. Es git keis Z\'rugg! Bisch du sicher?';
-
-  @override
   String get settingsCantOpenSimilarAccount => 'Es isch nöd erlaubt es neus Konto mit em gliche Name z\'eröffne, au wänn d\'Gross- und d\'Chlischribig andersch isch.';
 
   @override
-  String get settingsChangedMindDoNotCloseAccount => 'Ich ha mini Meinig gändert, schlüssed mis Benutzerkonto nöd';
+  String get settingsCancelKeepAccount => 'Löschig abbräche und mis Konto b\'halte';
 
   @override
-  String get settingsCloseAccountExplanation => 'Bisch du sicher, dass du dis Benutzerkonto schlüsse wottsch? Dini Entscheidig zum Schlüsse isch ändgültigi. Du chasch nachher NIE MEH ilogge.';
+  String get settingsCloseAccountAreYouSure => 'Bisch sicher, dass du dis Konto schlüsse wottsch?';
 
   @override
   String get settingsThisAccountIsClosed => 'Das Benutzerkonto isch g\'schlosse.';
@@ -1760,7 +1805,7 @@ class AppLocalizationsGsw extends AppLocalizations {
   String get newOpponent => 'En neue Gägner';
 
   @override
-  String get yourOpponentWantsToPlayANewGameWithYou => 'Din Gägner wett es neus Schpil mit dir schpille';
+  String get yourOpponentWantsToPlayANewGameWithYou => 'Din Gägner wett es neus Schpiel mit dir schpille';
 
   @override
   String get joinTheGame => 'Gang is Schpiel';
@@ -1991,9 +2036,6 @@ class AppLocalizationsGsw extends AppLocalizations {
 
   @override
   String get byCPL => 'Nach CPL';
-
-  @override
-  String get openStudy => 'Schtudie eröffne';
 
   @override
   String get enable => 'Ischalte';
@@ -2661,9 +2703,6 @@ class AppLocalizationsGsw extends AppLocalizations {
 
   @override
   String get unblock => 'Blockierig ufhebe';
-
-  @override
-  String get followsYou => 'Folgt dir';
 
   @override
   String xStartedFollowingY(String param1, String param2) {
@@ -3649,6 +3688,9 @@ class AppLocalizationsGsw extends AppLocalizations {
   String get followAndChallengeFriends => 'Folg Fründe und forder sie zum Schpil';
 
   @override
+  String get noChallenges => 'Kei Useforderige.';
+
+  @override
   String get gameAnalysis => 'Schpil-Analyse';
 
   @override
@@ -4244,13 +4286,7 @@ class AppLocalizationsGsw extends AppLocalizations {
   String get reopenYourAccount => 'Konto wider eröffne';
 
   @override
-  String get closedAccountChangedMind => 'Wänn du s\'Konto gschlosse häsch und das bereusch, dänn gits no 1 Chance dis Konto wider zrugg z\'hole.';
-
-  @override
-  String get onlyWorksOnce => 'Das funktioniert aber nur eimal.';
-
-  @override
-  String get cantDoThisTwice => 'Wänn du dis Konto es 2. Mal schlüssisch, gits kei Möglichkeit meh das rückgängig z\'mache.';
+  String get reopenYourAccountDescription => 'Häsch dis Konto gschlosse und bereusch es, dänn chasch es jetzt wider aktiviere.';
 
   @override
   String get emailAssociatedToaccount => 'Mit dim Konto verbundeni E-Mail-Adrässe';
@@ -4345,6 +4381,17 @@ class AppLocalizationsGsw extends AppLocalizations {
   }
 
   @override
+  String numberBlunders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Patzer',
+      one: '$count Patzer',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbMistakes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -4356,7 +4403,29 @@ class AppLocalizationsGsw extends AppLocalizations {
   }
 
   @override
+  String numberMistakes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Fähler',
+      one: '$count Fähler',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbInaccuracies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Ungnauigkeite',
+      one: '$count Ungnauigkeit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberInaccuracies(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -5083,6 +5152,9 @@ class AppLocalizationsGsw extends AppLocalizations {
   String get studyPlaying => 'Laufend';
 
   @override
+  String get studyShowResults => 'Resultat';
+
+  @override
   String get studyShowEvalBar => 'Bewertigs-Skala';
 
   @override
@@ -5425,6 +5497,11 @@ class AppLocalizationsGsw extends AppLocalizations {
   String get studyYouCompletedThisLesson => 'Gratulation! Du häsch die Lektion abgschlosse.';
 
   @override
+  String studyPerPage(String param) {
+    return '$param pro Site';
+  }
+
+  @override
   String studyNbChapters(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -5464,6 +5541,180 @@ class AppLocalizationsGsw extends AppLocalizations {
       locale: localeName,
       other: 'Füeg din PGN Tegscht da i, bis zu $count Schpiel',
       one: 'Füeg din PGN Tegscht da i, bis zu $count Schpiel',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeagoJustNow => 'grad jetzt';
+
+  @override
+  String get timeagoRightNow => 'genau jetzt';
+
+  @override
+  String get timeagoCompleted => 'beändet';
+
+  @override
+  String timeagoInNbSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'i $count Sekunde',
+      one: 'i $count Sekunde',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count Minute',
+      one: 'in $count Minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'i $count Schtunde',
+      one: 'i $count Schtund',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'i $count Täg',
+      one: 'i $count Tag',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'i $count Wuche',
+      one: 'i $count Wuche',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'i $count Mönet',
+      one: 'i $count Monet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'i $count Jahr',
+      one: 'i $count Jahr',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Minute',
+      one: 'vor $count Minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Schtunde',
+      one: 'vor $count Schtund',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Täg',
+      one: 'vor $count Tag',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbWeeksAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Wuche',
+      one: 'vor $count Wuche',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Mönet',
+      one: 'vor $count Monet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'vor $count Jahr',
+      one: 'vor $count Jahr',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Minute blibed',
+      one: '$count Minute blibt',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Schtunde blibed',
+      one: '$count Schtund blibt',
     );
     return '$_temp0';
   }

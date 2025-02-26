@@ -10,9 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lichess_mobile/src/model/account/account_preferences.dart';
-import 'package:lichess_mobile/src/model/account/account_repository.dart';
+import 'package:lichess_mobile/src/model/account/account_service.dart';
 import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
-import 'package:lichess_mobile/src/model/analysis/server_analysis_service.dart';
 import 'package:lichess_mobile/src/model/clock/chess_clock.dart';
 import 'package:lichess_mobile/src/model/common/chess.dart';
 import 'package:lichess_mobile/src/model/common/id.dart';
@@ -64,8 +63,7 @@ class GameController extends _$GameController {
   /// Last socket version received
   int? _socketEventVersion;
 
-  static Uri gameSocketUri(GameFullId gameFullId) =>
-      Uri(path: '/play/$gameFullId/v6');
+  static Uri gameSocketUri(GameFullId gameFullId) => Uri(path: '/play/$gameFullId/v6');
 
   ChessClock? _clock;
   late final SocketClient _socketClient;
@@ -74,8 +72,7 @@ class GameController extends _$GameController {
   Future<GameState> build(GameFullId gameFullId) {
     final socketPool = ref.watch(socketPoolProvider);
 
-    _socketClient =
-        socketPool.open(gameSocketUri(gameFullId), forceReconnect: true);
+    _socketClient = socketPool.open(gameSocketUri(gameFullId), forceReconnect: true);
     _socketEventVersion = null;
     _socketSubscription?.cancel();
     _socketSubscription = _socketClient.stream.listen(_handleSocketEvent);
@@ -88,84 +85,75 @@ class GameController extends _$GameController {
       _clock?.dispose();
     });
 
-    return _socketClient.stream.firstWhere((e) => e.topic == 'full').then(
-      (event) async {
-        final fullEvent =
-            GameFullEvent.fromJson(event.data as Map<String, dynamic>);
+    return _socketClient.stream.firstWhere((e) => e.topic == 'full').then((event) async {
+      final fullEvent = GameFullEvent.fromJson(event.data as Map<String, dynamic>);
 
-        PlayableGame game = fullEvent.game;
+      PlayableGame game = fullEvent.game;
 
-        if (fullEvent.game.finished) {
-          if (fullEvent.game.meta.speed == Speed.correspondence) {
-            ref.invalidate(ongoingGamesProvider);
-            ref
-                .read(correspondenceServiceProvider)
-                .updateGame(gameFullId, fullEvent.game);
-          }
-
-          final result = await _getPostGameData();
-          game = result.fold(
-              (data) => _mergePostGameData(game, data, rewriteSteps: true),
-              (e, s) {
-            _logger.warning('Could not get post game data: $e', e, s);
-            return game;
-          });
+      if (fullEvent.game.finished) {
+        if (fullEvent.game.meta.speed == Speed.correspondence) {
+          ref.read(correspondenceServiceProvider).updateGame(gameFullId, fullEvent.game);
         }
 
-        _socketEventVersion = fullEvent.socketEventVersion;
+        final result = await _getPostGameData();
+        game = result.fold((data) => _mergePostGameData(game, data, rewriteSteps: true), (e, s) {
+          _logger.warning('Could not get post game data: $e', e, s);
+          return game;
+        });
+        await _storeGame(game);
+      }
 
-        // Play "dong" sound when this is a new game and we're playing it (not spectating)
-        final isMyGame = game.youAre != null;
-        final noMovePlayed = game.steps.length == 1;
-        if (isMyGame && noMovePlayed && game.status == GameStatus.started) {
-          ref.read(soundServiceProvider).play(Sound.dong);
-        }
+      _socketEventVersion = fullEvent.socketEventVersion;
 
-        if (game.playable) {
-          _appLifecycleListener = AppLifecycleListener(
-            onResume: () {
-              // socket client should never be disposed here, but in case it is
-              // we can safely skip the resync
-              if (!_socketClient.isDisposed && _socketClient.isConnected) {
-                _resyncGameData();
-              }
-            },
+      // Play "dong" sound when this is a new game and we're playing it (not spectating)
+      final isMyGame = game.youAre != null;
+      final noMovePlayed = game.steps.length == 1;
+      if (isMyGame && noMovePlayed && game.status == GameStatus.started) {
+        ref.read(soundServiceProvider).play(Sound.dong);
+      }
+
+      if (game.playable) {
+        _appLifecycleListener = AppLifecycleListener(
+          onResume: () {
+            // socket client should never be disposed here, but in case it is
+            // we can safely skip the resync
+            if (!_socketClient.isDisposed && _socketClient.isConnected) {
+              _resyncGameData();
+            }
+          },
+        );
+
+        if (game.clock != null) {
+          _clock = ChessClock(
+            whiteTime: game.clock!.white,
+            blackTime: game.clock!.black,
+            emergencyThreshold: game.meta.clock?.emergency,
+            onEmergency: onClockEmergency,
+            onFlag: onFlag,
           );
-
-          if (game.clock != null) {
-            _clock = ChessClock(
-              whiteTime: game.clock!.white,
-              blackTime: game.clock!.black,
-              emergencyThreshold: game.meta.clock?.emergency,
-              onEmergency: onClockEmergency,
-              onFlag: onFlag,
-            );
-            if (game.clock!.running) {
-              final pos = game.lastPosition;
-              if (pos.fullmoves > 1) {
-                _clock!.startSide(pos.turn);
-              }
+          if (game.clock!.running) {
+            final pos = game.lastPosition;
+            if (pos.fullmoves > 1) {
+              _clock!.startSide(pos.turn);
             }
           }
         }
+      }
 
-        return GameState(
-          gameFullId: gameFullId,
-          game: game,
-          stepCursor: game.steps.length - 1,
-          liveClock: _liveClock,
-        );
-      },
-    );
+      return GameState(
+        gameFullId: gameFullId,
+        game: game,
+        stepCursor: game.steps.length - 1,
+        liveClock: _liveClock,
+      );
+    });
   }
 
   void userMove(NormalMove move, {bool? isDrop, bool? isPremove}) {
     final curState = state.requireValue;
 
     if (isPromotionPawnMove(curState.game.lastPosition, move)) {
-      state = AsyncValue.data(
-        curState.copyWith(promotionMove: move),
-      );
+      state = AsyncValue.data(curState.copyWith(promotionMove: move));
       return;
     }
 
@@ -181,9 +169,7 @@ class GameController extends _$GameController {
 
     state = AsyncValue.data(
       curState.copyWith(
-        game: curState.game.copyWith(
-          steps: curState.game.steps.add(newStep),
-        ),
+        game: curState.game.copyWith(steps: curState.game.steps.add(newStep)),
         stepCursor: curState.stepCursor + 1,
         moveToConfirm: shouldConfirmMove ? move : null,
         promotionMove: null,
@@ -199,8 +185,7 @@ class GameController extends _$GameController {
         isPremove: isPremove ?? false,
         // same logic as web client
         // we want to send client lag only at the beginning of the game when the clock is not running yet
-        withLag:
-            curState.game.clock != null && curState.activeClockSide == null,
+        withLag: curState.game.clock != null && curState.activeClockSide == null,
       );
     }
   }
@@ -208,9 +193,7 @@ class GameController extends _$GameController {
   void onPromotionSelection(Role? role) {
     final curState = state.requireValue;
     if (role == null) {
-      state = AsyncValue.data(
-        curState.copyWith(promotionMove: null),
-      );
+      state = AsyncValue.data(curState.copyWith(promotionMove: null));
       return;
     }
     if (curState.promotionMove == null) {
@@ -231,9 +214,7 @@ class GameController extends _$GameController {
     }
     state = AsyncValue.data(
       curState.copyWith(
-        game: curState.game.copyWith(
-          steps: curState.game.steps.removeLast(),
-        ),
+        game: curState.game.copyWith(steps: curState.game.steps.removeLast()),
         stepCursor: curState.stepCursor - 1,
         moveToConfirm: null,
       ),
@@ -249,11 +230,7 @@ class GameController extends _$GameController {
       return;
     }
 
-    state = AsyncValue.data(
-      curState.copyWith(
-        moveToConfirm: null,
-      ),
-    );
+    state = AsyncValue.data(curState.copyWith(moveToConfirm: null));
     _sendMoveToSocket(
       moveToConfirm,
       isPremove: false,
@@ -266,21 +243,12 @@ class GameController extends _$GameController {
   /// Set or unset a premove.
   void setPremove(NormalMove? move) {
     final curState = state.requireValue;
-    state = AsyncValue.data(
-      curState.copyWith(
-        premove: move,
-      ),
-    );
+    state = AsyncValue.data(curState.copyWith(premove: move));
   }
 
   void cursorAt(int cursor) {
     if (state.hasValue) {
-      state = AsyncValue.data(
-        state.requireValue.copyWith(
-          stepCursor: cursor,
-          premove: null,
-        ),
-      );
+      state = AsyncValue.data(state.requireValue.copyWith(stepCursor: cursor, premove: null));
       final san = state.requireValue.game.stepAt(cursor).sanMove?.san;
       if (san != null) {
         _playReplayMoveSound(san);
@@ -319,31 +287,38 @@ class GameController extends _$GameController {
     }
   }
 
+  Future<void> toggleBookmark() async {
+    if (state.hasValue) {
+      final toggledBookmark = !(state.requireValue.game.bookmarked ?? false);
+      await ref
+          .read(accountServiceProvider)
+          .setGameBookmark(gameFullId.gameId, bookmark: toggledBookmark);
+      state = AsyncValue.data(
+        state.requireValue.copyWith(
+          game: state.requireValue.game.copyWith(bookmarked: toggledBookmark),
+        ),
+      );
+    }
+  }
+
   void toggleMoveConfirmation() {
     final curState = state.requireValue;
     state = AsyncValue.data(
-      curState.copyWith(
-        moveConfirmSettingOverride:
-            !(curState.moveConfirmSettingOverride ?? true),
-      ),
+      curState.copyWith(moveConfirmSettingOverride: !(curState.moveConfirmSettingOverride ?? true)),
     );
   }
 
   void toggleZenMode() {
     final curState = state.requireValue;
     state = AsyncValue.data(
-      curState.copyWith(
-        zenModeGameSetting: !(curState.zenModeGameSetting ?? false),
-      ),
+      curState.copyWith(zenModeGameSetting: !(curState.zenModeGameSetting ?? false)),
     );
   }
 
   void toggleAutoQueen() {
     final curState = state.requireValue;
     state = AsyncValue.data(
-      curState.copyWith(
-        autoQueenSettingOverride: !(curState.autoQueenSettingOverride ?? true),
-      ),
+      curState.copyWith(autoQueenSettingOverride: !(curState.autoQueenSettingOverride ?? true)),
     );
   }
 
@@ -424,28 +399,9 @@ class GameController extends _$GameController {
     _socketClient.send('rematch-no', null);
   }
 
-  Future<void> requestServerAnalysis() {
-    return state.mapOrNull(
-          data: (d) {
-            if (!d.value.game.finished) {
-              return Future<void>.error(
-                'Cannot request server analysis on a non finished game',
-              );
-            }
-            final service = ref.read(serverAnalysisServiceProvider);
-            return service.requestAnalysis(gameFullId);
-          },
-        ) ??
-        Future<void>.value();
-  }
-
   /// Gets the live game clock if available.
-  LiveGameClock? get _liveClock => _clock != null
-      ? (
-          white: _clock!.whiteTime,
-          black: _clock!.blackTime,
-        )
-      : null;
+  LiveGameClock? get _liveClock =>
+      _clock != null ? (white: _clock!.whiteTime, black: _clock!.blackTime) : null;
 
   /// Update the internal clock on clock server event
   void _updateClock({
@@ -462,23 +418,19 @@ class GameController extends _$GameController {
     }
   }
 
-  void _sendMoveToSocket(
-    Move move, {
-    required bool isPremove,
-    required bool withLag,
-  }) {
+  void _sendMoveToSocket(Move move, {required bool isPremove, required bool withLag}) {
     final thinkTime = _clock?.stop();
-    final moveTime = _clock != null
-        ? isPremove == true
-            ? Duration.zero
-            : thinkTime
-        : null;
+    final moveTime =
+        _clock != null
+            ? isPremove == true
+                ? Duration.zero
+                : thinkTime
+            : null;
     _socketClient.send(
       'move',
       {
         'u': move.uci,
-        if (moveTime != null)
-          's': (moveTime.inMilliseconds * 0.1).round().toRadixString(36),
+        if (moveTime != null) 's': (moveTime.inMilliseconds * 0.1).round().toRadixString(36),
       },
       ackable: true,
       withLag: _clock != null && (moveTime == null || withLag),
@@ -489,10 +441,9 @@ class GameController extends _$GameController {
 
   /// Move feedback while playing
   void _playMoveFeedback(SanMove sanMove, {bool skipAnimationDelay = false}) {
-    final animationDuration =
-        ref.read(boardPreferencesProvider).pieceAnimationDuration;
+    final animationDuration = ref.read(boardPreferencesProvider).pieceAnimationDuration;
 
-    final delay = animationDuration - const Duration(milliseconds: 10);
+    final delay = animationDuration ~/ 2;
 
     if (skipAnimationDelay || delay <= Duration.zero) {
       _moveFeedback(sanMove);
@@ -542,9 +493,7 @@ class GameController extends _$GameController {
         return;
       }
       if (event.version! > currentEventVersion + 1) {
-        _logger.warning(
-          'Event gap detected from $currentEventVersion to ${event.version}',
-        );
+        _logger.warning('Event gap detected from $currentEventVersion to ${event.version}');
         _resyncGameData();
       }
       _socketEventVersion = event.version;
@@ -573,10 +522,7 @@ class GameController extends _$GameController {
             _resyncGameData();
             return;
           }
-          final reloadEvent = SocketEvent(
-            topic: data['t'] as String,
-            data: data['d'],
-          );
+          final reloadEvent = SocketEvent(topic: data['t'] as String, data: data['d']);
           _handleSocketTopic(reloadEvent);
         } else {
           _resyncGameData();
@@ -584,11 +530,9 @@ class GameController extends _$GameController {
 
       // Full game data, received after a (re)connection to game socket
       case 'full':
-        final fullEvent =
-            GameFullEvent.fromJson(event.data as Map<String, dynamic>);
+        final fullEvent = GameFullEvent.fromJson(event.data as Map<String, dynamic>);
 
-        if (_socketEventVersion != null &&
-            fullEvent.socketEventVersion < _socketEventVersion!) {
+        if (_socketEventVersion != null && fullEvent.socketEventVersion < _socketEventVersion!) {
           return;
         }
         _socketEventVersion = fullEvent.socketEventVersion;
@@ -645,27 +589,24 @@ class GameController extends _$GameController {
           );
 
           newState = newState.copyWith(
-            game: newState.game.copyWith(
-              steps: newState.game.steps.add(newStep),
-            ),
+            game: newState.game.copyWith(steps: newState.game.steps.add(newStep)),
           );
 
           if (!curState.isReplaying) {
-            newState = newState.copyWith(
-              stepCursor: newState.stepCursor + 1,
-            );
+            newState = newState.copyWith(stepCursor: newState.stepCursor + 1);
 
             _playMoveFeedback(sanMove);
           }
         }
 
         if (data.clock != null) {
-          final lag = newState.game.playable && newState.game.isMyTurn
-              // my own clock doesn't need to be compensated for
-              ? Duration.zero
-              // server will send the lag only if it's more than 10ms
-              // default lag of 10ms is also used by web client
-              : data.clock?.lag ?? const Duration(milliseconds: 10);
+          final lag =
+              newState.game.playable && newState.game.isMyTurn
+                  // my own clock doesn't need to be compensated for
+                  ? Duration.zero
+                  // server will send the lag only if it's more than 10ms
+                  // default lag of 10ms is also used by web client
+                  : data.clock?.lag ?? const Duration(milliseconds: 10);
 
           _updateClock(
             white: data.clock!.white,
@@ -691,9 +632,7 @@ class GameController extends _$GameController {
 
         if (newState.game.expiration != null) {
           if (newState.game.steps.length > 2) {
-            newState = newState.copyWith.game(
-              expiration: null,
-            );
+            newState = newState.copyWith.game(expiration: null);
           } else {
             newState = newState.copyWith.game(
               expiration: (
@@ -706,10 +645,7 @@ class GameController extends _$GameController {
         }
 
         if (curState.game.meta.speed == Speed.correspondence) {
-          ref.invalidate(ongoingGamesProvider);
-          ref
-              .read(correspondenceServiceProvider)
-              .updateGame(gameFullId, newState.game);
+          ref.read(correspondenceServiceProvider).updateGame(gameFullId, newState.game);
         }
 
         if (!curState.isReplaying &&
@@ -718,8 +654,7 @@ class GameController extends _$GameController {
           scheduleMicrotask(() {
             final postMovePremove = state.valueOrNull?.premove;
             final postMovePosition = state.valueOrNull?.game.lastPosition;
-            if (postMovePremove != null &&
-                postMovePosition?.isLegal(postMovePremove) == true) {
+            if (postMovePremove != null && postMovePosition?.isLegal(postMovePremove) == true) {
               userMove(postMovePremove, isPremove: true);
             }
           });
@@ -729,20 +664,15 @@ class GameController extends _$GameController {
 
       // End game event
       case 'endData':
-        final endData =
-            GameEndEvent.fromJson(event.data as Map<String, dynamic>);
+        final endData = GameEndEvent.fromJson(event.data as Map<String, dynamic>);
         final curState = state.requireValue;
         GameState newState = curState.copyWith(
           game: curState.game.copyWith(
             status: endData.status,
             winner: endData.winner,
             boosted: endData.boosted,
-            white: curState.game.white.copyWith(
-              ratingDiff: endData.ratingDiff?.white,
-            ),
-            black: curState.game.black.copyWith(
-              ratingDiff: endData.ratingDiff?.black,
-            ),
+            white: curState.game.white.copyWith(ratingDiff: endData.ratingDiff?.white),
+            black: curState.game.black.copyWith(ratingDiff: endData.ratingDiff?.black),
           ),
           premove: null,
         );
@@ -766,46 +696,42 @@ class GameController extends _$GameController {
         }
 
         if (curState.game.meta.speed == Speed.correspondence) {
-          ref.invalidate(ongoingGamesProvider);
-          ref
-              .read(correspondenceServiceProvider)
-              .updateGame(gameFullId, newState.game);
+          ref.read(correspondenceServiceProvider).updateGame(gameFullId, newState.game);
         }
 
         state = AsyncValue.data(newState);
 
         if (!newState.game.aborted) {
           _getPostGameData().then((result) {
-            result.fold((data) {
-              final game = _mergePostGameData(state.requireValue.game, data);
-              state = AsyncValue.data(
-                state.requireValue.copyWith(game: game),
-              );
-              _storeGame(game);
-            }, (e, s) {
-              _logger.warning('Could not get post game data', e, s);
-            });
+            result.fold(
+              (data) {
+                final game = _mergePostGameData(state.requireValue.game, data);
+                state = AsyncValue.data(state.requireValue.copyWith(game: game));
+                _storeGame(game);
+              },
+              (e, s) {
+                _logger.warning('Could not get post game data', e, s);
+              },
+            );
           });
         }
 
       case 'clockInc':
         final data = event.data as Map<String, dynamic>;
         final side = pick(data['color']).asSideOrNull();
-        final newClock = pick(data['total'])
-            .letOrNull((it) => Duration(milliseconds: it.asIntOrThrow() * 10));
+        final newClock = pick(
+          data['total'],
+        ).letOrNull((it) => Duration(milliseconds: it.asIntOrThrow() * 10));
         final curState = state.requireValue;
 
         if (side != null && newClock != null) {
           _clock?.setTime(side, newClock);
 
           // sync game clock object even if it's not used to display the clock
-          final newState = side == Side.white
-              ? curState.copyWith.game.clock!(
-                  white: newClock,
-                )
-              : curState.copyWith.game.clock!(
-                  black: newClock,
-                );
+          final newState =
+              side == Side.white
+                  ? curState.copyWith.game.clock!(white: newClock)
+                  : curState.copyWith.game.clock!(black: newClock);
           state = AsyncValue.data(newState);
         }
 
@@ -818,25 +744,17 @@ class GameController extends _$GameController {
         final opponent = curState.game.youAre?.opposite;
         GameState newState = curState;
         if (whiteOnGame != null) {
-          newState = newState.copyWith.game(
-            white: newState.game.white.setOnGame(whiteOnGame),
-          );
+          newState = newState.copyWith.game(white: newState.game.white.setOnGame(whiteOnGame));
           if (opponent == Side.white && whiteOnGame == true) {
             _opponentLeftCountdownTimer?.cancel();
-            newState = newState.copyWith(
-              opponentLeftCountdown: null,
-            );
+            newState = newState.copyWith(opponentLeftCountdown: null);
           }
         }
         if (blackOnGame != null) {
-          newState = newState.copyWith.game(
-            black: newState.game.black.setOnGame(blackOnGame),
-          );
+          newState = newState.copyWith.game(black: newState.game.black.setOnGame(blackOnGame));
           if (opponent == Side.black && blackOnGame == true) {
             _opponentLeftCountdownTimer?.cancel();
-            newState = newState.copyWith(
-              opponentLeftCountdown: null,
-            );
+            newState = newState.copyWith(opponentLeftCountdown: null);
           }
         }
         state = AsyncValue.data(newState);
@@ -849,12 +767,8 @@ class GameController extends _$GameController {
         GameState newState = state.requireValue;
         final youAre = newState.game.youAre;
         newState = newState.copyWith.game(
-          white: youAre == Side.white
-              ? newState.game.white
-              : newState.game.white.setGone(isGone),
-          black: youAre == Side.black
-              ? newState.game.black
-              : newState.game.black.setGone(isGone),
+          white: youAre == Side.white ? newState.game.white : newState.game.white.setGone(isGone),
+          black: youAre == Side.black ? newState.game.black : newState.game.black.setGone(isGone),
         );
         state = AsyncValue.data(newState);
 
@@ -862,41 +776,25 @@ class GameController extends _$GameController {
       // before claiming victory is possible
       case 'goneIn':
         final timeLeft = Duration(seconds: event.data as int);
-        state = AsyncValue.data(
-          state.requireValue.copyWith(
-            opponentLeftCountdown: timeLeft,
-          ),
-        );
+        state = AsyncValue.data(state.requireValue.copyWith(opponentLeftCountdown: timeLeft));
         _opponentLeftCountdownTimer?.cancel();
-        _opponentLeftCountdownTimer = Timer.periodic(
-          const Duration(seconds: 1),
-          (_) {
-            final curState = state.requireValue;
-            final opponentLeftCountdown = curState.opponentLeftCountdown;
-            if (opponentLeftCountdown == null) {
+        _opponentLeftCountdownTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+          final curState = state.requireValue;
+          final opponentLeftCountdown = curState.opponentLeftCountdown;
+          if (opponentLeftCountdown == null) {
+            _opponentLeftCountdownTimer?.cancel();
+          } else if (!curState.canShowClaimWinCountdown) {
+            _opponentLeftCountdownTimer?.cancel();
+            state = AsyncValue.data(curState.copyWith(opponentLeftCountdown: null));
+          } else {
+            final newTime = opponentLeftCountdown - const Duration(seconds: 1);
+            if (newTime <= Duration.zero) {
               _opponentLeftCountdownTimer?.cancel();
-            } else if (!curState.canShowClaimWinCountdown) {
-              _opponentLeftCountdownTimer?.cancel();
-              state = AsyncValue.data(
-                curState.copyWith(
-                  opponentLeftCountdown: null,
-                ),
-              );
-            } else {
-              final newTime =
-                  opponentLeftCountdown - const Duration(seconds: 1);
-              if (newTime <= Duration.zero) {
-                _opponentLeftCountdownTimer?.cancel();
-                state = AsyncValue.data(
-                  curState.copyWith(opponentLeftCountdown: null),
-                );
-              }
-              state = AsyncValue.data(
-                curState.copyWith(opponentLeftCountdown: newTime),
-              );
+              state = AsyncValue.data(curState.copyWith(opponentLeftCountdown: null));
             }
-          },
-        );
+            state = AsyncValue.data(curState.copyWith(opponentLeftCountdown: newTime));
+          }
+        });
 
       // Event sent when a player adds or cancels a draw offer
       case 'drawOffer':
@@ -904,9 +802,8 @@ class GameController extends _$GameController {
         final curState = state.requireValue;
         state = AsyncValue.data(
           curState.copyWith(
-            lastDrawOfferAtPly: side != null && side == curState.game.youAre
-                ? curState.game.lastPly
-                : null,
+            lastDrawOfferAtPly:
+                side != null && side == curState.game.youAre ? curState.game.lastPly : null,
             game: curState.game.copyWith(
               white: curState.game.white.copyWith(
                 offeringDraw: side == null ? null : side == Side.white,
@@ -927,12 +824,8 @@ class GameController extends _$GameController {
         state = AsyncValue.data(
           curState.copyWith(
             game: curState.game.copyWith(
-              white: curState.game.white.copyWith(
-                proposingTakeback: white ?? false,
-              ),
-              black: curState.game.black.copyWith(
-                proposingTakeback: black ?? false,
-              ),
+              white: curState.game.white.copyWith(proposingTakeback: white ?? false),
+              black: curState.game.black.copyWith(proposingTakeback: black ?? false),
             ),
           ),
         );
@@ -958,34 +851,21 @@ class GameController extends _$GameController {
       // sending another rematch offer, which should not happen
       case 'rematchTaken':
         final nextId = pick(event.data).asGameIdOrThrow();
-        state = AsyncValue.data(
-          state.requireValue.copyWith.game(
-            rematch: nextId,
-          ),
-        );
+        state = AsyncValue.data(state.requireValue.copyWith.game(rematch: nextId));
 
       // Event sent after a rematch is taken, to redirect to the new game
       case 'redirect':
         final data = event.data as Map<String, dynamic>;
         final fullId = pick(data['id']).asGameFullIdOrThrow();
-        state = AsyncValue.data(
-          state.requireValue.copyWith(
-            redirectGameId: fullId,
-          ),
-        );
+        state = AsyncValue.data(state.requireValue.copyWith(redirectGameId: fullId));
 
       case 'analysisProgress':
-        final data =
-            ServerEvalEvent.fromJson(event.data as Map<String, dynamic>);
+        final data = ServerEvalEvent.fromJson(event.data as Map<String, dynamic>);
         final curState = state.requireValue;
         state = AsyncValue.data(
           curState.copyWith.game(
-            white: curState.game.white.copyWith(
-              analysis: data.analysis?.white,
-            ),
-            black: curState.game.black.copyWith(
-              analysis: data.analysis?.black,
-            ),
+            white: curState.game.white.copyWith(analysis: data.analysis?.white),
+            black: curState.game.black.copyWith(analysis: data.analysis?.black),
             evals: data.evals,
           ),
         );
@@ -994,22 +874,23 @@ class GameController extends _$GameController {
 
   Future<void> _storeGame(PlayableGame game) async {
     if (game.finished) {
-      (await ref.read(gameStorageProvider.future))
-          .save(game.toArchivedGame(finishedAt: DateTime.now()));
+      final gameStorage = await ref.read(gameStorageProvider.future);
+      final existing = await gameStorage.fetch(gameId: gameFullId.gameId);
+      final finishedAt = existing?.data.lastMoveAt ?? DateTime.now();
+      await gameStorage.save(game.toArchivedGame(finishedAt: finishedAt));
     }
   }
 
   FutureResult<ArchivedGame> _getPostGameData() {
     return Result.capture(
-      ref.withClient(
-        (client) => GameRepository(client).getGame(gameFullId.gameId),
-      ),
+      ref.withClient((client) => GameRepository(client).getGame(gameFullId.gameId)),
     );
   }
 
   PlayableGame _mergePostGameData(
     PlayableGame game,
     ArchivedGame data, {
+
     /// Whether to rewrite the steps with the clock data from the archived game
     ///
     /// This should not be done when the game has just finished, because we
@@ -1019,44 +900,35 @@ class GameController extends _$GameController {
     IList<GameStep> newSteps = game.steps;
     if (rewriteSteps && game.meta.clock != null && data.clocks != null) {
       final initialTime = game.meta.clock!.initial;
-      newSteps = game.steps.mapIndexed((index, element) {
-        if (index == 0) {
-          return element.copyWith(
-            archivedWhiteClock: initialTime,
-            archivedBlackClock: initialTime,
-          );
-        }
-        final prevClock = index > 1 ? data.clocks![index - 2] : initialTime;
-        final stepClock = data.clocks![index - 1];
-        return element.copyWith(
-          archivedWhiteClock: index.isOdd ? stepClock : prevClock,
-          archivedBlackClock: index.isEven ? stepClock : prevClock,
-        );
-      }).toIList();
+      newSteps =
+          game.steps.mapIndexed((index, element) {
+            if (index == 0) {
+              return element.copyWith(
+                archivedWhiteClock: initialTime,
+                archivedBlackClock: initialTime,
+              );
+            }
+            final prevClock = index > 1 ? data.clocks![index - 2] : initialTime;
+            final stepClock = data.clocks![index - 1];
+            return element.copyWith(
+              archivedWhiteClock: index.isOdd ? stepClock : prevClock,
+              archivedBlackClock: index.isEven ? stepClock : prevClock,
+            );
+          }).toIList();
     }
 
     return game.copyWith(
       steps: newSteps,
       clocks: data.clocks,
-      meta: game.meta.copyWith(
-        opening: data.meta.opening,
-        division: data.meta.division,
-      ),
-      white: game.white.copyWith(
-        analysis: data.white.analysis,
-      ),
-      black: game.black.copyWith(
-        analysis: data.black.analysis,
-      ),
+      meta: game.meta.copyWith(opening: data.meta.opening, division: data.meta.division),
+      white: game.white.copyWith(analysis: data.white.analysis),
+      black: game.black.copyWith(analysis: data.black.analysis),
       evals: data.evals,
     );
   }
 }
 
-typedef LiveGameClock = ({
-  ValueListenable<Duration> white,
-  ValueListenable<Duration> black,
-});
+typedef LiveGameClock = ({ValueListenable<Duration> white, ValueListenable<Duration> black});
 
 @freezed
 class GameState with _$GameState {
@@ -1095,34 +967,25 @@ class GameState with _$GameState {
   /// The [Position] and its legal moves at the current cursor.
   (Position, IMap<Square, ISet<Square>>) get currentPosition {
     final position = game.positionAt(stepCursor);
-    final legalMoves = makeLegalMoves(
-      position,
-      isChess960: game.meta.variant == Variant.chess960,
-    );
+    final legalMoves = makeLegalMoves(position, isChess960: game.meta.variant == Variant.chess960);
     return (position, legalMoves);
   }
 
   /// Whether the zen mode is active
-  bool get isZenModeActive =>
-      game.playable ? isZenModeEnabled : game.prefs?.zenMode == Zen.yes;
+  bool get isZenModeActive => game.playable ? isZenModeEnabled : game.prefs?.zenMode == Zen.yes;
 
   /// Whether zen mode is enabled by account preference or local game setting
   bool get isZenModeEnabled =>
-      zenModeGameSetting ??
-      game.prefs?.zenMode == Zen.yes || game.prefs?.zenMode == Zen.gameAuto;
+      zenModeGameSetting ?? game.prefs?.zenMode == Zen.yes || game.prefs?.zenMode == Zen.gameAuto;
 
   bool get canPremove =>
-      game.meta.speed != Speed.correspondence &&
-      (game.prefs?.enablePremove ?? true);
-  bool get canAutoQueen =>
-      autoQueenSettingOverride ?? (game.prefs?.autoQueen == AutoQueen.always);
+      game.meta.speed != Speed.correspondence && (game.prefs?.enablePremove ?? true);
+  bool get canAutoQueen => autoQueenSettingOverride ?? (game.prefs?.autoQueen == AutoQueen.always);
   bool get canAutoQueenOnPremove =>
       autoQueenSettingOverride ??
-      (game.prefs?.autoQueen == AutoQueen.always ||
-          game.prefs?.autoQueen == AutoQueen.premove);
+      (game.prefs?.autoQueen == AutoQueen.always || game.prefs?.autoQueen == AutoQueen.premove);
   bool get shouldConfirmResignAndDrawOffer => game.prefs?.confirmResign ?? true;
-  bool get shouldConfirmMove =>
-      moveConfirmSettingOverride ?? game.prefs?.submitMove ?? false;
+  bool get shouldConfirmMove => moveConfirmSettingOverride ?? game.prefs?.submitMove ?? false;
 
   bool get isReplaying => stepCursor < game.steps.length - 1;
   bool get canGoForward => stepCursor < game.steps.length - 1;
@@ -1133,23 +996,19 @@ class GameState with _$GameState {
       game.meta.speed != Speed.correspondence &&
       (game.source == GameSource.lobby || game.source == GameSource.pool);
 
-  bool get canOfferDraw =>
-      game.drawable && (lastDrawOfferAtPly ?? -99) < game.lastPly - 20;
+  bool get canOfferDraw => game.drawable && (lastDrawOfferAtPly ?? -99) < game.lastPly - 20;
 
   bool get canShowClaimWinCountdown =>
       !game.isMyTurn &&
       game.resignable &&
-      (game.meta.rules == null ||
-          !game.meta.rules!.contains(GameRule.noClaimWin));
+      (game.meta.rules == null || !game.meta.rules!.contains(GameRule.noClaimWin));
 
   bool get canOfferRematch =>
       game.rematch == null &&
       game.rematchable &&
       (game.finished ||
           (game.aborted &&
-              (!game.meta.rated ||
-                  !{GameSource.lobby, GameSource.pool}
-                      .contains(game.source)))) &&
+              (!game.meta.rated || !{GameSource.lobby, GameSource.pool}.contains(game.source)))) &&
       game.boosted != true;
 
   /// Time left to move for the active player if an expiration is set
@@ -1157,8 +1016,8 @@ class GameState with _$GameState {
     if (!game.playable || game.expiration == null) {
       return null;
     }
-    final timeLeft = game.expiration!.movedAt.difference(DateTime.now()) +
-        game.expiration!.timeToMove;
+    final timeLeft =
+        game.expiration!.movedAt.difference(DateTime.now()) + game.expiration!.timeToMove;
 
     if (timeLeft.isNegative) {
       return Duration.zero;
@@ -1182,14 +1041,20 @@ class GameState with _$GameState {
 
   String get analysisPgn => game.makePgn();
 
-  AnalysisOptions get analysisOptions => AnalysisOptions(
-        isLocalEvaluationAllowed: true,
-        variant: game.meta.variant,
-        initialMoveCursor: stepCursor,
-        orientation: game.youAre ?? Side.white,
-        id: gameFullId,
-        opening: game.meta.opening,
-        serverAnalysis: game.serverAnalysis,
-        division: game.meta.division,
-      );
+  AnalysisOptions get analysisOptions =>
+      game.finished
+          ? AnalysisOptions(
+            orientation: game.youAre ?? Side.white,
+            initialMoveCursor: stepCursor,
+            gameId: gameFullId.gameId,
+          )
+          : AnalysisOptions(
+            orientation: game.youAre ?? Side.white,
+            initialMoveCursor: stepCursor,
+            standalone: (
+              pgn: game.makePgn(),
+              variant: game.meta.variant,
+              isComputerAnalysisAllowed: false,
+            ),
+          );
 }

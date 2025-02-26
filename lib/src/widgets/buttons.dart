@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -28,24 +27,21 @@ class FatButton extends StatelessWidget {
       button: true,
       label: semanticsLabel,
       excludeSemantics: true,
-      child: Theme.of(context).platform == TargetPlatform.iOS
-          ? CupertinoButton.tinted(onPressed: onPressed, child: child)
-          : FilledButton(
-              onPressed: onPressed,
-              child: child,
-            ),
+      child:
+          Theme.of(context).platform == TargetPlatform.iOS
+              ? CupertinoButton.tinted(onPressed: onPressed, child: child)
+              : FilledButton(onPressed: onPressed, child: child),
     );
   }
 }
 
 /// Platform agnostic button meant for medium importance actions.
-class SecondaryButton extends StatefulWidget {
+class SecondaryButton extends StatelessWidget {
   const SecondaryButton({
     required this.semanticsLabel,
     required this.child,
     required this.onPressed,
     this.textStyle,
-    this.glowing = false,
     super.key,
   });
 
@@ -53,54 +49,6 @@ class SecondaryButton extends StatefulWidget {
   final VoidCallback? onPressed;
   final Widget child;
   final TextStyle? textStyle;
-  final bool glowing;
-
-  @override
-  State<SecondaryButton> createState() => _SecondaryButtonState();
-}
-
-class _SecondaryButtonState extends State<SecondaryButton>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 1),
-      vsync: this,
-    );
-    _animation = (defaultTargetPlatform == TargetPlatform.iOS
-            ? Tween<double>(begin: 0.5, end: 1.0)
-            : Tween<double>(begin: 0.0, end: 0.3))
-        .animate(_controller)
-      ..addListener(() {
-        setState(() {});
-      });
-
-    if (widget.glowing) {
-      _controller.repeat(reverse: true);
-    }
-  }
-
-  @override
-  void didUpdateWidget(SecondaryButton oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.glowing != oldWidget.glowing) {
-      if (widget.glowing) {
-        _controller.repeat(reverse: true);
-      } else {
-        _controller.stop();
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,42 +56,19 @@ class _SecondaryButtonState extends State<SecondaryButton>
       container: true,
       enabled: true,
       button: true,
-      label: widget.semanticsLabel,
+      label: semanticsLabel,
       excludeSemantics: true,
-      child: Theme.of(context).platform == TargetPlatform.iOS
-          ? CupertinoButton(
-              color: widget.glowing
-                  ? CupertinoTheme.of(context)
-                      .primaryColor
-                      .withValues(alpha: _animation.value)
-                  : null,
-              onPressed: widget.onPressed,
-              child: widget.child,
-            )
-          : OutlinedButton(
-              onPressed: widget.onPressed,
-              style: OutlinedButton.styleFrom(
-                textStyle: widget.textStyle,
-                backgroundColor: widget.glowing
-                    ? Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: _animation.value)
-                    : null,
-              ),
-              child: widget.child,
-            ),
+      child:
+          Theme.of(context).platform == TargetPlatform.iOS
+              ? CupertinoButton(onPressed: onPressed, child: child)
+              : FilledButton.tonal(onPressed: onPressed, child: child),
     );
   }
 }
 
 /// Platform agnostic text button to appear in the app bar.
 class AppBarTextButton extends StatelessWidget {
-  const AppBarTextButton({
-    required this.child,
-    required this.onPressed,
-    super.key,
-  });
+  const AppBarTextButton({required this.child, required this.onPressed, super.key});
 
   final VoidCallback? onPressed;
   final Widget child;
@@ -151,15 +76,8 @@ class AppBarTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme.of(context).platform == TargetPlatform.iOS
-        ? CupertinoButton(
-            padding: EdgeInsets.zero,
-            onPressed: onPressed,
-            child: child,
-          )
-        : TextButton(
-            onPressed: onPressed,
-            child: child,
-          );
+        ? CupertinoButton(padding: EdgeInsets.zero, onPressed: onPressed, child: child)
+        : TextButton(onPressed: onPressed, child: child);
   }
 }
 
@@ -180,16 +98,12 @@ class AppBarIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme.of(context).platform == TargetPlatform.iOS
         ? CupertinoIconButton(
-            padding: EdgeInsets.zero,
-            semanticsLabel: semanticsLabel,
-            onPressed: onPressed,
-            icon: icon,
-          )
-        : IconButton(
-            tooltip: semanticsLabel,
-            icon: icon,
-            onPressed: onPressed,
-          );
+          padding: EdgeInsets.zero,
+          semanticsLabel: semanticsLabel,
+          onPressed: onPressed,
+          icon: icon,
+        )
+        : IconButton(tooltip: semanticsLabel, icon: icon, onPressed: onPressed);
   }
 }
 
@@ -213,16 +127,7 @@ class AppBarNotificationIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBarIconButton(
-      icon: Badge.count(
-        backgroundColor: Theme.of(context).colorScheme.tertiary,
-        textStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onTertiary,
-          fontWeight: FontWeight.bold,
-        ),
-        count: count,
-        isLabelVisible: count > 0,
-        child: icon,
-      ),
+      icon: Badge.count(count: count, isLabelVisible: count > 0, child: icon),
       onPressed: onPressed,
       semanticsLabel: semanticsLabel,
     );
@@ -230,11 +135,7 @@ class AppBarNotificationIconButton extends StatelessWidget {
 }
 
 class AdaptiveTextButton extends StatelessWidget {
-  const AdaptiveTextButton({
-    required this.child,
-    required this.onPressed,
-    super.key,
-  });
+  const AdaptiveTextButton({required this.child, required this.onPressed, super.key});
 
   final VoidCallback? onPressed;
   final Widget child;
@@ -242,25 +143,15 @@ class AdaptiveTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme.of(context).platform == TargetPlatform.iOS
-        ? CupertinoButton(
-            onPressed: onPressed,
-            child: child,
-          )
-        : TextButton(
-            onPressed: onPressed,
-            child: child,
-          );
+        ? CupertinoButton(onPressed: onPressed, child: child)
+        : TextButton(onPressed: onPressed, child: child);
   }
 }
 
 /// Button that explicitly reduce padding, thus does not conform to accessibility
 /// guidelines. So use sparingly.
 class NoPaddingTextButton extends StatelessWidget {
-  const NoPaddingTextButton({
-    required this.child,
-    required this.onPressed,
-    super.key,
-  });
+  const NoPaddingTextButton({required this.child, required this.onPressed, super.key});
 
   final VoidCallback? onPressed;
   final Widget child;
@@ -269,20 +160,20 @@ class NoPaddingTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme.of(context).platform == TargetPlatform.iOS
         ? CupertinoButton(
-            padding: EdgeInsets.zero,
-            onPressed: onPressed,
-            minSize: 23,
-            child: child,
-          )
+          padding: EdgeInsets.zero,
+          onPressed: onPressed,
+          minimumSize: const Size(23, 23),
+          child: child,
+        )
         : TextButton(
-            onPressed: onPressed,
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
-              minimumSize: Size.zero,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-            child: child,
-          );
+          onPressed: onPressed,
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          child: child,
+        );
   }
 }
 
@@ -315,10 +206,7 @@ class CupertinoIconButton extends StatelessWidget {
       child: CupertinoButton(
         padding: padding,
         onPressed: onPressed,
-        child: IconTheme.merge(
-          data: const IconThemeData(size: 24.0),
-          child: icon,
-        ),
+        child: IconTheme.merge(data: const IconThemeData(size: 24.0), child: icon),
       ),
     );
   }
@@ -327,7 +215,7 @@ class CupertinoIconButton extends StatelessWidget {
 /// InkWell that adapts to the iOS platform.
 ///
 /// Used to create a button that shows a ripple on Android and a highlight on iOS.
-class AdaptiveInkWell extends StatefulWidget {
+class AdaptiveInkWell extends StatelessWidget {
   const AdaptiveInkWell({
     required this.child,
     this.onTap,
@@ -350,65 +238,26 @@ class AdaptiveInkWell extends StatefulWidget {
   final Color? splashColor;
 
   @override
-  State<AdaptiveInkWell> createState() => _AdaptiveInkWellState();
-}
-
-class _AdaptiveInkWellState extends State<AdaptiveInkWell> {
-  bool _isPressed = false;
-
-  @override
   Widget build(BuildContext context) {
-    switch (Theme.of(context).platform) {
-      case TargetPlatform.android:
-        return InkWell(
-          onTap: widget.onTap,
-          onTapDown: widget.onTapDown,
-          onTapUp: widget.onTapUp,
-          onTapCancel: widget.onTapCancel,
-          onLongPress: widget.onLongPress,
-          borderRadius: widget.borderRadius,
-          splashColor: widget.splashColor,
-          child: widget.child,
-        );
-      case TargetPlatform.iOS:
-        return GestureDetector(
-          onLongPress: widget.onLongPress,
-          onTap: widget.onTap,
-          onTapDown: (details) {
-            widget.onTapDown?.call(details);
-            if (widget.onTap == null) return;
-            setState(() => _isPressed = true);
-          },
-          onTapCancel: () {
-            widget.onTapCancel?.call();
-            setState(() => _isPressed = false);
-          },
-          onTapUp: (details) {
-            widget.onTapUp?.call(details);
-            Future<void>.delayed(const Duration(milliseconds: 100)).then((_) {
-              if (mounted) {
-                setState(() => _isPressed = false);
-              }
-            });
-          },
-          child: Semantics(
-            button: true,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: widget.borderRadius,
-                color: _isPressed
-                    ? widget.splashColor ??
-                        CupertinoColors.systemGrey5.resolveFrom(context)
-                    : null,
-              ),
-              child: widget.child,
-            ),
-          ),
-        );
-      default:
-        assert(false, 'Unexpected platform ${Theme.of(context).platform}');
-        return const SizedBox.shrink();
-    }
+    final platform = Theme.of(context).platform;
+    final inkWell = InkWell(
+      onTap: onTap,
+      onTapDown: onTapDown,
+      onTapUp: onTapUp,
+      onTapCancel: onTapCancel,
+      onLongPress: onLongPress,
+      borderRadius: borderRadius,
+      splashColor:
+          platform == TargetPlatform.iOS
+              ? splashColor ?? CupertinoColors.systemGrey5.resolveFrom(context)
+              : splashColor,
+      splashFactory: platform == TargetPlatform.iOS ? NoSplash.splashFactory : null,
+      child: child,
+    );
+
+    return platform == TargetPlatform.iOS
+        ? Material(color: Colors.transparent, child: inkWell)
+        : inkWell;
   }
 }
 
@@ -509,10 +358,7 @@ class PlatformIconButton extends StatelessWidget {
     this.color,
     this.iconSize,
     this.padding,
-  }) : assert(
-          color == null || !highlighted,
-          'Cannot provide both color and highlighted',
-        );
+  }) : assert(color == null || !highlighted, 'Cannot provide both color and highlighted');
 
   final IconData icon;
   final String semanticsLabel;
@@ -541,18 +387,12 @@ class PlatformIconButton extends StatelessWidget {
       case TargetPlatform.iOS:
         final themeData = CupertinoTheme.of(context);
         return CupertinoTheme(
-          data: themeData.copyWith(
-            primaryColor: themeData.textTheme.textStyle.color,
-          ),
+          data: themeData.copyWith(primaryColor: themeData.textTheme.textStyle.color),
           child: CupertinoIconButton(
             onPressed: onTap,
             semanticsLabel: semanticsLabel,
             padding: padding,
-            icon: Icon(
-              icon,
-              color: highlighted ? themeData.primaryColor : color,
-              size: iconSize,
-            ),
+            icon: Icon(icon, color: highlighted ? themeData.primaryColor : color, size: iconSize),
           ),
         );
       default:

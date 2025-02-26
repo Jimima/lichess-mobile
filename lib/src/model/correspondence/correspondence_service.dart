@@ -16,10 +16,11 @@ import 'package:lichess_mobile/src/model/correspondence/offline_correspondence_g
 import 'package:lichess_mobile/src/model/game/game_repository.dart';
 import 'package:lichess_mobile/src/model/game/game_socket_events.dart';
 import 'package:lichess_mobile/src/model/game/playable_game.dart';
+import 'package:lichess_mobile/src/model/notifications/notification_service.dart';
+import 'package:lichess_mobile/src/model/notifications/notifications.dart';
 import 'package:lichess_mobile/src/navigation.dart';
 import 'package:lichess_mobile/src/network/http.dart';
 import 'package:lichess_mobile/src/network/socket.dart';
-import 'package:lichess_mobile/src/utils/navigation.dart';
 import 'package:lichess_mobile/src/view/game/game_screen.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -28,21 +29,53 @@ part 'correspondence_service.g.dart';
 
 @Riverpod(keepAlive: true)
 CorrespondenceService correspondenceService(Ref ref) {
-  return CorrespondenceService(
-    Logger('CorrespondenceService'),
-    ref: ref,
-  );
+  final service = CorrespondenceService(Logger('CorrespondenceService'), ref: ref);
+  ref.onDispose(() => service.dispose());
+  return service;
 }
 
-/// Services that manages correspondence games.
+/// Service that manages correspondence games.
 class CorrespondenceService {
   CorrespondenceService(this._log, {required this.ref});
 
   final Ref ref;
   final Logger _log;
 
+  StreamSubscription<ParsedLocalNotification>? _notificationResponseSubscription;
+  StreamSubscription<ReceivedFcmMessage>? _fcmSubscription;
+
+  void start() {
+    _fcmSubscription = NotificationService.fcmMessageStream.listen((data) {
+      final (message: fcmMessage, fromBackground: fromBackground) = data;
+      switch (fcmMessage) {
+        case CorresGameUpdateFcmMessage(fullId: final fullId, game: final game):
+          if (game != null) {
+            _onServerUpdateEvent(fullId, game, fromBackground: fromBackground);
+          }
+
+        case _:
+          break;
+      }
+    });
+
+    _notificationResponseSubscription = NotificationService.responseStream.listen((data) {
+      final (_, notification) = data;
+      switch (notification) {
+        case CorresGameUpdateNotification(:final fullId):
+          _onNotificationResponse(fullId);
+        case _:
+          break;
+      }
+    });
+  }
+
+  void dispose() {
+    _fcmSubscription?.cancel();
+    _notificationResponseSubscription?.cancel();
+  }
+
   /// Handles a notification response that caused the app to open.
-  Future<void> onNotificationResponse(GameFullId fullId) async {
+  Future<void> _onNotificationResponse(GameFullId fullId) async {
     final context = ref.read(currentNavigatorKeyProvider).currentContext;
     if (context == null || !context.mounted) return;
 
@@ -51,11 +84,10 @@ class CorrespondenceService {
       rootNavState.popUntil((route) => route.isFirst);
     }
 
-    pushPlatformRoute(
+    Navigator.of(
       context,
       rootNavigator: true,
-      builder: (_) => GameScreen(initialGameId: fullId),
-    );
+    ).push(GameScreen.buildRoute(context, initialGameId: fullId));
   }
 
   /// Syncs offline correspondence games with the server.
@@ -68,16 +100,12 @@ class CorrespondenceService {
 
     await playRegisteredMoves();
 
-    final storedOngoingGames =
-        await (await _storage).fetchOngoingGames(_session?.user.id);
+    final storedOngoingGames = await (await _storage).fetchOngoingGames(_session?.user.id);
 
     ref.withClient((client) async {
       try {
-        final accountRepository = AccountRepository(client);
         final gameRepository = GameRepository(client);
-        // user can have more than 50 ongoing games, but we only sync the 50 most
-        // recent ones
-        final ongoingGames = await accountRepository.getOngoingGames(nb: 50);
+        final ongoingGames = await ref.read(ongoingGamesProvider.future);
         for (final sg in storedOngoingGames) {
           final game = ongoingGames.firstWhereOrNull((e) => e.id == sg.$2.id);
           if (game == null) {
@@ -113,16 +141,11 @@ class CorrespondenceService {
 
     final games = await (await _storage)
         .fetchGamesWithRegisteredMove(_session?.user.id)
-        .then(
-          (games) => games.map((e) => e.$2).toList(),
-        );
+        .then((games) => games.map((e) => e.$2).toList());
 
     WebSocket.userAgent = ref.read(userAgentProvider);
-    final Map<String, String> wsHeaders = _session != null
-        ? {
-            'Authorization': 'Bearer ${signBearerToken(_session!.token)}',
-          }
-        : {};
+    final Map<String, String> wsHeaders =
+        _session != null ? {'Authorization': 'Bearer ${signBearerToken(_session!.token)}'} : {};
 
     int movesPlayed = 0;
 
@@ -134,14 +157,14 @@ class CorrespondenceService {
       WebSocket? socket;
       StreamSubscription<SocketEvent>? streamSubscription;
       try {
-        socket = await WebSocket.connect(uri.toString(), headers: wsHeaders)
-            .timeout(const Duration(seconds: 5));
+        socket = await WebSocket.connect(
+          uri.toString(),
+          headers: wsHeaders,
+        ).timeout(const Duration(seconds: 5));
 
-        final eventStream = socket.where((e) => e != '0').map(
-              (e) => SocketEvent.fromJson(
-                jsonDecode(e as String) as Map<String, dynamic>,
-              ),
-            );
+        final eventStream = socket
+            .where((e) => e != '0')
+            .map((e) => SocketEvent.fromJson(jsonDecode(e as String) as Map<String, dynamic>));
 
         final Completer<PlayableGame> gameCompleter = Completer();
         final Completer<void> movePlayedCompleter = Completer();
@@ -149,14 +172,11 @@ class CorrespondenceService {
         streamSubscription = eventStream.listen((event) {
           switch (event.topic) {
             case 'full':
-              final playableGame = GameFullEvent.fromJson(
-                event.data as Map<String, dynamic>,
-              ).game;
+              final playableGame = GameFullEvent.fromJson(event.data as Map<String, dynamic>).game;
               gameCompleter.complete(playableGame);
 
             case 'move':
-              final moveEvent =
-                  MoveEvent.fromJson(event.data as Map<String, dynamic>);
+              final moveEvent = MoveEvent.fromJson(event.data as Map<String, dynamic>);
               // move acknowledged
               if (moveEvent.uci == gameToSync.registeredMoveAtPgn!.$2.uci) {
                 movesPlayed++;
@@ -174,31 +194,21 @@ class CorrespondenceService {
           socket.add(
             jsonEncode({
               't': 'move',
-              'd': {
-                'u': gameToSync.registeredMoveAtPgn!.$2.uci,
-              },
+              'd': {'u': gameToSync.registeredMoveAtPgn!.$2.uci},
             }),
           );
 
           await movePlayedCompleter.future.timeout(const Duration(seconds: 3));
 
-          (await ref.read(correspondenceGameStorageProvider.future)).save(
-            gameToSync.copyWith(
-              registeredMoveAtPgn: null,
-            ),
-          );
+          (await ref.read(
+            correspondenceGameStorageProvider.future,
+          )).save(gameToSync.copyWith(registeredMoveAtPgn: null));
         } else {
-          _log.info(
-            'Cannot play game ${gameToSync.id} move because its state has changed',
-          );
+          _log.info('Cannot play game ${gameToSync.id} move because its state has changed');
           updateGame(gameToSync.fullId, playableGame);
         }
       } catch (e, s) {
-        _log.severe(
-          'Failed to sync correspondence game ${gameToSync.id}',
-          e,
-          s,
-        );
+        _log.severe('Failed to sync correspondence game ${gameToSync.id}', e, s);
       } finally {
         streamSubscription?.cancel();
         socket?.close();
@@ -209,23 +219,19 @@ class CorrespondenceService {
   }
 
   /// Handles a game update event from the server.
-  Future<void> onServerUpdateEvent(
+  Future<void> _onServerUpdateEvent(
     GameFullId fullId,
     PlayableGame game, {
     required bool fromBackground,
   }) async {
-    if (!fromBackground) {
-      // opponent just played, invalidate ongoing games
-      if (game.sideToMove == game.youAre) {
-        ref.invalidate(ongoingGamesProvider);
-      }
-    }
-
     await updateGame(fullId, game);
   }
 
-  /// Updates a stored correspondence game.
+  /// Updates a correspondence game.
+  ///
+  /// Will update the game in the ongoing games provider and save it to the storage.
   Future<void> updateGame(GameFullId fullId, PlayableGame game) async {
+    ref.read(ongoingGamesProvider.notifier).updateGame(fullId, game);
     return (await ref.read(correspondenceGameStorageProvider.future)).save(
       OfflineCorrespondenceGame(
         id: game.id,
@@ -240,7 +246,7 @@ class CorrespondenceService {
         perf: game.meta.perf,
         white: game.white,
         black: game.black,
-        youAre: game.youAre!,
+        youAre: game.youAre,
         daysPerTurn: game.meta.daysPerTurn,
         clock: game.correspondenceClock,
         winner: game.winner,

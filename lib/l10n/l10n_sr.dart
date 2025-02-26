@@ -1,5 +1,5 @@
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'l10n.dart';
 
 // ignore_for_file: type=lint
@@ -9,137 +9,137 @@ class AppLocalizationsSr extends AppLocalizations {
   AppLocalizationsSr([String locale = 'sr']) : super(locale);
 
   @override
-  String get mobileHomeTab => 'Home';
+  String get mobileAllGames => 'Сви мечеви';
 
   @override
-  String get mobilePuzzlesTab => 'Puzzles';
+  String get mobileAreYouSure => 'Да ли сте сигурни?';
 
   @override
-  String get mobileToolsTab => 'Tools';
+  String get mobileCancelTakebackOffer => 'Откачи понуду за повлачење потеза';
 
   @override
-  String get mobileWatchTab => 'Watch';
+  String get mobileClearButton => 'Очисти';
 
   @override
-  String get mobileSettingsTab => 'Settings';
+  String get mobileCorrespondenceClearSavedMove => 'Очисти сачувани потез';
 
   @override
-  String get mobileMustBeLoggedIn => 'You must be logged in to view this page.';
+  String get mobileCustomGameJoinAGame => 'Придружи се партији';
 
   @override
-  String get mobileSystemColors => 'System colors';
-
-  @override
-  String get mobileFeedbackButton => 'Feedback';
-
-  @override
-  String get mobileOkButton => 'OK';
-
-  @override
-  String get mobileSettingsHapticFeedback => 'Haptic feedback';
-
-  @override
-  String get mobileSettingsImmersiveMode => 'Immersive mode';
-
-  @override
-  String get mobileSettingsImmersiveModeSubtitle => 'Hide system UI while playing. Use this if you are bothered by the system\'s navigation gestures at the edges of the screen. Applies to game and Puzzle Storm screens.';
-
-  @override
-  String get mobileNotFollowingAnyUser => 'You are not following any user.';
-
-  @override
-  String get mobileAllGames => 'All games';
-
-  @override
-  String get mobileRecentSearches => 'Recent searches';
-
-  @override
-  String get mobileClearButton => 'Clear';
-
-  @override
-  String mobilePlayersMatchingSearchTerm(String param) {
-    return 'Players with \"$param\"';
-  }
-
-  @override
-  String get mobileNoSearchResults => 'No results';
-
-  @override
-  String get mobileAreYouSure => 'Are you sure?';
-
-  @override
-  String get mobilePuzzleStreakAbortWarning => 'You will lose your current streak and your score will be saved.';
-
-  @override
-  String get mobilePuzzleStormNothingToShow => 'Nothing to show. Play some runs of Puzzle Storm.';
-
-  @override
-  String get mobileSharePuzzle => 'Share this puzzle';
-
-  @override
-  String get mobileShareGameURL => 'Share game URL';
-
-  @override
-  String get mobileShareGamePGN => 'Share PGN';
-
-  @override
-  String get mobileSharePositionAsFEN => 'Share position as FEN';
-
-  @override
-  String get mobileShowVariations => 'Show variations';
-
-  @override
-  String get mobileHideVariation => 'Hide variation';
-
-  @override
-  String get mobileShowComments => 'Show comments';
-
-  @override
-  String get mobilePuzzleStormConfirmEndRun => 'Do you want to end this run?';
-
-  @override
-  String get mobilePuzzleStormFilterNothingToShow => 'Nothing to show, please change the filters';
-
-  @override
-  String get mobileCancelTakebackOffer => 'Cancel takeback offer';
-
-  @override
-  String get mobileWaitingForOpponentToJoin => 'Waiting for opponent to join...';
-
-  @override
-  String get mobileBlindfoldMode => 'Blindfold';
-
-  @override
-  String get mobileLiveStreamers => 'Live streamers';
-
-  @override
-  String get mobileCustomGameJoinAGame => 'Join a game';
-
-  @override
-  String get mobileCorrespondenceClearSavedMove => 'Clear saved move';
-
-  @override
-  String get mobileSomethingWentWrong => 'Something went wrong.';
-
-  @override
-  String get mobileShowResult => 'Show result';
-
-  @override
-  String get mobilePuzzleThemesSubtitle => 'Play puzzles from your favorite openings, or choose a theme.';
-
-  @override
-  String get mobilePuzzleStormSubtitle => 'Solve as many puzzles as possible in 3 minutes.';
+  String get mobileFeedbackButton => 'Повратна информација';
 
   @override
   String mobileGreeting(String param) {
-    return 'Hello, $param';
+    return 'Здраво, $param';
   }
 
   @override
-  String get mobileGreetingWithoutName => 'Hello';
+  String get mobileGreetingWithoutName => 'Здраво';
 
   @override
-  String get mobilePrefMagnifyDraggedPiece => 'Magnify dragged piece';
+  String get mobileHideVariation => 'Сакриј варијацију';
+
+  @override
+  String get mobileHomeTab => 'Почетна';
+
+  @override
+  String get mobileLiveStreamers => 'Личес стримери';
+
+  @override
+  String get mobileMustBeLoggedIn => 'Морате се пријавити да бисте видели ову страницу.';
+
+  @override
+  String get mobileNoSearchResults => 'Нема резултата';
+
+  @override
+  String get mobileNotFollowingAnyUser => 'Не пратите ниједног корисника.';
+
+  @override
+  String get mobileOkButton => 'У реду';
+
+  @override
+  String mobilePlayersMatchingSearchTerm(String param) {
+    return 'Играчи са \"$param\"';
+  }
+
+  @override
+  String get mobilePrefMagnifyDraggedPiece => 'Увећај фигуре које повлачиш';
+
+  @override
+  String get mobilePuzzleStormConfirmEndRun => 'Да ли желите да прекинете низ?';
+
+  @override
+  String get mobilePuzzleStormFilterNothingToShow => 'Нема ништа за приказивање, молимо вас промените филтере';
+
+  @override
+  String get mobilePuzzleStormNothingToShow => 'Нема ништа за приказ. Одиграте неколико вежби.';
+
+  @override
+  String get mobilePuzzleStormSubtitle => 'Решите што више вежби можете у 3 минута.';
+
+  @override
+  String get mobilePuzzleStreakAbortWarning => 'Изгубићете низ и ваш резултат биће сачуван.';
+
+  @override
+  String get mobilePuzzleThemesSubtitle => 'Играк вежбе ваших омињених отварања, или изаберите тему.';
+
+  @override
+  String get mobilePuzzlesTab => 'Вежбе';
+
+  @override
+  String get mobileRecentSearches => 'Скорашње претраге';
+
+  @override
+  String get mobileSettingsHapticFeedback => 'Повратне информације';
+
+  @override
+  String get mobileSettingsImmersiveMode => 'Режим целог екрана';
+
+  @override
+  String get mobileSettingsImmersiveModeSubtitle => 'Склони системски интерфејс док играш. Користи ово ако ти сметају навигацијске гестуре у углу екрана. Примењује се у партијама и вежбама.';
+
+  @override
+  String get mobileSettingsTab => 'Подешавања';
+
+  @override
+  String get mobileShareGamePGN => 'Подели PNG';
+
+  @override
+  String get mobileShareGameURL => 'Подели URL игре';
+
+  @override
+  String get mobileSharePositionAsFEN => 'Подели позицију као FEN';
+
+  @override
+  String get mobileSharePuzzle => 'Подели ову вежбу';
+
+  @override
+  String get mobileShowComments => 'Prikaži komentare';
+
+  @override
+  String get mobileShowResult => 'Прикажи резултат';
+
+  @override
+  String get mobileShowVariations => 'Прикажи стрелице за варијацију';
+
+  @override
+  String get mobileSomethingWentWrong => 'Нешто није у реду.';
+
+  @override
+  String get mobileSystemColors => 'Системске боје';
+
+  @override
+  String get mobileTheme => 'Тема';
+
+  @override
+  String get mobileToolsTab => 'Алати';
+
+  @override
+  String get mobileWaitingForOpponentToJoin => 'Чека се противник...';
+
+  @override
+  String get mobileWatchTab => 'Гледај';
 
   @override
   String get activityActivity => 'Активност';
@@ -406,12 +406,6 @@ class AppLocalizationsSr extends AppLocalizations {
   String get broadcastUpcoming => 'Предстојећа';
 
   @override
-  String get broadcastCompleted => 'Завршена';
-
-  @override
-  String get broadcastCompletedHelp => 'Lichess detects round completion, but can get it wrong. Use this to set it manually.';
-
-  @override
   String get broadcastRoundName => 'Round name';
 
   @override
@@ -552,6 +546,9 @@ class AppLocalizationsSr extends AppLocalizations {
   String get broadcastStandings => 'Standings';
 
   @override
+  String get broadcastOfficialStandings => 'Official Standings';
+
+  @override
   String broadcastIframeHelp(String param) {
     return 'More options on the $param';
   }
@@ -580,6 +577,39 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get broadcastScore => 'Score';
+
+  @override
+  String get broadcastAllTeams => 'All teams';
+
+  @override
+  String get broadcastTournamentFormat => 'Tournament format';
+
+  @override
+  String get broadcastTournamentLocation => 'Tournament Location';
+
+  @override
+  String get broadcastTopPlayers => 'Top players';
+
+  @override
+  String get broadcastTimezone => 'Time zone';
+
+  @override
+  String get broadcastFideRatingCategory => 'FIDE rating category';
+
+  @override
+  String get broadcastOptionalDetails => 'Optional details';
+
+  @override
+  String get broadcastPastBroadcasts => 'Past broadcasts';
+
+  @override
+  String get broadcastAllBroadcastsByMonth => 'View all broadcasts by month';
+
+  @override
+  String get broadcastBackToLiveMove => 'Back to live move';
+
+  @override
+  String get broadcastSinceHideResults => 'Since you chose to hide the results, all the preview boards are empty to avoid spoilers.';
 
   @override
   String broadcastNbBroadcasts(int count) {
@@ -851,6 +881,9 @@ class AppLocalizationsSr extends AppLocalizations {
   String get preferencesInGameOnly => 'In-game only';
 
   @override
+  String get preferencesExceptInGame => 'Except in-game';
+
+  @override
   String get preferencesChessClock => 'Шаховски сат';
 
   @override
@@ -990,6 +1023,9 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get preferencesBellNotificationSound => 'Bell notification sound';
+
+  @override
+  String get preferencesBlindfold => 'Blindfold';
 
   @override
   String get puzzlePuzzles => 'Проблеми';
@@ -1444,6 +1480,18 @@ class AppLocalizationsSr extends AppLocalizations {
   String get puzzleThemeIntermezzoDescription => 'Уместо играња очекиваног потеза, прво убаци потез који је непосредна претња на коју противник мора да одговори. Такође знано као \"Zwischenzug\" или \"међупотез\".';
 
   @override
+  String get puzzleThemeKillBoxMate => 'Kill box mate';
+
+  @override
+  String get puzzleThemeKillBoxMateDescription => 'A rook is next to the enemy king and supported by a queen that also blocks the king\'s escape squares. The rook and the queen catch the enemy king in a 3 by 3 \"kill box\".';
+
+  @override
+  String get puzzleThemeVukovicMate => 'Vukovic mate';
+
+  @override
+  String get puzzleThemeVukovicMateDescription => 'A rook and knight team up to mate the king. The rook delivers mate while supported by a third piece, and the knight is used to block the king\'s escape squares.';
+
+  @override
   String get puzzleThemeKnightEndgame => 'Скакачка завршница';
 
   @override
@@ -1659,16 +1707,13 @@ class AppLocalizationsSr extends AppLocalizations {
   String get settingsManagedAccountCannotBeClosed => 'Your account is managed, and cannot be closed.';
 
   @override
-  String get settingsClosingIsDefinitive => 'Затварање је коначно. Нема повратка. Да ли сте сигурни?';
-
-  @override
   String get settingsCantOpenSimilarAccount => 'Неће Вам бити допуштено да отворите нови налог са истим именом, чак и ако капитализација слова буде другачија.';
 
   @override
-  String get settingsChangedMindDoNotCloseAccount => 'Предомислио/ла сам се, немојте затворити мој налог';
+  String get settingsCancelKeepAccount => 'Cancel and keep my account';
 
   @override
-  String get settingsCloseAccountExplanation => 'Да ли сте сигурни да желите затворити Ваш налог? Затварање Вашег налога је трајна одлука. Више се НИКАДА нећете моћи пријавити.';
+  String get settingsCloseAccountAreYouSure => 'Are you sure you want to close your account?';
 
   @override
   String get settingsThisAccountIsClosed => 'Овај налог је затворен.';
@@ -1876,10 +1921,10 @@ class AppLocalizationsSr extends AppLocalizations {
   String get deleteFromHere => 'Избриши одавде';
 
   @override
-  String get collapseVariations => 'Collapse variations';
+  String get collapseVariations => 'Скупи варијације';
 
   @override
-  String get expandVariations => 'Expand variations';
+  String get expandVariations => 'Рашири варијације';
 
   @override
   String get forceVariation => 'Промакни варијацију';
@@ -2008,9 +2053,6 @@ class AppLocalizationsSr extends AppLocalizations {
   String get byCPL => 'По рачунару';
 
   @override
-  String get openStudy => 'Отвори проуку';
-
-  @override
   String get enable => 'Укључи';
 
   @override
@@ -2115,7 +2157,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get friends => 'Пријатељи';
 
   @override
-  String get otherPlayers => 'other players';
+  String get otherPlayers => 'остали играчи';
 
   @override
   String get discussions => 'Разговори';
@@ -2301,7 +2343,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get gamesPlayed => 'Број одиграних партија';
 
   @override
-  String get ok => 'OK';
+  String get ok => 'У реду';
 
   @override
   String get cancel => 'Откажи';
@@ -2678,9 +2720,6 @@ class AppLocalizationsSr extends AppLocalizations {
   String get unblock => 'Одблокирај';
 
   @override
-  String get followsYou => 'Прате тебе';
-
-  @override
   String xStartedFollowingY(String param1, String param2) {
     return '$param1 је почео/ла пратити $param2';
   }
@@ -2871,7 +2910,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get editProfile => 'Уредите профил';
 
   @override
-  String get realName => 'Real name';
+  String get realName => 'Право име';
 
   @override
   String get setFlair => 'Постави своју значку';
@@ -2952,10 +2991,10 @@ class AppLocalizationsSr extends AppLocalizations {
   String get yes => 'Да';
 
   @override
-  String get website => 'Website';
+  String get website => 'Интернет страница';
 
   @override
-  String get mobile => 'Mobile';
+  String get mobile => 'Мобилни';
 
   @override
   String get help => 'Помоћ';
@@ -3012,13 +3051,13 @@ class AppLocalizationsSr extends AppLocalizations {
   String get other => 'Остало';
 
   @override
-  String get reportCheatBoostHelp => 'Paste the link to the game(s) and explain what is wrong about this user\'s behaviour. Don\'t just say \"they cheat\", but tell us how you came to this conclusion.';
+  String get reportCheatBoostHelp => 'Залијепите везу до игре и објасните шта није у реду са понашањем корисника. Немојте само рећи \"варао\", али реците како сте дошли до тог закључка. Ваша пријава ће бити обрађена брже ако је напишете на енглеском језику.';
 
   @override
-  String get reportUsernameHelp => 'Explain what about this username is offensive. Don\'t just say \"it\'s offensive/inappropriate\", but tell us how you came to this conclusion, especially if the insult is obfuscated, not in english, is in slang, or is a historical/cultural reference.';
+  String get reportUsernameHelp => 'Објасните шта је неприкладно у имену корисника. Немојте само да кажете да је неприкладно, реците нам како сте то закључили, поготово ако је увреда збуњујућа, није у енглеском, у сленгу, или де односи на културу/историју.';
 
   @override
-  String get reportProcessedFasterInEnglish => 'Your report will be processed faster if written in English.';
+  String get reportProcessedFasterInEnglish => 'Ваша пријава ће бити обрађена брже ако је написана на енглеском језику.';
 
   @override
   String get error_provideOneCheatedGameLink => 'Наведите барем једну везу игре у којој је играч варао.';
@@ -3121,7 +3160,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get outsideTheBoard => 'Ван табле';
 
   @override
-  String get allSquaresOfTheBoard => 'All squares of the board';
+  String get allSquaresOfTheBoard => 'Сва поља табле';
 
   @override
   String get onSlowGames => 'У споријим партијама';
@@ -3572,7 +3611,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get youCanAlsoScrollOverTheBoardToMoveInTheGame => 'Можете скроловати преко табле ради повлачења потеза у партији.';
 
   @override
-  String get scrollOverComputerVariationsToPreviewThem => 'Scroll over computer variations to preview them.';
+  String get scrollOverComputerVariationsToPreviewThem => 'Листајте до компјутерских варијација да бисте их прегледали.';
 
   @override
   String get analysisShapesHowTo => 'Pитисните shif-click или десни клик за цртање кругова и стрелица на плочи.';
@@ -3581,7 +3620,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get letOtherPlayersMessageYou => 'Дозволите другим играчима да вам пошаљу поруку';
 
   @override
-  String get receiveForumNotifications => 'Receive notifications when mentioned in the forum';
+  String get receiveForumNotifications => 'Примајте обавештења када сте поменути на форуму';
 
   @override
   String get shareYourInsightsData => 'Поделите своје личне податке';
@@ -3662,6 +3701,9 @@ class AppLocalizationsSr extends AppLocalizations {
 
   @override
   String get followAndChallengeFriends => 'Прати и изазови пријатеља';
+
+  @override
+  String get noChallenges => 'No challenges.';
 
   @override
   String get gameAnalysis => 'Анализа партије';
@@ -4259,13 +4301,7 @@ class AppLocalizationsSr extends AppLocalizations {
   String get reopenYourAccount => 'Поново отвори свој налог';
 
   @override
-  String get closedAccountChangedMind => 'Ако си затворио налог, али си се после предомислио, имаш једну прилику да повратиш свој налог.';
-
-  @override
-  String get onlyWorksOnce => 'Ово ће радити само једном.';
-
-  @override
-  String get cantDoThisTwice => 'Ако си затворио налог по други пут, не постоји начин да га повратиш.';
+  String get reopenYourAccountDescription => 'If you closed your account, but have since changed your mind, you get a chance of getting your account back.';
 
   @override
   String get emailAssociatedToaccount => 'Мејл адреса повезана са налогом';
@@ -4362,6 +4398,18 @@ class AppLocalizationsSr extends AppLocalizations {
   }
 
   @override
+  String numberBlunders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Грубе грешке',
+      few: '$count Грубе грешке',
+      one: '$count Превид',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbMistakes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -4373,12 +4421,36 @@ class AppLocalizationsSr extends AppLocalizations {
   }
 
   @override
+  String numberMistakes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Грешке',
+      few: '$count Грешке',
+      one: '$count Грешка',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbInaccuracies(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: '$count inaccuracies',
       one: '$count inaccuracy',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberInaccuracies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Непрецизности',
+      few: '$count Непрецизности',
+      one: '$count Непрецизност',
     );
     return '$_temp0';
   }
@@ -5137,6 +5209,9 @@ class AppLocalizationsSr extends AppLocalizations {
   String get studyPlaying => 'У току';
 
   @override
+  String get studyShowResults => 'Results';
+
+  @override
   String get studyShowEvalBar => 'Evaluation bars';
 
   @override
@@ -5374,16 +5449,16 @@ class AppLocalizationsSr extends AppLocalizations {
   String get studyWhereDoYouWantToStudyThat => 'Где желите то проучити?';
 
   @override
-  String get studyGoodMove => 'Good move';
+  String get studyGoodMove => 'Добар потез';
 
   @override
-  String get studyMistake => 'Mistake';
+  String get studyMistake => 'Грешка';
 
   @override
   String get studyBrilliantMove => 'Brilliant move';
 
   @override
-  String get studyBlunder => 'Blunder';
+  String get studyBlunder => 'Груба грешка';
 
   @override
   String get studyInterestingMove => 'Interesting move';
@@ -5479,6 +5554,11 @@ class AppLocalizationsSr extends AppLocalizations {
   String get studyYouCompletedThisLesson => 'Congratulations! You completed this lesson.';
 
   @override
+  String studyPerPage(String param) {
+    return '$param per page';
+  }
+
+  @override
   String studyNbChapters(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -5522,6 +5602,181 @@ class AppLocalizationsSr extends AppLocalizations {
       other: 'Налепите свој PGN текст овде, до $count партија',
       few: 'Налепите свој PGN текст овде, до $count партије',
       one: 'Налепите свој PGN текст овде, до $count партије',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeagoJustNow => 'управо сада';
+
+  @override
+  String get timeagoRightNow => 'управо сад';
+
+  @override
+  String get timeagoCompleted => 'завршено';
+
+  @override
+  String timeagoInNbSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'за $count дана',
+      few: 'за $count сати',
+      one: 'за $count секунди',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count minutes',
+      one: 'in $count minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count hours',
+      one: 'in $count hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count days',
+      one: 'in $count day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count weeks',
+      one: 'in $count week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count months',
+      one: 'in $count month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'in $count years',
+      one: 'in $count year',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes ago',
+      one: '$count minute ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours ago',
+      one: '$count hour ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days ago',
+      one: '$count day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbWeeksAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count weeks ago',
+      one: '$count week ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count months ago',
+      one: '$count month ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count years ago',
+      one: '$count year ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes remaining',
+      one: '$count minute remaining',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours remaining',
+      one: '$count hour remaining',
     );
     return '$_temp0';
   }

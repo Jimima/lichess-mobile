@@ -1,5 +1,5 @@
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'l10n.dart';
 
 // ignore_for_file: type=lint
@@ -9,31 +9,86 @@ class AppLocalizationsHu extends AppLocalizations {
   AppLocalizationsHu([String locale = 'hu']) : super(locale);
 
   @override
-  String get mobileHomeTab => 'Kezdőlap';
+  String get mobileAllGames => 'Összes játszma';
 
   @override
-  String get mobilePuzzlesTab => 'Feladvány';
+  String get mobileAreYouSure => 'Biztos vagy benne?';
 
   @override
-  String get mobileToolsTab => 'Eszközök';
+  String get mobileCancelTakebackOffer => 'Visszalépés kérésének visszavonása';
 
   @override
-  String get mobileWatchTab => 'Néznivaló';
+  String get mobileClearButton => 'Törlés';
 
   @override
-  String get mobileSettingsTab => 'Beállítás';
+  String get mobileCorrespondenceClearSavedMove => 'Mentett lépés törlése';
 
   @override
-  String get mobileMustBeLoggedIn => 'Az oldal megtekintéséhez be kell jelentkezned.';
-
-  @override
-  String get mobileSystemColors => 'Rendszerszínek';
+  String get mobileCustomGameJoinAGame => 'Csatlakozás játszmához';
 
   @override
   String get mobileFeedbackButton => 'Visszajelzés';
 
   @override
+  String mobileGreeting(String param) {
+    return 'Üdv $param';
+  }
+
+  @override
+  String get mobileGreetingWithoutName => 'Üdv';
+
+  @override
+  String get mobileHideVariation => 'Változatok elrejtése';
+
+  @override
+  String get mobileHomeTab => 'Kezdőlap';
+
+  @override
+  String get mobileLiveStreamers => 'Lichess streamerek';
+
+  @override
+  String get mobileMustBeLoggedIn => 'Az oldal megtekintéséhez be kell jelentkezned.';
+
+  @override
+  String get mobileNoSearchResults => 'Nincs találat';
+
+  @override
+  String get mobileNotFollowingAnyUser => 'Jelenleg nem követsz senkit.';
+
+  @override
   String get mobileOkButton => 'OK';
+
+  @override
+  String mobilePlayersMatchingSearchTerm(String param) {
+    return 'Játékosok $param felhasználónévvel';
+  }
+
+  @override
+  String get mobilePrefMagnifyDraggedPiece => 'Mozdított bábu nagyítása';
+
+  @override
+  String get mobilePuzzleStormConfirmEndRun => 'Befejezed a futamot?';
+
+  @override
+  String get mobilePuzzleStormFilterNothingToShow => 'Nincs megjeleníthető elem, változtasd meg a szűrőket';
+
+  @override
+  String get mobilePuzzleStormNothingToShow => 'Nothing to show. Play some runs of Puzzle Storm.';
+
+  @override
+  String get mobilePuzzleStormSubtitle => 'Oldd meg a lehető legtöbb feladványt 3 perc alatt.';
+
+  @override
+  String get mobilePuzzleStreakAbortWarning => 'A jelenlegi sorozatod elveszik és az eredményedet rögzítjük.';
+
+  @override
+  String get mobilePuzzleThemesSubtitle => 'Oldj feladványokat kedvenc megnyitásaid kapcsán vagy válassz egy tematikát.';
+
+  @override
+  String get mobilePuzzlesTab => 'Feladvány';
+
+  @override
+  String get mobileRecentSearches => 'Keresési előzmények';
 
   @override
   String get mobileSettingsHapticFeedback => 'Érintésalapú visszajelzés';
@@ -45,101 +100,46 @@ class AppLocalizationsHu extends AppLocalizations {
   String get mobileSettingsImmersiveModeSubtitle => 'A rendszer gombjainak elrejtése játék közben. Kapcsold be, ha zavarnak a rendszer navigációs mozdulatai a képernyő sarkainál. A játszmaképernyőn és a Puzzle Storm képernyőjén működik.';
 
   @override
-  String get mobileNotFollowingAnyUser => 'Jelenleg nem követsz senkit.';
-
-  @override
-  String get mobileAllGames => 'Összes játszma';
-
-  @override
-  String get mobileRecentSearches => 'Keresési előzmények';
-
-  @override
-  String get mobileClearButton => 'Törlés';
-
-  @override
-  String mobilePlayersMatchingSearchTerm(String param) {
-    return 'Játékosok $param felhasználónévvel';
-  }
-
-  @override
-  String get mobileNoSearchResults => 'Nincs találat';
-
-  @override
-  String get mobileAreYouSure => 'Biztos vagy benne?';
-
-  @override
-  String get mobilePuzzleStreakAbortWarning => 'A jelenlegi sorozatod elveszik és az eredményedet rögzítjük.';
-
-  @override
-  String get mobilePuzzleStormNothingToShow => 'Nothing to show. Play some runs of Puzzle Storm.';
-
-  @override
-  String get mobileSharePuzzle => 'Feladvány megosztása';
-
-  @override
-  String get mobileShareGameURL => 'Játszma URL megosztása';
+  String get mobileSettingsTab => 'Beállítás';
 
   @override
   String get mobileShareGamePGN => 'PGN megosztása';
 
   @override
+  String get mobileShareGameURL => 'Játszma URL megosztása';
+
+  @override
   String get mobileSharePositionAsFEN => 'Állás megosztása FEN-ként';
 
   @override
-  String get mobileShowVariations => 'Változatok megjelenítése';
-
-  @override
-  String get mobileHideVariation => 'Változatok elrejtése';
+  String get mobileSharePuzzle => 'Feladvány megosztása';
 
   @override
   String get mobileShowComments => 'Megjegyzések megjelenítése';
 
   @override
-  String get mobilePuzzleStormConfirmEndRun => 'Befejezed a futamot?';
+  String get mobileShowResult => 'Eredmény mutatása';
 
   @override
-  String get mobilePuzzleStormFilterNothingToShow => 'Nincs megjeleníthető elem, változtasd meg a szűrőket';
-
-  @override
-  String get mobileCancelTakebackOffer => 'Visszalépés kérésének visszavonása';
-
-  @override
-  String get mobileWaitingForOpponentToJoin => 'Várakozás az ellenfél csatlakozására...';
-
-  @override
-  String get mobileBlindfoldMode => 'Vakjátszma mód';
-
-  @override
-  String get mobileLiveStreamers => 'Lichess streamerek';
-
-  @override
-  String get mobileCustomGameJoinAGame => 'Csatlakozás játszmához';
-
-  @override
-  String get mobileCorrespondenceClearSavedMove => 'Mentett lépés törlése';
+  String get mobileShowVariations => 'Változatok megjelenítése';
 
   @override
   String get mobileSomethingWentWrong => 'Hiba történt.';
 
   @override
-  String get mobileShowResult => 'Eredmény mutatása';
+  String get mobileSystemColors => 'Rendszerszínek';
 
   @override
-  String get mobilePuzzleThemesSubtitle => 'Oldj feladványokat kedvenc megnyitásaid kapcsán vagy válassz egy tematikát.';
+  String get mobileTheme => 'Theme';
 
   @override
-  String get mobilePuzzleStormSubtitle => 'Oldd meg a lehető legtöbb feladványt 3 perc alatt.';
+  String get mobileToolsTab => 'Eszközök';
 
   @override
-  String mobileGreeting(String param) {
-    return 'Üdv $param!';
-  }
+  String get mobileWaitingForOpponentToJoin => 'Várakozás az ellenfél csatlakozására...';
 
   @override
-  String get mobileGreetingWithoutName => 'Üdv';
-
-  @override
-  String get mobilePrefMagnifyDraggedPiece => 'Mozdított bábu nagyítása';
+  String get mobileWatchTab => 'Néznivaló';
 
   @override
   String get activityActivity => 'Aktivitás';
@@ -390,12 +390,6 @@ class AppLocalizationsHu extends AppLocalizations {
   String get broadcastUpcoming => 'Közelgő';
 
   @override
-  String get broadcastCompleted => 'Befejeződött';
-
-  @override
-  String get broadcastCompletedHelp => 'Lichess detects round completion, but can get it wrong. Use this to set it manually.';
-
-  @override
   String get broadcastRoundName => 'Forduló neve';
 
   @override
@@ -472,13 +466,13 @@ class AppLocalizationsHu extends AppLocalizations {
   String get broadcastTop10Rating => 'Top 10 rating';
 
   @override
-  String get broadcastFidePlayers => 'FIDE players';
+  String get broadcastFidePlayers => 'FIDE játékosok';
 
   @override
   String get broadcastFidePlayerNotFound => 'FIDE player not found';
 
   @override
-  String get broadcastFideProfile => 'FIDE profile';
+  String get broadcastFideProfile => 'FIDE profil';
 
   @override
   String get broadcastFederation => 'Federation';
@@ -536,6 +530,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get broadcastStandings => 'Standings';
 
   @override
+  String get broadcastOfficialStandings => 'Official Standings';
+
+  @override
   String broadcastIframeHelp(String param) {
     return 'More options on the $param';
   }
@@ -564,6 +561,39 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get broadcastScore => 'Score';
+
+  @override
+  String get broadcastAllTeams => 'All teams';
+
+  @override
+  String get broadcastTournamentFormat => 'Tournament format';
+
+  @override
+  String get broadcastTournamentLocation => 'Tournament Location';
+
+  @override
+  String get broadcastTopPlayers => 'Top players';
+
+  @override
+  String get broadcastTimezone => 'Time zone';
+
+  @override
+  String get broadcastFideRatingCategory => 'FIDE rating category';
+
+  @override
+  String get broadcastOptionalDetails => 'Optional details';
+
+  @override
+  String get broadcastPastBroadcasts => 'Past broadcasts';
+
+  @override
+  String get broadcastAllBroadcastsByMonth => 'View all broadcasts by month';
+
+  @override
+  String get broadcastBackToLiveMove => 'Back to live move';
+
+  @override
+  String get broadcastSinceHideResults => 'Since you chose to hide the results, all the preview boards are empty to avoid spoilers.';
 
   @override
   String broadcastNbBroadcasts(int count) {
@@ -835,6 +865,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get preferencesInGameOnly => 'Csak játék közben';
 
   @override
+  String get preferencesExceptInGame => 'Except in-game';
+
+  @override
   String get preferencesChessClock => 'Sakkóra';
 
   @override
@@ -974,6 +1007,9 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get preferencesBellNotificationSound => 'Hangjelzés';
+
+  @override
+  String get preferencesBlindfold => 'Vakjátszma mód';
 
   @override
   String get puzzlePuzzles => 'Feladványok';
@@ -1429,6 +1465,18 @@ class AppLocalizationsHu extends AppLocalizations {
   String get puzzleThemeIntermezzoDescription => 'A várt lépés megtétele helyett egy olyan lépés beszúrása, amely fenyegetésére az ellenfélnek rögtön válaszolnia kell. Ismert még \"Zwischenzug\"-nak vagy \"Intermezzo\"-nak.';
 
   @override
+  String get puzzleThemeKillBoxMate => 'Kill box mate';
+
+  @override
+  String get puzzleThemeKillBoxMateDescription => 'A rook is next to the enemy king and supported by a queen that also blocks the king\'s escape squares. The rook and the queen catch the enemy king in a 3 by 3 \"kill box\".';
+
+  @override
+  String get puzzleThemeVukovicMate => 'Vukovic mate';
+
+  @override
+  String get puzzleThemeVukovicMateDescription => 'A rook and knight team up to mate the king. The rook delivers mate while supported by a third piece, and the knight is used to block the king\'s escape squares.';
+
+  @override
   String get puzzleThemeKnightEndgame => 'Huszár végjáték';
 
   @override
@@ -1644,16 +1692,13 @@ class AppLocalizationsHu extends AppLocalizations {
   String get settingsManagedAccountCannotBeClosed => 'A felhasználói fiókod felügyelet alatt áll, ezért nem zárolható.';
 
   @override
-  String get settingsClosingIsDefinitive => 'A fiók törlése végleges. Nem lehet visszavonni. Biztos vagy benne?';
-
-  @override
   String get settingsCantOpenSimilarAccount => 'Nem fogsz tudni új fiókot nyitni ugyanezzel a névvel, még eltérő kis- és nagybetűkkel sem.';
 
   @override
-  String get settingsChangedMindDoNotCloseAccount => 'Meggondoltam magam, mégsem zárolom a fiókomat';
+  String get settingsCancelKeepAccount => 'Cancel and keep my account';
 
   @override
-  String get settingsCloseAccountExplanation => 'Biztos, hogy zárolni akarod a fiókod? A döntés végleges és visszavonhatatlan. Nem fogsz tudni belépni SOHA TÖBBÉ.';
+  String get settingsCloseAccountAreYouSure => 'Are you sure you want to close your account?';
 
   @override
   String get settingsThisAccountIsClosed => 'Ez a fiók zárolva van.';
@@ -1674,7 +1719,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get waitingForOpponent => 'Várakozás az ellenfélre';
 
   @override
-  String get orLetYourOpponentScanQrCode => 'Ellenfeled az itt látható QR-kód beolvasásával is csatlakozhat.';
+  String get orLetYourOpponentScanQrCode => 'Ellenfeled az itt látható QR-kód beolvasásával is csatlakozhat';
 
   @override
   String get waiting => 'Várakozás';
@@ -1991,9 +2036,6 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get byCPL => 'CPL';
-
-  @override
-  String get openStudy => 'Tanulmány megnyitása';
 
   @override
   String get enable => 'Engedélyezve';
@@ -2663,9 +2705,6 @@ class AppLocalizationsHu extends AppLocalizations {
   String get unblock => 'Letiltás feloldása';
 
   @override
-  String get followsYou => 'Követ téged';
-
-  @override
   String xStartedFollowingY(String param1, String param2) {
     return '$param1 $param2 követője lett';
   }
@@ -2789,7 +2828,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get blackWins => 'Sötét győzelmek';
 
   @override
-  String get drawRate => 'Döntetlenek aránya:';
+  String get drawRate => 'Döntetlenek aránya';
 
   @override
   String get draws => 'Döntetlenek';
@@ -2904,7 +2943,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get bewareTheGameIsRatedButHasNoClock => 'A játszma értékelt, de nincs időmérés!';
 
   @override
-  String get success => 'Sikerült!';
+  String get success => 'Sikerült';
 
   @override
   String get automaticallyProceedToNextGameAfterMoving => 'Lépés után ugrás a következő játékra';
@@ -2937,10 +2976,10 @@ class AppLocalizationsHu extends AppLocalizations {
   String get yes => 'Igen';
 
   @override
-  String get website => 'Website';
+  String get website => 'Weboldal';
 
   @override
-  String get mobile => 'Mobile';
+  String get mobile => 'Mobil';
 
   @override
   String get help => 'Segítség';
@@ -3003,7 +3042,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get reportUsernameHelp => 'Explain what about this username is offensive. Don\'t just say \"it\'s offensive/inappropriate\", but tell us how you came to this conclusion, especially if the insult is obfuscated, not in english, is in slang, or is a historical/cultural reference.';
 
   @override
-  String get reportProcessedFasterInEnglish => 'Your report will be processed faster if written in English.';
+  String get reportProcessedFasterInEnglish => 'A jelentésedet hamarabb feldolgozzák, ha angolul írod.';
 
   @override
   String get error_provideOneCheatedGameLink => 'Kérünk, legalább adj meg linket legalább egy csalt játszmához.';
@@ -3106,7 +3145,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get outsideTheBoard => 'A táblán kívül';
 
   @override
-  String get allSquaresOfTheBoard => 'All squares of the board';
+  String get allSquaresOfTheBoard => 'A tábla minden mezőjében';
 
   @override
   String get onSlowGames => 'Lassú játékok esetén';
@@ -3344,7 +3383,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get aboutSimul => 'A szimultán játékban egy játékos játszik több ellen.';
 
   @override
-  String get aboutSimulImage => '50 ellenfél ellen, Fisher 47-szer nyert, kétszer játszott döntetlent és egyszer vesztett';
+  String get aboutSimulImage => '50 ellenfél ellen, Fischer 47-szer nyert, kétszer játszott döntetlent és egyszer vesztett.';
 
   @override
   String get aboutSimulRealLife => 'Ez a fejlesztés a való életre alapoz, ahol a szimultán játékos táblától tábláig megy és egy lépést tesz.';
@@ -3479,7 +3518,7 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String yourPerfTypeRatingIsRating(String param1, String param2) {
-    return 'A te $param1 pontszámod $param2';
+    return 'A te $param1 pontszámod $param2.';
   }
 
   @override
@@ -3522,12 +3561,12 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String weHaveSentYouAnEmailTo(String param) {
-    return 'Üzenetet küldtünk a(z) $param e-mail-címre.   \nJelszavad megváltoztatásához kattints az üzenetben lévő linkre.';
+    return 'Üzenetet küldtünk a(z) $param e-mail-címre.\nJelszavad megváltoztatásához kattints az üzenetben lévő linkre.';
   }
 
   @override
   String byRegisteringYouAgreeToBeBoundByOur(String param) {
-    return 'A regisztrációval elfogadod a $param-t';
+    return 'A regisztrációval elfogadod a $param-t.';
   }
 
   @override
@@ -3628,7 +3667,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get zeroAdvertisement => 'Nincsenek hirdetések';
 
   @override
-  String get fullFeatured => 'Teljeskörű funkciók';
+  String get fullFeatured => 'Teljes körű funkciók';
 
   @override
   String get phoneAndTablet => 'Telefon vagy táblagép';
@@ -3647,6 +3686,9 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String get followAndChallengeFriends => 'Kövesd és hívd ki  a barátaidat';
+
+  @override
+  String get noChallenges => 'No challenges.';
 
   @override
   String get gameAnalysis => 'Játék elemzés';
@@ -3912,13 +3954,13 @@ class AppLocalizationsHu extends AppLocalizations {
   String get showUnreadLichessMessage => 'Üzeneted jött Lichesstől!';
 
   @override
-  String get clickHereToReadIt => 'Katt ide az olvasáshoz';
+  String get clickHereToReadIt => 'Kattints ide az olvasáshoz';
 
   @override
   String get sorry => 'Sajnáljuk';
 
   @override
-  String get weHadToTimeYouOutForAWhile => 'Kénytelenek vagyunk egy kis időre visszatartani.';
+  String get weHadToTimeYouOutForAWhile => 'Kénytelenek vagyunk egy kis időre kizárni.';
 
   @override
   String get why => 'Miért?';
@@ -4052,7 +4094,7 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String joinTheTeamXToPost(String param1) {
-    return 'Csatlakozz $param1 csapathoz, hogy írhass ebbe a fórumba.';
+    return 'Csatlakozz $param1 csapathoz, hogy írhass ebbe a fórumba';
   }
 
   @override
@@ -4244,19 +4286,13 @@ class AppLocalizationsHu extends AppLocalizations {
   String get reopenYourAccount => 'Fiók újranyitása';
 
   @override
-  String get closedAccountChangedMind => 'Ha lezártad a fiókod, de azóta meggondoltad magad, van egy lehetőséged visszakapni a régi fiókod.';
-
-  @override
-  String get onlyWorksOnce => 'Ez csak egyszer működik.';
-
-  @override
-  String get cantDoThisTwice => 'Ha lezárod a fiókod másodszor is, utána már nincs lehetőség a visszaállításra.';
+  String get reopenYourAccountDescription => 'If you closed your account, but have since changed your mind, you get a chance of getting your account back.';
 
   @override
   String get emailAssociatedToaccount => 'A fiókhoz rendelt email cím';
 
   @override
-  String get sentEmailWithLink => 'Küldtünk neked egy linket emailben.';
+  String get sentEmailWithLink => 'Küldtünk neked egy linket e-mailben.';
 
   @override
   String get tournamentEntryCode => 'Verseny belépési kód';
@@ -4345,6 +4381,17 @@ class AppLocalizationsHu extends AppLocalizations {
   }
 
   @override
+  String numberBlunders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Súlyos hiba',
+      one: '$count Súlyos hiba',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbMistakes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -4356,12 +4403,34 @@ class AppLocalizationsHu extends AppLocalizations {
   }
 
   @override
+  String numberMistakes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Hiba',
+      one: '$count Hiba',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbInaccuracies(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: '$count pontatlanság',
       one: '$count pontatlanság',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberInaccuracies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Pontatlanság',
+      one: '$count Pontatlanság',
     );
     return '$_temp0';
   }
@@ -5083,6 +5152,9 @@ class AppLocalizationsHu extends AppLocalizations {
   String get studyPlaying => 'Folyamatban';
 
   @override
+  String get studyShowResults => 'Results';
+
+  @override
   String get studyShowEvalBar => 'Evaluation bars';
 
   @override
@@ -5425,6 +5497,11 @@ class AppLocalizationsHu extends AppLocalizations {
   String get studyYouCompletedThisLesson => 'Gratulálok! A fejezet végére értél.';
 
   @override
+  String studyPerPage(String param) {
+    return '$param per page';
+  }
+
+  @override
   String studyNbChapters(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -5464,6 +5541,180 @@ class AppLocalizationsHu extends AppLocalizations {
       locale: localeName,
       other: 'Illeszd be a PGN szövegét (legfeljebb $count játszma)',
       one: 'Illeszd be a PGN szövegét legfeljebb $count játszmáig',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeagoJustNow => 'épp most';
+
+  @override
+  String get timeagoRightNow => 'épp most';
+
+  @override
+  String get timeagoCompleted => 'befejeződött';
+
+  @override
+  String timeagoInNbSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count másodperc múlva',
+      one: '$count másodperc múlva',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count perc múlva',
+      one: '$count perc múlva',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count óra múlva',
+      one: '$count óra múlva',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count nap múlva',
+      one: '$count nap múlva',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hét múlva',
+      one: '$count hét múlva',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hónap múlva',
+      one: '$count hónap múlva',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count év múlva',
+      one: '$count év múlva',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count perce',
+      one: '$count perce',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count órája',
+      one: '$count órája',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count napja',
+      one: '$count napja',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbWeeksAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hete',
+      one: '$count hete',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hónapja',
+      one: '$count hónapja',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éve',
+      one: '$count éve',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count perc van hátra',
+      one: '$count perc van hátra',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count óra van hátra',
+      one: '$count óra van hátra',
     );
     return '$_temp0';
   }

@@ -16,14 +16,13 @@ import 'package:lichess_mobile/src/widgets/platform_scaffold.dart';
 class LoadPositionScreen extends StatelessWidget {
   const LoadPositionScreen({super.key});
 
+  static Route<dynamic> buildRoute(BuildContext context) {
+    return buildScreenRoute(context, screen: const LoadPositionScreen());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
-      appBar: PlatformAppBar(
-        title: Text(context.l10n.loadPosition),
-      ),
-      body: const _Body(),
-    );
+    return PlatformScaffold(appBarTitle: Text(context.l10n.loadPosition), body: const _Body());
   }
 }
 
@@ -81,29 +80,24 @@ class _BodyState extends State<_Body> {
               children: [
                 FatButton(
                   semanticsLabel: context.l10n.analysis,
-                  onPressed: parsedInput != null
-                      ? () => pushPlatformRoute(
+                  onPressed:
+                      parsedInput != null
+                          ? () => Navigator.of(
                             context,
                             rootNavigator: true,
-                            builder: (context) => AnalysisScreen(
-                              pgnOrId: parsedInput!.pgn,
-                              options: parsedInput!.options,
-                            ),
-                          )
-                      : null,
+                          ).push(AnalysisScreen.buildRoute(context, parsedInput!.options))
+                          : null,
                   child: Text(context.l10n.analysis),
                 ),
                 const SizedBox(height: 16.0),
                 FatButton(
                   semanticsLabel: context.l10n.boardEditor,
-                  onPressed: parsedInput != null
-                      ? () => pushPlatformRoute(
-                            context,
-                            rootNavigator: true,
-                            builder: (context) =>
-                                BoardEditorScreen(initialFen: parsedInput!.fen),
+                  onPressed:
+                      parsedInput != null
+                          ? () => Navigator.of(context, rootNavigator: true).push(
+                            BoardEditorScreen.buildRoute(context, initialFen: parsedInput!.fen),
                           )
-                      : null,
+                          : null,
                   child: Text(context.l10n.boardEditor),
                 ),
               ],
@@ -121,7 +115,7 @@ class _BodyState extends State<_Body> {
     }
   }
 
-  ({String pgn, String fen, AnalysisOptions options})? get parsedInput {
+  ({String fen, AnalysisOptions options})? get parsedInput {
     if (textInput == null || textInput!.trim().isEmpty) {
       return null;
     }
@@ -130,16 +124,17 @@ class _BodyState extends State<_Body> {
     try {
       final pos = Chess.fromSetup(Setup.parseFen(textInput!.trim()));
       return (
-        pgn: '[FEN "${pos.fen}"]',
         fen: pos.fen,
-        options: const AnalysisOptions(
-          isLocalEvaluationAllowed: true,
-          variant: Variant.standard,
+        options: AnalysisOptions(
           orientation: Side.white,
-          id: standaloneAnalysisId,
-        )
+          standalone: (
+            pgn: '[FEN "${pos.fen}"]',
+            isComputerAnalysisAllowed: true,
+            variant: Variant.standard,
+          ),
+        ),
       );
-    } catch (_, __) {}
+    } catch (_) {}
 
     // try to parse as PGN
     try {
@@ -161,17 +156,18 @@ class _BodyState extends State<_Body> {
       );
 
       return (
-        pgn: textInput!,
         fen: lastPosition.fen,
         options: AnalysisOptions(
-          isLocalEvaluationAllowed: true,
-          variant: rule != null ? Variant.fromRule(rule) : Variant.standard,
-          initialMoveCursor: mainlineMoves.isEmpty ? 0 : 1,
           orientation: Side.white,
-          id: standaloneAnalysisId,
-        )
+          standalone: (
+            pgn: textInput!,
+            isComputerAnalysisAllowed: true,
+            variant: rule != null ? Variant.fromRule(rule) : Variant.standard,
+          ),
+          initialMoveCursor: mainlineMoves.isEmpty ? 0 : 1,
+        ),
       );
-    } catch (_, __) {}
+    } catch (_) {}
 
     return null;
   }

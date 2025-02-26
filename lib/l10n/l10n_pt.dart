@@ -1,5 +1,5 @@
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'l10n.dart';
 
 // ignore_for_file: type=lint
@@ -9,31 +9,86 @@ class AppLocalizationsPt extends AppLocalizations {
   AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
-  String get mobileHomeTab => 'Início';
+  String get mobileAllGames => 'Todos os jogos';
 
   @override
-  String get mobilePuzzlesTab => 'Problemas';
+  String get mobileAreYouSure => 'Tens a certeza?';
 
   @override
-  String get mobileToolsTab => 'Tools';
+  String get mobileCancelTakebackOffer => 'Cancelar pedido de voltar';
 
   @override
-  String get mobileWatchTab => 'Assistir';
+  String get mobileClearButton => 'Limpar';
 
   @override
-  String get mobileSettingsTab => 'Definições';
+  String get mobileCorrespondenceClearSavedMove => 'Limpar movimento salvo';
 
   @override
-  String get mobileMustBeLoggedIn => 'Tem de iniciar sessão para visualizar esta página.';
-
-  @override
-  String get mobileSystemColors => 'Cores do sistema';
+  String get mobileCustomGameJoinAGame => 'Entrar num jogo';
 
   @override
   String get mobileFeedbackButton => 'Feedback';
 
   @override
+  String mobileGreeting(String param) {
+    return 'Olá, $param';
+  }
+
+  @override
+  String get mobileGreetingWithoutName => 'Olá';
+
+  @override
+  String get mobileHideVariation => 'Ocultar variação';
+
+  @override
+  String get mobileHomeTab => 'Início';
+
+  @override
+  String get mobileLiveStreamers => 'Streamers em direto';
+
+  @override
+  String get mobileMustBeLoggedIn => 'Tem de iniciar sessão para visualizar esta página.';
+
+  @override
+  String get mobileNoSearchResults => 'Sem resultados';
+
+  @override
+  String get mobileNotFollowingAnyUser => 'Não segues nenhum utilizador.';
+
+  @override
   String get mobileOkButton => 'OK';
+
+  @override
+  String mobilePlayersMatchingSearchTerm(String param) {
+    return 'Jogadores com \"$param\"';
+  }
+
+  @override
+  String get mobilePrefMagnifyDraggedPiece => 'Ampliar peça arrastada';
+
+  @override
+  String get mobilePuzzleStormConfirmEndRun => 'Queres terminar esta corrida?';
+
+  @override
+  String get mobilePuzzleStormFilterNothingToShow => 'Nada para mostrar, por favor, altera os filtros';
+
+  @override
+  String get mobilePuzzleStormNothingToShow => 'Nada para mostrar. Joga alguns Puzzle Storm.';
+
+  @override
+  String get mobilePuzzleStormSubtitle => 'Resolve quantos problemas for possível em 3 minutos.';
+
+  @override
+  String get mobilePuzzleStreakAbortWarning => 'Perderas a tua sequência atual e a pontuação será salva.';
+
+  @override
+  String get mobilePuzzleThemesSubtitle => 'Joga problemas das tuas aberturas favoritas, ou escolhe um tema.';
+
+  @override
+  String get mobilePuzzlesTab => 'Problemas';
+
+  @override
+  String get mobileRecentSearches => 'Pesquisas recentes';
 
   @override
   String get mobileSettingsHapticFeedback => 'Feedback tátil';
@@ -45,101 +100,46 @@ class AppLocalizationsPt extends AppLocalizations {
   String get mobileSettingsImmersiveModeSubtitle => 'Ocultar a interface do sistema durante o jogo. Utiliza esta opção se sentires incomodado com os gestos de navegação do sistema nas extremidades do ecrã. Aplica-se aos ecrãs de jogo e do Puzzle Storm.';
 
   @override
-  String get mobileNotFollowingAnyUser => 'Não segues nenhum utilizador.';
-
-  @override
-  String get mobileAllGames => 'Todos os jogos';
-
-  @override
-  String get mobileRecentSearches => 'Pesquisas recentes';
-
-  @override
-  String get mobileClearButton => 'Limpar';
-
-  @override
-  String mobilePlayersMatchingSearchTerm(String param) {
-    return 'Jogadores com \"$param\"';
-  }
-
-  @override
-  String get mobileNoSearchResults => 'Sem resultados';
-
-  @override
-  String get mobileAreYouSure => 'Tens a certeza?';
-
-  @override
-  String get mobilePuzzleStreakAbortWarning => 'Perderas a tua sequência atual e a pontuação será salva.';
-
-  @override
-  String get mobilePuzzleStormNothingToShow => 'Nada para mostrar. Joga alguns Puzzle Storm.';
-
-  @override
-  String get mobileSharePuzzle => 'Partilhar este problema';
-
-  @override
-  String get mobileShareGameURL => 'Partilhar o URL do jogo';
+  String get mobileSettingsTab => 'Definições';
 
   @override
   String get mobileShareGamePGN => 'Partilhar PGN';
 
   @override
+  String get mobileShareGameURL => 'Partilhar o URL do jogo';
+
+  @override
   String get mobileSharePositionAsFEN => 'Partilhar posição como FEN';
 
   @override
-  String get mobileShowVariations => 'Mostrar variações';
-
-  @override
-  String get mobileHideVariation => 'Ocultar variação';
+  String get mobileSharePuzzle => 'Partilhar este problema';
 
   @override
   String get mobileShowComments => 'Mostrar comentários';
 
   @override
-  String get mobilePuzzleStormConfirmEndRun => 'Queres terminar esta corrida?';
+  String get mobileShowResult => 'Mostrar resultado';
 
   @override
-  String get mobilePuzzleStormFilterNothingToShow => 'Nada para mostrar, por favor, altera os filtros';
-
-  @override
-  String get mobileCancelTakebackOffer => 'Cancelar pedido de voltar';
-
-  @override
-  String get mobileWaitingForOpponentToJoin => 'À espera do adversário entrar...';
-
-  @override
-  String get mobileBlindfoldMode => 'De olhos vendados';
-
-  @override
-  String get mobileLiveStreamers => 'Streamers em direto';
-
-  @override
-  String get mobileCustomGameJoinAGame => 'Entrar num jogo';
-
-  @override
-  String get mobileCorrespondenceClearSavedMove => 'Limpar movimento salvo';
+  String get mobileShowVariations => 'Mostrar variações';
 
   @override
   String get mobileSomethingWentWrong => 'Algo deu errado.';
 
   @override
-  String get mobileShowResult => 'Mostrar resultado';
+  String get mobileSystemColors => 'Cores do sistema';
 
   @override
-  String get mobilePuzzleThemesSubtitle => 'Joga problemas das tuas aberturas favoritas, ou escolhe um tema.';
+  String get mobileTheme => 'Tema';
 
   @override
-  String get mobilePuzzleStormSubtitle => 'Resolve quantos problemas for possível em 3 minutos.';
+  String get mobileToolsTab => 'Tools';
 
   @override
-  String mobileGreeting(String param) {
-    return 'Olá, $param';
-  }
+  String get mobileWaitingForOpponentToJoin => 'À espera do adversário entrar...';
 
   @override
-  String get mobileGreetingWithoutName => 'Olá';
-
-  @override
-  String get mobilePrefMagnifyDraggedPiece => 'Ampliar peça arrastada';
+  String get mobileWatchTab => 'Assistir';
 
   @override
   String get activityActivity => 'Atividade';
@@ -390,12 +390,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get broadcastUpcoming => 'Brevemente';
 
   @override
-  String get broadcastCompleted => 'Concluído';
-
-  @override
-  String get broadcastCompletedHelp => 'Lichess deteta a conclusão da ronda baseada nos jogos da fonte. Use essa opção se não houver fonte.';
-
-  @override
   String get broadcastRoundName => 'Nome da ronda';
 
   @override
@@ -536,6 +530,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get broadcastStandings => 'Classificações';
 
   @override
+  String get broadcastOfficialStandings => 'Classificações oficiais';
+
+  @override
   String broadcastIframeHelp(String param) {
     return 'Mais opções na $param';
   }
@@ -564,6 +561,39 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get broadcastScore => 'Pontuação';
+
+  @override
+  String get broadcastAllTeams => 'Todas as equipas';
+
+  @override
+  String get broadcastTournamentFormat => 'Formato do torneio';
+
+  @override
+  String get broadcastTournamentLocation => 'Localização do Torneio';
+
+  @override
+  String get broadcastTopPlayers => 'Melhores jogadores';
+
+  @override
+  String get broadcastTimezone => 'Fuso horário';
+
+  @override
+  String get broadcastFideRatingCategory => 'Categoria do Elo FIDE';
+
+  @override
+  String get broadcastOptionalDetails => 'Detalhes opcionais';
+
+  @override
+  String get broadcastPastBroadcasts => 'Transmissões anteriores';
+
+  @override
+  String get broadcastAllBroadcastsByMonth => 'Ver todas as transmissões por mês';
+
+  @override
+  String get broadcastBackToLiveMove => 'Voltar a posição em direto';
+
+  @override
+  String get broadcastSinceHideResults => 'Como optastes por ocultar os resultados, todas as pré-visualizações dos tabuleiros estão vazias para evitar spoilers.';
 
   @override
   String broadcastNbBroadcasts(int count) {
@@ -835,6 +865,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get preferencesInGameOnly => 'Apenas em Jogo';
 
   @override
+  String get preferencesExceptInGame => 'Exceto em jogo';
+
+  @override
   String get preferencesChessClock => 'Relógio de xadrez';
 
   @override
@@ -974,6 +1007,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get preferencesBellNotificationSound => 'Som da notificação';
+
+  @override
+  String get preferencesBlindfold => 'De olhos vendados';
 
   @override
   String get puzzlePuzzles => 'Problemas';
@@ -1429,6 +1465,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get puzzleThemeIntermezzoDescription => 'Em vez de jogares o movimento esperado, primeiro interpõe outro movimento colocando uma ameaça imediata à qual o oponente deve responder. Também conhecido como \"Zwischenzug\" ou jogada intermédia.';
 
   @override
+  String get puzzleThemeKillBoxMate => 'Mate da caixa';
+
+  @override
+  String get puzzleThemeKillBoxMateDescription => 'Uma torre está ao lado do rei inimigo apoiada por uma dama que também bloqueia as casas de fuga do rei. A torre e a dama apanham o rei inimigo numa “caixa de morte” de 3 por 3.';
+
+  @override
+  String get puzzleThemeVukovicMate => 'Mate de Vukovic';
+
+  @override
+  String get puzzleThemeVukovicMateDescription => 'Uma torre e um cavalo juntam-se para dar xeque-mate ao rei. A torre dá mate apoiada por uma terceira peça, e o cavalo é utilizado para bloquear as casas de fuga do rei.';
+
+  @override
   String get puzzleThemeKnightEndgame => 'Final de cavalo';
 
   @override
@@ -1644,16 +1692,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsManagedAccountCannotBeClosed => 'A sua conta é gerida e não pode ser encerrada.';
 
   @override
-  String get settingsClosingIsDefinitive => 'O encerramento é definitivo. Não podes voltar atrás. Tens a certeza?';
+  String get settingsCantOpenSimilarAccount => 'O nome de utilizador NÃO estará disponível para registo novamente.';
 
   @override
-  String get settingsCantOpenSimilarAccount => 'Não poderá criar uma nova conta com o mesmo nome, mesmo que as maiúsculas ou minúsculas sejam diferentes.';
+  String get settingsCancelKeepAccount => 'Cancelar e manter a minha conta';
 
   @override
-  String get settingsChangedMindDoNotCloseAccount => 'Mudei de ideias, não encerrem a minha conta';
-
-  @override
-  String get settingsCloseAccountExplanation => 'Tens a certeza que queres encerrar sua conta? Encerrar a tua conta é uma decisão permanente. Tu NUNCA MAIS serás capaz de iniciar sessão nesta conta.';
+  String get settingsCloseAccountAreYouSure => 'Tens certeza que desejas encerrar a tua conta?';
 
   @override
   String get settingsThisAccountIsClosed => 'Esta conta foi encerrada.';
@@ -1991,9 +2036,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get byCPL => 'Por CPL';
-
-  @override
-  String get openStudy => 'Abrir estudo';
 
   @override
   String get enable => 'Ativar';
@@ -2626,7 +2668,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get retry => 'Tentar novamente';
 
   @override
-  String get reconnecting => 'Reconectando';
+  String get reconnecting => 'A reconectar';
 
   @override
   String get noNetwork => 'Desligado';
@@ -2661,9 +2703,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get unblock => 'Desbloquear';
-
-  @override
-  String get followsYou => 'Segue-te';
 
   @override
   String xStartedFollowingY(String param1, String param2) {
@@ -3649,6 +3688,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get followAndChallengeFriends => 'Joga e desafia amigos';
 
   @override
+  String get noChallenges => 'Sem desafios.';
+
+  @override
   String get gameAnalysis => 'Análise da partida';
 
   @override
@@ -4244,13 +4286,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get reopenYourAccount => 'Reabrir a sua conta';
 
   @override
-  String get closedAccountChangedMind => 'Se fechou a sua conta mas desde então mudou de ideias, terá uma oportunidade de recuperar a sua conta.';
-
-  @override
-  String get onlyWorksOnce => 'Isto só vai funcionar uma única vez.';
-
-  @override
-  String get cantDoThisTwice => 'Se fechar a conta uma segunda vez, não haverá forma de a recuperar.';
+  String get reopenYourAccountDescription => 'Se fechares a tua conta, mas mudares de ideias, tens uma hipótese de recuperá-la.';
 
   @override
   String get emailAssociatedToaccount => 'Endereço de email associado à conta';
@@ -4345,6 +4381,17 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String numberBlunders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Erros graves',
+      one: '$count Erro grave',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbMistakes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -4356,12 +4403,34 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String numberMistakes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Erros',
+      one: '$count Erro',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbInaccuracies(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: '$count imprecisões',
       one: '$count imprecisão',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberInaccuracies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Imprecisões',
+      one: '$count Imprecisão',
     );
     return '$_temp0';
   }
@@ -5083,6 +5152,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get studyPlaying => 'A ser jogado';
 
   @override
+  String get studyShowResults => 'Resultados';
+
+  @override
   String get studyShowEvalBar => 'Barras de avaliação';
 
   @override
@@ -5425,6 +5497,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get studyYouCompletedThisLesson => 'Parabéns! Completou esta lição.';
 
   @override
+  String studyPerPage(String param) {
+    return '$param por página';
+  }
+
+  @override
   String studyNbChapters(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -5467,6 +5544,180 @@ class AppLocalizationsPt extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get timeagoJustNow => 'agora mesmo';
+
+  @override
+  String get timeagoRightNow => 'agora mesmo';
+
+  @override
+  String get timeagoCompleted => 'concluído';
+
+  @override
+  String timeagoInNbSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count segundos',
+      one: 'em $count segundos',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count minutos',
+      one: 'dentro de $count minutos',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count horas',
+      one: 'em $count hora',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count dias',
+      one: 'em $count dia',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count semanas',
+      one: 'em $count semana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count meses',
+      one: 'em $count mês',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count anos',
+      one: 'em $count ano',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'há $count minutos',
+      one: 'há $count minuto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'há $count horas',
+      one: 'há $count hora',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'há $count dias',
+      one: 'há $count dia',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbWeeksAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'há $count semanas',
+      one: 'há $count semana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'há $count meses',
+      one: 'há $count mês',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'há $count anos',
+      one: 'há $count ano',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutos restantes',
+      one: '$count minuto restante',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count horas restantes',
+      one: '$count hora restante',
+    );
+    return '$_temp0';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -5474,31 +5725,86 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   AppLocalizationsPtBr(): super('pt_BR');
 
   @override
-  String get mobileHomeTab => 'Início';
+  String get mobileAllGames => 'Todos os jogos';
 
   @override
-  String get mobilePuzzlesTab => 'Problemas';
+  String get mobileAreYouSure => 'Você tem certeza?';
 
   @override
-  String get mobileToolsTab => 'Ferramentas';
+  String get mobileCancelTakebackOffer => 'Cancelar oferta de revanche';
 
   @override
-  String get mobileWatchTab => 'Assistir';
+  String get mobileClearButton => 'Limpar';
 
   @override
-  String get mobileSettingsTab => 'Ajustes';
+  String get mobileCorrespondenceClearSavedMove => 'Limpar movimento salvos';
 
   @override
-  String get mobileMustBeLoggedIn => 'Você precisa estar logado para ver essa pagina.';
-
-  @override
-  String get mobileSystemColors => 'Cores do sistema';
+  String get mobileCustomGameJoinAGame => 'Entrar em um jogo';
 
   @override
   String get mobileFeedbackButton => 'Comentários';
 
   @override
+  String mobileGreeting(String param) {
+    return 'Olá, $param';
+  }
+
+  @override
+  String get mobileGreetingWithoutName => 'Olá';
+
+  @override
+  String get mobileHideVariation => 'Ocultar variante forçada';
+
+  @override
+  String get mobileHomeTab => 'Início';
+
+  @override
+  String get mobileLiveStreamers => 'Streamers do Lichess';
+
+  @override
+  String get mobileMustBeLoggedIn => 'Você precisa estar logado para ver essa pagina.';
+
+  @override
+  String get mobileNoSearchResults => 'Sem Resultados';
+
+  @override
+  String get mobileNotFollowingAnyUser => 'Você não está seguindo nenhum usuário.';
+
+  @override
   String get mobileOkButton => 'Ok';
+
+  @override
+  String mobilePlayersMatchingSearchTerm(String param) {
+    return 'Usuários com \"$param\"';
+  }
+
+  @override
+  String get mobilePrefMagnifyDraggedPiece => 'Ampliar peça segurada';
+
+  @override
+  String get mobilePuzzleStormConfirmEndRun => 'Você quer terminar o turno?';
+
+  @override
+  String get mobilePuzzleStormFilterNothingToShow => 'Nada para mostrar aqui, por favor, altere os filtros';
+
+  @override
+  String get mobilePuzzleStormNothingToShow => 'Nada para mostrar aqui. Jogue algumas rodadas da Puzzle Storm.';
+
+  @override
+  String get mobilePuzzleStormSubtitle => 'Resolva quantos quebra-cabeças for possível em 3 minutos.';
+
+  @override
+  String get mobilePuzzleStreakAbortWarning => 'Você perderá a sua sequência atual e sua pontuação será salva.';
+
+  @override
+  String get mobilePuzzleThemesSubtitle => 'Jogue quebra-cabeças de suas aberturas favoritas, ou escolha um tema.';
+
+  @override
+  String get mobilePuzzlesTab => 'Problemas';
+
+  @override
+  String get mobileRecentSearches => 'Pesquisas recentes';
 
   @override
   String get mobileSettingsHapticFeedback => 'Vibrar ao trocar';
@@ -5510,101 +5816,46 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get mobileSettingsImmersiveModeSubtitle => 'Ocultar a “interface” do sistema durante a reprodução. Use isto se você estiver incomodado com gestor de navegação do sistema nas bordas da tela. Aplica-se às telas dos jogos e desafios.';
 
   @override
-  String get mobileNotFollowingAnyUser => 'Você não está seguindo nenhum usuário.';
-
-  @override
-  String get mobileAllGames => 'Todos os jogos';
-
-  @override
-  String get mobileRecentSearches => 'Pesquisas recentes';
-
-  @override
-  String get mobileClearButton => 'Limpar';
-
-  @override
-  String mobilePlayersMatchingSearchTerm(String param) {
-    return 'Usuários com \"$param\"';
-  }
-
-  @override
-  String get mobileNoSearchResults => 'Sem Resultados';
-
-  @override
-  String get mobileAreYouSure => 'Você tem certeza?';
-
-  @override
-  String get mobilePuzzleStreakAbortWarning => 'Você perderá a sua sequência atual e sua pontuação será salva.';
-
-  @override
-  String get mobilePuzzleStormNothingToShow => 'Nada para mostrar aqui. Jogue algumas rodadas da Puzzle Storm.';
-
-  @override
-  String get mobileSharePuzzle => 'Compartilhar este quebra-cabeça';
-
-  @override
-  String get mobileShareGameURL => 'Compartilhar URL do jogo';
+  String get mobileSettingsTab => 'Ajustes';
 
   @override
   String get mobileShareGamePGN => 'Compartilhar PGN';
 
   @override
+  String get mobileShareGameURL => 'Compartilhar URL do jogo';
+
+  @override
   String get mobileSharePositionAsFEN => 'Compartilhar posição como FEN';
 
   @override
-  String get mobileShowVariations => 'Mostrar setas de variantes';
-
-  @override
-  String get mobileHideVariation => 'Ocultar variante forçada';
+  String get mobileSharePuzzle => 'Compartilhar este quebra-cabeça';
 
   @override
   String get mobileShowComments => 'Mostrar comentários';
 
   @override
-  String get mobilePuzzleStormConfirmEndRun => 'Você quer terminar o turno?';
+  String get mobileShowResult => 'Mostrar resultado';
 
   @override
-  String get mobilePuzzleStormFilterNothingToShow => 'Nada para mostrar aqui, por favor, altere os filtros';
-
-  @override
-  String get mobileCancelTakebackOffer => 'Cancelar oferta de revanche';
-
-  @override
-  String get mobileWaitingForOpponentToJoin => 'Esperando por um oponente...';
-
-  @override
-  String get mobileBlindfoldMode => 'Venda';
-
-  @override
-  String get mobileLiveStreamers => 'Streamers do Lichess';
-
-  @override
-  String get mobileCustomGameJoinAGame => 'Entrar em um jogo';
-
-  @override
-  String get mobileCorrespondenceClearSavedMove => 'Limpar movimento salvos';
+  String get mobileShowVariations => 'Mostrar setas de variantes';
 
   @override
   String get mobileSomethingWentWrong => 'Houve algum problema.';
 
   @override
-  String get mobileShowResult => 'Mostrar resultado';
+  String get mobileSystemColors => 'Cores do sistema';
 
   @override
-  String get mobilePuzzleThemesSubtitle => 'Jogue quebra-cabeças de suas aberturas favoritas, ou escolha um tema.';
+  String get mobileTheme => 'Tema';
 
   @override
-  String get mobilePuzzleStormSubtitle => 'Resolva quantos quebra-cabeças for possível em 3 minutos.';
+  String get mobileToolsTab => 'Ferramentas';
 
   @override
-  String mobileGreeting(String param) {
-    return 'Olá, $param';
-  }
+  String get mobileWaitingForOpponentToJoin => 'Esperando por um oponente...';
 
   @override
-  String get mobileGreetingWithoutName => 'Olá';
-
-  @override
-  String get mobilePrefMagnifyDraggedPiece => 'Ampliar peça segurada';
+  String get mobileWatchTab => 'Assistir';
 
   @override
   String get activityActivity => 'Atividade';
@@ -5855,12 +6106,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get broadcastUpcoming => 'Próximos';
 
   @override
-  String get broadcastCompleted => 'Concluído';
-
-  @override
-  String get broadcastCompletedHelp => 'O Lichess detecta o fim da rodada baseado nos jogos fonte. Use essa opção se não houver fonte.';
-
-  @override
   String get broadcastRoundName => 'Nome da rodada';
 
   @override
@@ -6001,6 +6246,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get broadcastStandings => 'Classificação';
 
   @override
+  String get broadcastOfficialStandings => 'Classificação oficial';
+
+  @override
   String broadcastIframeHelp(String param) {
     return 'Mais opções na $param';
   }
@@ -6029,6 +6277,39 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get broadcastScore => 'Pontuação';
+
+  @override
+  String get broadcastAllTeams => 'Todas as equipes';
+
+  @override
+  String get broadcastTournamentFormat => 'Formato do torneio';
+
+  @override
+  String get broadcastTournamentLocation => 'Local do torneio';
+
+  @override
+  String get broadcastTopPlayers => 'Melhores jogadores';
+
+  @override
+  String get broadcastTimezone => 'Fuso horário';
+
+  @override
+  String get broadcastFideRatingCategory => 'Categoria de rating FIDE';
+
+  @override
+  String get broadcastOptionalDetails => 'Detalhes opcionais';
+
+  @override
+  String get broadcastPastBroadcasts => 'Transmissões passadas';
+
+  @override
+  String get broadcastAllBroadcastsByMonth => 'Ver todas as transmissões por mês';
+
+  @override
+  String get broadcastBackToLiveMove => 'Voltar ao lance ao vivo';
+
+  @override
+  String get broadcastSinceHideResults => 'A opção de esconder os resultados deixa todas as prévias de partidas vazias para evitar spoilers.';
 
   @override
   String broadcastNbBroadcasts(int count) {
@@ -6300,6 +6581,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get preferencesInGameOnly => 'Durante partidas';
 
   @override
+  String get preferencesExceptInGame => 'Exceto durante a partida';
+
+  @override
   String get preferencesChessClock => 'Relógio';
 
   @override
@@ -6439,6 +6723,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get preferencesBellNotificationSound => 'Som da notificação';
+
+  @override
+  String get preferencesBlindfold => 'Às cegas';
 
   @override
   String get puzzlePuzzles => 'Quebra-cabeças';
@@ -6894,6 +7181,18 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get puzzleThemeIntermezzoDescription => 'Em vez de jogar o movimento esperado, primeiro realiza outro movimento criando uma ameaça imediata a que o oponente deve responder. Também conhecido como \"Zwischenzug\" ou \"In between\".';
 
   @override
+  String get puzzleThemeKillBoxMate => 'Mate de torre e dama';
+
+  @override
+  String get puzzleThemeKillBoxMateDescription => 'Uma torre fica perto do rei inimigo e é defendida por uma dama que também bloqueia as casas de fuga. A torre e a dama capturam o rei inimigo em uma \"caixa mortal\" de 3 por 3.';
+
+  @override
+  String get puzzleThemeVukovicMate => 'Mate de Vukovic';
+
+  @override
+  String get puzzleThemeVukovicMateDescription => 'Uma torre e um cavalo colocam o rei em xeque. A torre dá xeque-mate protegida por outra peça, e o cavalo bloqueia as casas de fuga do rei.';
+
+  @override
   String get puzzleThemeKnightEndgame => 'Finais de Cavalo';
 
   @override
@@ -7109,16 +7408,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get settingsManagedAccountCannotBeClosed => 'Sua conta é gerenciada, e não pode ser encerrada.';
 
   @override
-  String get settingsClosingIsDefinitive => 'O encerramento é definitivo. Não há como desfazer. Tem certeza?';
-
-  @override
   String get settingsCantOpenSimilarAccount => 'Você não poderá abrir uma nova conta com o mesmo nome, mesmo que alterne entre maiúsculas e minúsculas.';
 
   @override
-  String get settingsChangedMindDoNotCloseAccount => 'Eu mudei de ideia, não encerre minha conta';
+  String get settingsCancelKeepAccount => 'Cancelar e manter minha conta';
 
   @override
-  String get settingsCloseAccountExplanation => 'Tem certeza de que deseja encerrar sua conta? Encerrar sua conta é uma decisão permanente. Você NUNCA MAIS será capaz de entrar com ela novamente.';
+  String get settingsCloseAccountAreYouSure => 'Você tem certeza de que deseja encerrar sua conta?';
 
   @override
   String get settingsThisAccountIsClosed => 'Esta conta foi encerrada.';
@@ -7139,7 +7435,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get waitingForOpponent => 'Aguardando oponente';
 
   @override
-  String get orLetYourOpponentScanQrCode => 'Ou deixe seu oponente ler este QR Code';
+  String get orLetYourOpponentScanQrCode => 'Ou deixe seu oponente ler este código QR';
 
   @override
   String get waiting => 'Aguardando';
@@ -7264,10 +7560,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get blackLeftTheGame => 'Pretas deixaram a partida';
 
   @override
-  String get whiteDidntMove => 'As brancas não se moveram';
+  String get whiteDidntMove => 'Brancas não moveram';
 
   @override
-  String get blackDidntMove => 'As pretas não se moveram';
+  String get blackDidntMove => 'Pretas não moveram';
 
   @override
   String get requestAComputerAnalysis => 'Solicitar uma análise do computador';
@@ -7326,10 +7622,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get deleteFromHere => 'Excluir a partir daqui';
 
   @override
-  String get collapseVariations => 'Esconder variantes';
+  String get collapseVariations => 'Recolher variações';
 
   @override
-  String get expandVariations => 'Mostrar variantes';
+  String get expandVariations => 'Expandir variações';
 
   @override
   String get forceVariation => 'Variante forçada';
@@ -7393,7 +7689,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
-  String get dtzWithRounding => 'DTZ50\" com arredondamento, baseado no número de meias-jogadas até a próxima captura ou jogada de peão';
+  String get dtzWithRounding => 'DTZ50\" com arredondamento, baseado no número de lances até a próxima captura ou movimento de peão';
 
   @override
   String get noGameFound => 'Nenhuma partida encontrada';
@@ -7456,9 +7752,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get byCPL => 'Por erros';
-
-  @override
-  String get openStudy => 'Abrir estudo';
 
   @override
   String get enable => 'Ativar';
@@ -8055,7 +8348,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get continueFromHere => 'Continuar daqui';
 
   @override
-  String get toStudy => 'Estudo';
+  String get toStudy => 'Estudar';
 
   @override
   String get importGame => 'Importar partida';
@@ -8126,9 +8419,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get unblock => 'Desbloquear';
-
-  @override
-  String get followsYou => 'Segue você';
 
   @override
   String xStartedFollowingY(String param1, String param2) {
@@ -8261,7 +8551,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String nextXTournament(String param) {
-    return 'Próximo torneio $param:';
+    return 'Próximo torneio de $param:';
   }
 
   @override
@@ -8529,7 +8819,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get newPasswordStrength => 'Senha forte';
 
   @override
-  String get clockInitialTime => 'Tempo de relógio';
+  String get clockInitialTime => 'Tempo inicial no relógio';
 
   @override
   String get clockIncrement => 'Incremento do relógio';
@@ -9112,6 +9402,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get followAndChallengeFriends => 'Siga e desafie amigos';
+
+  @override
+  String get noChallenges => 'Sem desafios.';
 
   @override
   String get gameAnalysis => 'Análise da partida';
@@ -9709,13 +10002,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get reopenYourAccount => 'Reabra sua conta';
 
   @override
-  String get closedAccountChangedMind => 'Caso você tenha encerrado sua conta, mas mudou de opinião, você tem ainda uma chance de recuperá-la.';
-
-  @override
-  String get onlyWorksOnce => 'Isso só vai funcionar uma vez.';
-
-  @override
-  String get cantDoThisTwice => 'Caso você encerre sua conta pela segunda vez, será impossível recuperá-la.';
+  String get reopenYourAccountDescription => 'Caso tenha encerrado a conta, mas mudou de ideia, você tem a chance de recuperá-la.';
 
   @override
   String get emailAssociatedToaccount => 'Endereço de e-mail associado à conta';
@@ -9810,6 +10097,17 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
+  String numberBlunders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Capivaradas',
+      one: '$count Capivarada',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbMistakes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -9821,12 +10119,34 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   }
 
   @override
+  String numberMistakes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Erros',
+      one: '$count Erro',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbInaccuracies(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: '$count imprecisões',
       one: '$count imprecisão',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberInaccuracies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Imprecisões',
+      one: '$count Imprecisão',
     );
     return '$_temp0';
   }
@@ -9914,7 +10234,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       count,
       locale: localeName,
       other: 'O ranking é atualizado a cada $count minutos',
-      one: 'O ranking é atualizado a cada $count minutos',
+      one: 'O ranking é atualizado a cada $count minuto',
     );
     return '$_temp0';
   }
@@ -10548,6 +10868,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get studyPlaying => 'Jogando';
 
   @override
+  String get studyShowResults => 'Resultados';
+
+  @override
   String get studyShowEvalBar => 'Barras de avaliação';
 
   @override
@@ -10890,6 +11213,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get studyYouCompletedThisLesson => 'Parabéns! Você completou essa lição.';
 
   @override
+  String studyPerPage(String param) {
+    return '$param por página';
+  }
+
+  @override
   String studyNbChapters(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -10929,6 +11257,180 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       locale: localeName,
       other: 'Cole seu texto PGN aqui, até $count jogos',
       one: 'Cole seu texto PGN aqui, até $count jogo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeagoJustNow => 'agora há pouco';
+
+  @override
+  String get timeagoRightNow => 'agora mesmo';
+
+  @override
+  String get timeagoCompleted => 'concluído';
+
+  @override
+  String timeagoInNbSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count segundos',
+      one: 'em $count segundo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count minutos',
+      one: 'em $count minuto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count horas',
+      one: 'em $count hora',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count dias',
+      one: 'em $count dia',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count semanas',
+      one: 'em $count semana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count meses',
+      one: 'em $count mês',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'em $count anos',
+      one: 'em $count ano',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutos atrás',
+      one: '$count minuto atrás',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count horas atrás',
+      one: '$count hora atrás',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count dias atrás',
+      one: '$count dia atrás',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbWeeksAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count semanas atrás',
+      one: '$count semana atrás',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meses atrás',
+      one: '$count mês atrás',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count anos atrás',
+      one: '$count ano atrás',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutos restantes',
+      one: '$count minuto restante',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count horas restantes',
+      one: '$count hora restante',
     );
     return '$_temp0';
   }

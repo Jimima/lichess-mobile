@@ -1,5 +1,5 @@
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'l10n.dart';
 
 // ignore_for_file: type=lint
@@ -9,31 +9,86 @@ class AppLocalizationsRo extends AppLocalizations {
   AppLocalizationsRo([String locale = 'ro']) : super(locale);
 
   @override
-  String get mobileHomeTab => 'Acasă';
+  String get mobileAllGames => 'Toate jocurile';
 
   @override
-  String get mobilePuzzlesTab => 'Puzzle-uri';
+  String get mobileAreYouSure => 'Ești sigur?';
 
   @override
-  String get mobileToolsTab => 'Unelte';
+  String get mobileCancelTakebackOffer => 'Anulați propunerea de revanșă';
 
   @override
-  String get mobileWatchTab => 'Vizionează';
+  String get mobileClearButton => 'Resetare';
 
   @override
-  String get mobileSettingsTab => 'Setări';
+  String get mobileCorrespondenceClearSavedMove => 'Șterge mutarea salvată';
 
   @override
-  String get mobileMustBeLoggedIn => 'Trebuie să te autentifici pentru a accesa această pagină.';
-
-  @override
-  String get mobileSystemColors => 'Culori sistem';
+  String get mobileCustomGameJoinAGame => 'Alătură-te unui joc';
 
   @override
   String get mobileFeedbackButton => 'Feedback';
 
   @override
+  String mobileGreeting(String param) {
+    return 'Salut, $param';
+  }
+
+  @override
+  String get mobileGreetingWithoutName => 'Salut';
+
+  @override
+  String get mobileHideVariation => 'Ascunde variațiile';
+
+  @override
+  String get mobileHomeTab => 'Acasă';
+
+  @override
+  String get mobileLiveStreamers => 'Fluxuri live';
+
+  @override
+  String get mobileMustBeLoggedIn => 'Trebuie să te autentifici pentru a accesa această pagină.';
+
+  @override
+  String get mobileNoSearchResults => 'Niciun rezultat';
+
+  @override
+  String get mobileNotFollowingAnyUser => 'Nu urmărești niciun utilizator.';
+
+  @override
   String get mobileOkButton => 'OK';
+
+  @override
+  String mobilePlayersMatchingSearchTerm(String param) {
+    return 'Jucători cu \"$param\"';
+  }
+
+  @override
+  String get mobilePrefMagnifyDraggedPiece => 'Mărește piesa trasă';
+
+  @override
+  String get mobilePuzzleStormConfirmEndRun => 'Vrei să termini acest run?';
+
+  @override
+  String get mobilePuzzleStormFilterNothingToShow => 'Nimic de afișat, vă rugăm să schimbați filtrele';
+
+  @override
+  String get mobilePuzzleStormNothingToShow => 'Nimic de arătat. Jucați câteva partide de Puzzle Storm.';
+
+  @override
+  String get mobilePuzzleStormSubtitle => 'Rezolvă cât mai multe puzzle-uri în 3 minute.';
+
+  @override
+  String get mobilePuzzleStreakAbortWarning => 'Îți vei pierde streak-ul actual iar scorul va fi salvat.';
+
+  @override
+  String get mobilePuzzleThemesSubtitle => 'Joacă puzzle-uri din deschiderile tale preferate sau alege o temă.';
+
+  @override
+  String get mobilePuzzlesTab => 'Puzzle-uri';
+
+  @override
+  String get mobileRecentSearches => 'Căutări recente';
 
   @override
   String get mobileSettingsHapticFeedback => 'Control tactil';
@@ -45,101 +100,46 @@ class AppLocalizationsRo extends AppLocalizations {
   String get mobileSettingsImmersiveModeSubtitle => 'Ascunde interfața de utilizator a sistemului în timpul jocului. Folosește această opțiune dacă ești deranjat de gesturile de navigare ale sistemului la marginile ecranului. Se aplică pentru ecranele de joc și Puzzle Storm.';
 
   @override
-  String get mobileNotFollowingAnyUser => 'Nu urmărești niciun utilizator.';
-
-  @override
-  String get mobileAllGames => 'Toate jocurile';
-
-  @override
-  String get mobileRecentSearches => 'Căutări recente';
-
-  @override
-  String get mobileClearButton => 'Resetare';
-
-  @override
-  String mobilePlayersMatchingSearchTerm(String param) {
-    return 'Jucători cu \"$param\"';
-  }
-
-  @override
-  String get mobileNoSearchResults => 'Niciun rezultat';
-
-  @override
-  String get mobileAreYouSure => 'Ești sigur?';
-
-  @override
-  String get mobilePuzzleStreakAbortWarning => 'Îți vei pierde streak-ul actual iar scorul va fi salvat.';
-
-  @override
-  String get mobilePuzzleStormNothingToShow => 'Nimic de arătat. Jucați câteva partide de Puzzle Storm.';
-
-  @override
-  String get mobileSharePuzzle => 'Distribuie acest puzzle';
-
-  @override
-  String get mobileShareGameURL => 'Distribuie URL-ul jocului';
+  String get mobileSettingsTab => 'Setări';
 
   @override
   String get mobileShareGamePGN => 'Distribuie PGN';
 
   @override
+  String get mobileShareGameURL => 'Distribuie URL-ul jocului';
+
+  @override
   String get mobileSharePositionAsFEN => 'Distribuie poziția ca FEN';
 
   @override
-  String get mobileShowVariations => 'Arată variațiile';
-
-  @override
-  String get mobileHideVariation => 'Ascunde variațiile';
+  String get mobileSharePuzzle => 'Distribuie acest puzzle';
 
   @override
   String get mobileShowComments => 'Afişează сomentarii';
 
   @override
-  String get mobilePuzzleStormConfirmEndRun => 'Vrei să termini acest run?';
+  String get mobileShowResult => 'Arată rezultatul';
 
   @override
-  String get mobilePuzzleStormFilterNothingToShow => 'Nimic de afișat, vă rugăm să schimbați filtrele';
-
-  @override
-  String get mobileCancelTakebackOffer => 'Anulați propunerea de revanșă';
-
-  @override
-  String get mobileWaitingForOpponentToJoin => 'În așteptarea unui jucător...';
-
-  @override
-  String get mobileBlindfoldMode => 'Legat la ochi';
-
-  @override
-  String get mobileLiveStreamers => 'Fluxuri live';
-
-  @override
-  String get mobileCustomGameJoinAGame => 'Alătură-te unui joc';
-
-  @override
-  String get mobileCorrespondenceClearSavedMove => 'Șterge mutarea salvată';
+  String get mobileShowVariations => 'Arată variațiile';
 
   @override
   String get mobileSomethingWentWrong => 'Ceva nu a mers bine. :(';
 
   @override
-  String get mobileShowResult => 'Arată rezultatul';
+  String get mobileSystemColors => 'Culori sistem';
 
   @override
-  String get mobilePuzzleThemesSubtitle => 'Joacă puzzle-uri din deschiderile tale preferate sau alege o temă.';
+  String get mobileTheme => 'Tema';
 
   @override
-  String get mobilePuzzleStormSubtitle => 'Rezolvă cât mai multe puzzle-uri în 3 minute.';
+  String get mobileToolsTab => 'Unelte';
 
   @override
-  String mobileGreeting(String param) {
-    return 'Salut, $param';
-  }
+  String get mobileWaitingForOpponentToJoin => 'În așteptarea unui jucător...';
 
   @override
-  String get mobileGreetingWithoutName => 'Salut';
-
-  @override
-  String get mobilePrefMagnifyDraggedPiece => 'Mărește piesa trasă';
+  String get mobileWatchTab => 'Vizionează';
 
   @override
   String get activityActivity => 'Activitate';
@@ -381,7 +381,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get broadcastLiveBroadcasts => 'Difuzări de turnee în direct';
 
   @override
-  String get broadcastBroadcastCalendar => 'Broadcast calendar';
+  String get broadcastBroadcastCalendar => 'Calendar de transmisiuni';
 
   @override
   String get broadcastNewBroadcast => 'O nouă difuzare în direct';
@@ -406,12 +406,6 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get broadcastUpcoming => 'Următoare';
-
-  @override
-  String get broadcastCompleted => 'Terminate';
-
-  @override
-  String get broadcastCompletedHelp => 'Lichess detectează finalizarea rundei pe baza jocurilor sursă. Utilizați această comutare dacă nu există nicio sursă.';
 
   @override
   String get broadcastRoundName => 'Numele rundei';
@@ -444,7 +438,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String broadcastStartDateTimeZone(String param) {
-    return 'Start date in the tournament local timezone: $param';
+    return 'Data de start în fusul orar local al turneului: $param';
   }
 
   @override
@@ -517,71 +511,107 @@ class AppLocalizationsRo extends AppLocalizations {
   String get broadcastTeams => 'Echipe';
 
   @override
-  String get broadcastBoards => 'Boards';
+  String get broadcastBoards => 'Table';
 
   @override
-  String get broadcastOverview => 'Overview';
+  String get broadcastOverview => 'Prezentare generală';
 
   @override
-  String get broadcastSubscribeTitle => 'Subscribe to be notified when each round starts. You can toggle bell or push notifications for broadcasts in your account preferences.';
+  String get broadcastSubscribeTitle => 'Abonează-te pentru a fi notificat când începe fiecare rundă. Poți gestiona notificările sonore sau push pentru transmisiuni din setările contului tău.';
 
   @override
-  String get broadcastUploadImage => 'Upload tournament image';
+  String get broadcastUploadImage => 'Încărcați imaginea turneului';
 
   @override
-  String get broadcastNoBoardsYet => 'No boards yet. These will appear once games are uploaded.';
+  String get broadcastNoBoardsYet => 'Încă nu sunt table. Acestea vor apărea după ce partidele vor fi încărcate.';
 
   @override
   String broadcastBoardsCanBeLoaded(String param) {
-    return 'Boards can be loaded with a source or via the $param';
+    return 'Tablele pot fi încărcate dintr-o sursă sau prin intermediul $param';
   }
 
   @override
   String broadcastStartsAfter(String param) {
-    return 'Starts after $param';
+    return 'Începe după $param';
   }
 
   @override
-  String get broadcastStartVerySoon => 'The broadcast will start very soon.';
+  String get broadcastStartVerySoon => 'Transmisiunea va începe foarte curând.';
 
   @override
-  String get broadcastNotYetStarted => 'The broadcast has not yet started.';
+  String get broadcastNotYetStarted => 'Transmisiunea nu a început încă.';
 
   @override
-  String get broadcastOfficialWebsite => 'Official website';
+  String get broadcastOfficialWebsite => 'Website-ul oficial';
 
   @override
   String get broadcastStandings => 'Clasament';
 
   @override
+  String get broadcastOfficialStandings => 'Clasament oficial';
+
+  @override
   String broadcastIframeHelp(String param) {
-    return 'More options on the $param';
+    return 'Mai multe opțiuni pe $param';
   }
 
   @override
-  String get broadcastWebmastersPage => 'webmasters page';
+  String get broadcastWebmastersPage => 'pagina administratorilor de site';
 
   @override
   String broadcastPgnSourceHelp(String param) {
-    return 'A public, real-time PGN source for this round. We also offer a $param for faster and more efficient synchronisation.';
+    return 'O sursă publică de PGN în timp real pentru această rundă. De asemenea, oferim un $param pentru o sincronizare mai rapidă și mai eficientă.';
   }
 
   @override
-  String get broadcastEmbedThisBroadcast => 'Embed this broadcast in your website';
+  String get broadcastEmbedThisBroadcast => 'Încorporează această transmisiune în site-ul tău';
 
   @override
   String broadcastEmbedThisRound(String param) {
-    return 'Embed $param in your website';
+    return 'Încorporează $param în site-ul tău';
   }
 
   @override
-  String get broadcastRatingDiff => 'Rating diff';
+  String get broadcastRatingDiff => 'Diferență rating';
 
   @override
-  String get broadcastGamesThisTournament => 'Games in this tournament';
+  String get broadcastGamesThisTournament => 'Jocuri în acest turneu';
 
   @override
   String get broadcastScore => 'Scor';
+
+  @override
+  String get broadcastAllTeams => 'Toate echipele';
+
+  @override
+  String get broadcastTournamentFormat => 'Format turneu';
+
+  @override
+  String get broadcastTournamentLocation => 'Locație turneu';
+
+  @override
+  String get broadcastTopPlayers => 'Jucători de top';
+
+  @override
+  String get broadcastTimezone => 'Fus orar';
+
+  @override
+  String get broadcastFideRatingCategory => 'Categoria de rating FIDE';
+
+  @override
+  String get broadcastOptionalDetails => 'Detalii opționale';
+
+  @override
+  String get broadcastPastBroadcasts => 'Transmisii anterioare';
+
+  @override
+  String get broadcastAllBroadcastsByMonth => 'Vezi toate transmisiunile pe fiecare lună';
+
+  @override
+  String get broadcastBackToLiveMove => 'Înapoi la mutarea live';
+
+  @override
+  String get broadcastSinceHideResults => 'Din moment ce ai ales să ascunzi rezultatele, toate tablele de previzualizare sunt goale pentru a evita spoilerele.';
 
   @override
   String broadcastNbBroadcasts(int count) {
@@ -854,6 +884,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get preferencesInGameOnly => 'Doar în joc';
 
   @override
+  String get preferencesExceptInGame => 'Exceptând în timpul jocului';
+
+  @override
   String get preferencesChessClock => 'Ceasul de șah';
 
   @override
@@ -993,6 +1026,9 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get preferencesBellNotificationSound => 'Sunet de notificare';
+
+  @override
+  String get preferencesBlindfold => 'Legat la ochi';
 
   @override
   String get puzzlePuzzles => 'Probleme de șah';
@@ -1453,6 +1489,18 @@ class AppLocalizationsRo extends AppLocalizations {
   String get puzzleThemeIntermezzoDescription => 'În loc să faci mutarea așteptată, mai întâi intervii cu o altă mutare care e o amenințare imediată, căreia adversarul trebuie să-i răspundă. Cunoscut și ca \"Zwischenzug\" sau \"In between\".';
 
   @override
+  String get puzzleThemeKillBoxMate => 'Mat în casetă mortală';
+
+  @override
+  String get puzzleThemeKillBoxMateDescription => 'O tură este lingă regele inamic și susținută de o regină care de asemenea blochează pătratele pe unde ar putea evada regele. Tura și regina îl prind pe rege într-o \"casetă mortală\" de 3x3.';
+
+  @override
+  String get puzzleThemeVukovicMate => 'Mat Vukovic';
+
+  @override
+  String get puzzleThemeVukovicMateDescription => 'O tură și un cal fac echipă pentru a da șah mat regelui. Tura dă mat fiind apărată de o a treia piesă iar calul blochează toate căile de scăpare ale regelui.';
+
+  @override
   String get puzzleThemeKnightEndgame => 'Final cu cai';
 
   @override
@@ -1639,7 +1687,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get puzzleThemeZugzwangDescription => 'Adversarul este limitat în mișcările pe care le poate face, iar toate mișcările îi înrăutățesc poziția.';
 
   @override
-  String get puzzleThemeMix => 'Amestec sănătos';
+  String get puzzleThemeMix => 'Mixt';
 
   @override
   String get puzzleThemeMixDescription => 'Un pic din toate. Nu știi la ce să te aștepți, așa că rămâi gata pentru orice! La fel ca în jocurile reale.';
@@ -1668,22 +1716,19 @@ class AppLocalizationsRo extends AppLocalizations {
   String get settingsManagedAccountCannotBeClosed => 'Contul tău este gestionat și nu poate fi închis.';
 
   @override
-  String get settingsClosingIsDefinitive => 'Închiderea este definitivă. Nu există cale de întoarcere. Ești sigur?';
-
-  @override
   String get settingsCantOpenSimilarAccount => 'Nu îți va fi permis să creezi un cont nou cu același nume, indiferent dacă literele sunt minuscule sau majuscule.';
 
   @override
-  String get settingsChangedMindDoNotCloseAccount => 'M-am răzgandit, nu îmi închide contul.';
+  String get settingsCancelKeepAccount => 'Anulează și păstrează contul';
 
   @override
-  String get settingsCloseAccountExplanation => 'Ești sigur că vrei să-ți închizi contul? Închiderea contului este o decizie permanentă. NU te vei mai putea conecta NICIODATĂ.';
+  String get settingsCloseAccountAreYouSure => 'Ești sigur că vrei să închizi contul?';
 
   @override
   String get settingsThisAccountIsClosed => 'Contul este închis.';
 
   @override
-  String get playWithAFriend => 'Jucaţi cu un prieten';
+  String get playWithAFriend => 'Jucați cu un prieten';
 
   @override
   String get playWithTheMachine => 'Jucați cu calculatorul';
@@ -1718,13 +1763,13 @@ class AppLocalizationsRo extends AppLocalizations {
   String get strength => 'Putere';
 
   @override
-  String get toggleTheChat => 'Arată/ascunde discuția';
+  String get toggleTheChat => 'Arată/Ascunde discuţia';
 
   @override
   String get chat => 'Discuţie';
 
   @override
-  String get resign => 'Abandonează';
+  String get resign => 'Renunță';
 
   @override
   String get checkmate => 'Şah mat';
@@ -2017,9 +2062,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get byCPL => 'După CPL';
 
   @override
-  String get openStudy => 'Studiu deschis';
-
-  @override
   String get enable => 'Activează';
 
   @override
@@ -2083,7 +2125,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get currentGames => 'Partide active';
 
   @override
-  String get viewInFullSize => 'Vezi la dimensiune completă';
+  String get viewInFullSize => 'Vezi la dimensiune maximă';
 
   @override
   String get logOut => 'Deconectare';
@@ -2136,7 +2178,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get yesterday => 'Ieri';
 
   @override
-  String get minutesPerSide => 'Minute pe parte';
+  String get minutesPerSide => 'Minute pe fiecare parte';
 
   @override
   String get variant => 'Variantă';
@@ -2178,7 +2220,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get changeUsername => 'Schimbă numele de utilizator';
 
   @override
-  String get changeUsernameNotSame => 'Se poate interschimba din minuscule în majuscule. De exemplu: „johndoe” în „JohnDoe”.';
+  String get changeUsernameNotSame => 'Se poate interschimba doar din minuscule în majuscule. De exemplu: „johndoe” în „JohnDoe”.';
 
   @override
   String get changeUsernameDescription => 'Schimbă-ți numele de utilizator. Această operație poate fi efectuată o singură dată și presupune doar schimbarea literelor din minuscule în majuscule și invers.';
@@ -2265,7 +2307,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get checkSpamFolder => 'De asemenea, verificați folderul de spam, ar putea ajunge acolo. În acel caz, marcați-l ca nefiind spam.';
 
   @override
-  String get emailForSignupHelp => 'Dacă niciuna dintre variantele anterioare nu functioneaza, trimiteți-ne acest email:';
+  String get emailForSignupHelp => 'Dacă niciuna dintre variantele anterioare nu funcționează, trimiteți-ne acest email:';
 
   @override
   String copyTextToEmail(String param) {
@@ -2568,7 +2610,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String xStartedStreaming(String param) {
-    return '$param a început să facă stream';
+    return '$param a pornit stream-ul';
   }
 
   @override
@@ -2620,7 +2662,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get importGame => 'Importați partida';
 
   @override
-  String get importGameExplanation => 'Copiați o partidă în format PGN pentru a putea apoi sa o rejucati, sa cereti o analiză a computerului, sa folositi functia de chat și sa obtineti un URL pentru distribuire.';
+  String get importGameExplanation => 'Lipiți o partidă în format PGN pentru a putea apoi să o rejucați, să cereți o analiză a computerului, să folosiți funcția de chat și să obțineți un URL pentru distribuire.';
 
   @override
   String get importGameCaveat => 'Variațiile vor fi șterse. Pentru a le păstra, importați PGN-ul printr-un studiu.';
@@ -2638,7 +2680,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get captcha_fail => 'Vă rugăm să completați acest puzzle.';
 
   @override
-  String get notACheckmate => 'Nu este sah mat';
+  String get notACheckmate => 'Nu este șah mat';
 
   @override
   String get whiteCheckmatesInOneMove => 'Albele să dea șah mat într-o mutare';
@@ -2685,9 +2727,6 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get unblock => 'Deblocare';
-
-  @override
-  String get followsYou => 'Vă urmărește';
 
   @override
   String xStartedFollowingY(String param1, String param2) {
@@ -3673,6 +3712,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get followAndChallengeFriends => 'Urmărește și provoacă-ți prietenii';
 
   @override
+  String get noChallenges => 'Nicio provocare.';
+
+  @override
   String get gameAnalysis => 'Analiza jocului';
 
   @override
@@ -4268,13 +4310,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get reopenYourAccount => 'Redeschide contul tău';
 
   @override
-  String get closedAccountChangedMind => 'Dacă ți-ai închis contul, dar de atunci te-ai răzgândit, primești o șansă să-ți recuperezi contul.';
-
-  @override
-  String get onlyWorksOnce => 'Acest lucru va funcţiona o singură dată.';
-
-  @override
-  String get cantDoThisTwice => 'Dacă închideți contul de a doua oară, nu va mai exista nicio modalitate de recuperare a acestuia.';
+  String get reopenYourAccountDescription => 'Dacă ți-ai închis contul, dar de atunci te-ai răzgândit, primești o șansă să-ți recuperezi contul.';
 
   @override
   String get emailAssociatedToaccount => 'Adresa de e-mail asociată contului';
@@ -4342,7 +4378,7 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: 'Adversarul tău a părăsit jocul. Poți revendica victoria peste $count secunde.',
       few: 'Adversarul tău a părăsit jocul. Poți revendica victoria peste $count secunde.',
-      one: 'Adversarul tău a părăsit jocul. Poți revendica victoria peste $count secundă.',
+      one: 'Adversarul tău a părăsit jocul. Poți revendica victoria peste o secundă.',
     );
     return '$_temp0';
   }
@@ -4366,7 +4402,19 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count de gafe',
       few: '$count gafe',
-      one: '$count gafă',
+      one: 'o gafă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberBlunders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count De gafe',
+      few: '$count Gafe',
+      one: 'O Gafă',
     );
     return '$_temp0';
   }
@@ -4378,7 +4426,19 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count de greșeli',
       few: '$count greșeli',
-      one: '$count greșeală',
+      one: 'o greșeală',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberMistakes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count De greșeli',
+      few: '$count Greșeli',
+      one: 'O Greșeală',
     );
     return '$_temp0';
   }
@@ -4390,7 +4450,19 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count de inexactități',
       few: '$count inexactități',
-      one: '$count inexactitate',
+      one: 'o inexactitate',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberInaccuracies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count De inexactități',
+      few: '$count Inexactități',
+      one: 'O Inexactitate',
     );
     return '$_temp0';
   }
@@ -4402,7 +4474,7 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count de jucători',
       few: '$count jucători',
-      one: '$count jucător',
+      one: 'un jucător',
     );
     return '$_temp0';
   }
@@ -4414,7 +4486,7 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count de partide',
       few: '$count partide',
-      one: '$count partidă',
+      one: 'o partidă',
     );
     return '$_temp0';
   }
@@ -4438,7 +4510,7 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count marcate',
       few: '$count marcate',
-      one: '$count marcat',
+      one: 'unul marcat',
     );
     return '$_temp0';
   }
@@ -4450,7 +4522,7 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count de zile',
       few: '$count zile',
-      one: '$count zi',
+      one: 'o zi',
     );
     return '$_temp0';
   }
@@ -4462,7 +4534,7 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count de ore',
       few: '$count ore',
-      one: '$count oră',
+      one: 'o oră',
     );
     return '$_temp0';
   }
@@ -4496,9 +4568,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count poziții',
-      few: '$count poziții',
-      one: 'O poziție',
+      other: '$count de probleme șah',
+      few: '$count probleme șah',
+      one: 'O problemă șah',
     );
     return '$_temp0';
   }
@@ -4508,9 +4580,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count partide cu tine',
+      other: '$count de partide cu tine',
       few: '$count partide cu tine',
-      one: '$count partidă cu tine',
+      one: 'o partidă cu tine',
     );
     return '$_temp0';
   }
@@ -4520,9 +4592,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count evaluate',
-      few: '$count evaluate',
-      one: '$count evaluat',
+      other: '$count oficiale',
+      few: '$count oficiale',
+      one: 'Unul oficial',
     );
     return '$_temp0';
   }
@@ -4534,7 +4606,7 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count de victorii',
       few: '$count victorii',
-      one: '$count victorie',
+      one: 'o victorie',
     );
     return '$_temp0';
   }
@@ -4546,7 +4618,7 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count de înfrângeri',
       few: '$count înfrângeri',
-      one: '$count înfrângere',
+      one: 'o înfrângere',
     );
     return '$_temp0';
   }
@@ -4558,7 +4630,7 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count de remize',
       few: '$count remize',
-      one: '$count remiză',
+      one: 'o remiză',
     );
     return '$_temp0';
   }
@@ -4568,9 +4640,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count le joacă',
-      few: '$count le joacă',
-      one: '$count îl joacă',
+      other: '$count de jocuri',
+      few: '$count jocuri',
+      one: 'Un joc',
     );
     return '$_temp0';
   }
@@ -4580,9 +4652,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Acordă $count secunde',
+      other: 'Acordă $count de secunde',
       few: 'Acordă $count secunde',
-      one: 'Acordă $count secundă',
+      one: 'Acordă o secundă',
     );
     return '$_temp0';
   }
@@ -4592,9 +4664,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count puncte de turneu',
+      other: '$count de puncte de turneu',
       few: '$count puncte de turneu',
-      one: '$count punct de turneu',
+      one: 'Un punct de turneu',
     );
     return '$_temp0';
   }
@@ -4616,9 +4688,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count simul',
-      few: '$count simul',
-      one: '$count simul',
+      other: '$count de simul-uri',
+      few: '$count simul-uri',
+      one: 'Un simul',
     );
     return '$_temp0';
   }
@@ -4628,9 +4700,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count partide evaluate',
-      few: '$count meciuri evaluate',
-      one: '$count meci evaluat',
+      other: '$count de partide oficiale jucate',
+      few: '≥ $count partide oficiale',
+      one: '≥ o partidă oficială jucată',
     );
     return '$_temp0';
   }
@@ -4640,9 +4712,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count $param2 partide jucate',
-      few: '$count $param2 meciuri jucate',
-      one: '$count $param2 meci jucat',
+      other: '≥ $count de partide oficiale $param2 jucate',
+      few: '≥ $count partide oficiale $param2 jucate',
+      one: '≥ o partidă $param2 jucată',
     );
     return '$_temp0';
   }
@@ -4664,9 +4736,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Trebuie să joci încă $count meciuri evaluate',
-      few: 'Trebuie să joci încă $count meciuri evaluate',
-      one: 'Trebuie să joci încă $count meci evaluat',
+      other: 'Trebuie să joci încă $count de partide oficiale',
+      few: 'Trebuie să joci încă $count partide oficiale',
+      one: 'Trebuie să joci încă o partidă oficială',
     );
     return '$_temp0';
   }
@@ -4676,9 +4748,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count partide importate',
+      other: '$count de partide importate',
       few: '$count partide importate',
-      one: '$count partidă importată',
+      one: 'O partidă importată',
     );
     return '$_temp0';
   }
@@ -4688,9 +4760,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count prieteni online',
+      other: '$count de prieteni online',
       few: '$count prieteni online',
-      one: '$count prieten online',
+      one: 'Un prieten online',
     );
     return '$_temp0';
   }
@@ -4700,9 +4772,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count urmăritori',
+      other: '$count de urmăritori',
       few: '$count urmăritori',
-      one: '$count urmăritor',
+      one: 'Un urmăritor',
     );
     return '$_temp0';
   }
@@ -4714,7 +4786,7 @@ class AppLocalizationsRo extends AppLocalizations {
       locale: localeName,
       other: '$count urmăriți',
       few: '$count urmăriți',
-      one: '$count urmărit',
+      one: 'Unul urmărit',
     );
     return '$_temp0';
   }
@@ -4724,9 +4796,9 @@ class AppLocalizationsRo extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Mai puțin de $count minute',
+      other: 'Mai puțin de $count de minute',
       few: 'Mai puțin de $count minute',
-      one: 'Mai puțin de $count minut',
+      one: 'Mai puțin de un minut',
     );
     return '$_temp0';
   }
@@ -5151,6 +5223,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String get studyPlaying => 'În desfășurare';
 
   @override
+  String get studyShowResults => 'Rezultate';
+
+  @override
   String get studyShowEvalBar => 'Bară de evaluare';
 
   @override
@@ -5493,6 +5568,11 @@ class AppLocalizationsRo extends AppLocalizations {
   String get studyYouCompletedThisLesson => 'Felicitări! Ai terminat această lecție.';
 
   @override
+  String studyPerPage(String param) {
+    return '$param pe pagină';
+  }
+
+  @override
   String studyNbChapters(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -5536,6 +5616,195 @@ class AppLocalizationsRo extends AppLocalizations {
       other: 'Lipiți textul PGN aici, până la $count meciuri',
       few: 'Lipiți textul PGN aici, până la $count meciuri',
       one: 'Lipiți textul PGN aici, până la $count meci',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeagoJustNow => 'chiar acum';
+
+  @override
+  String get timeagoRightNow => 'chiar acum';
+
+  @override
+  String get timeagoCompleted => 'completat';
+
+  @override
+  String timeagoInNbSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'în $count de secunde',
+      few: 'în $count secunde',
+      one: 'în $count secundă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'în $count de minute',
+      few: 'în $count minute',
+      one: 'în $count minut',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'în $count de ore',
+      few: 'în $count ore',
+      one: 'în $count oră',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'în $count de zile',
+      few: 'în $count zile',
+      one: 'în $count zi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'în $count de săptămâni',
+      few: 'în $count săptămâni',
+      one: 'în $count săptămână',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'în $count de luni',
+      few: 'în $count luni',
+      one: 'în $count lună',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'în $count de ani',
+      few: 'în $count ani',
+      one: 'în $count an',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'cu $count de minute în urmă',
+      few: 'cu $count minute în urmă',
+      one: 'cu $count minut în urmă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'cu $count de ore în urmă',
+      few: 'cu $count ore în urmă',
+      one: 'cu $count oră în urmă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'cu $count de zile în urmă',
+      few: 'cu $count zile în urmă',
+      one: 'cu $count zi în urmă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbWeeksAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'cu $count de săptămâni în urmă',
+      few: 'cu $count săptămâni în urmă',
+      one: 'cu $count săptămână în urmă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'cu $count de luni în urmă',
+      few: 'cu $count luni în urmă',
+      one: 'cu $count lună în urmă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'cu $count de ani în urmă',
+      few: 'cu $count ani în urmă',
+      one: 'cu $count an în urmă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minute rămase',
+      few: '$count minute rămase',
+      one: '$count minut rămas',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ore rămase',
+      few: '$count ore rămase',
+      one: '$count oră rămasă',
     );
     return '$_temp0';
   }

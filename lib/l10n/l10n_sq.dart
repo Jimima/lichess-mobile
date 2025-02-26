@@ -1,5 +1,5 @@
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'l10n.dart';
 
 // ignore_for_file: type=lint
@@ -9,31 +9,86 @@ class AppLocalizationsSq extends AppLocalizations {
   AppLocalizationsSq([String locale = 'sq']) : super(locale);
 
   @override
-  String get mobileHomeTab => 'Kreu';
+  String get mobileAllGames => 'Krejt lojërat';
 
   @override
-  String get mobilePuzzlesTab => 'Puzzles';
+  String get mobileAreYouSure => 'Jeni i sigurt?';
 
   @override
-  String get mobileToolsTab => 'Mjete';
+  String get mobileCancelTakebackOffer => 'Anulojeni ofertën për prapakthim';
 
   @override
-  String get mobileWatchTab => 'Shiheni';
+  String get mobileClearButton => 'Spastroje';
 
   @override
-  String get mobileSettingsTab => 'Rregullime';
+  String get mobileCorrespondenceClearSavedMove => 'Spastroje lëvizjen e ruajtur';
 
   @override
-  String get mobileMustBeLoggedIn => 'Që të shihni këtë faqe, duhet të keni bërë hyrjen në llogari.';
-
-  @override
-  String get mobileSystemColors => 'Ngjyra sistemi';
+  String get mobileCustomGameJoinAGame => 'Merrni pjesë në një lojë';
 
   @override
   String get mobileFeedbackButton => 'Përshtypje';
 
   @override
+  String mobileGreeting(String param) {
+    return 'Tungjatjeta, $param';
+  }
+
+  @override
+  String get mobileGreetingWithoutName => 'Tungjatjeta';
+
+  @override
+  String get mobileHideVariation => 'Fshihe variantin';
+
+  @override
+  String get mobileHomeTab => 'Kreu';
+
+  @override
+  String get mobileLiveStreamers => 'Transmetues drejtpërsëdrejti';
+
+  @override
+  String get mobileMustBeLoggedIn => 'Që të shihni këtë faqe, duhet të keni bërë hyrjen në llogari.';
+
+  @override
+  String get mobileNoSearchResults => 'S’ka përfundime';
+
+  @override
+  String get mobileNotFollowingAnyUser => 'S’ndiqni ndonjë përdorues.';
+
+  @override
   String get mobileOkButton => 'OK';
+
+  @override
+  String mobilePlayersMatchingSearchTerm(String param) {
+    return 'Lojëtarë me “$param”';
+  }
+
+  @override
+  String get mobilePrefMagnifyDraggedPiece => 'Zmadho gurin e tërhequr';
+
+  @override
+  String get mobilePuzzleStormConfirmEndRun => 'Doni të përfundohen ku raund?';
+
+  @override
+  String get mobilePuzzleStormFilterNothingToShow => 'S’ka gjë për t’u shfaqur, ju lutemi, ndryshoni filtrat';
+
+  @override
+  String get mobilePuzzleStormNothingToShow => 'S’ka gjë për shfaqje. Luani ndonjë raund Puzzle Storm.';
+
+  @override
+  String get mobilePuzzleStormSubtitle => 'Zgjidhni sa më shumë puzzle-e të mundeni brenda 3 minutash.';
+
+  @override
+  String get mobilePuzzleStreakAbortWarning => 'You will lose your current streak and your score will be saved.';
+
+  @override
+  String get mobilePuzzleThemesSubtitle => 'Luani puzzle-e nga hapjet tuaja të parapëlqyera, ose zgjidhni një temë.';
+
+  @override
+  String get mobilePuzzlesTab => 'Ushtrime';
+
+  @override
+  String get mobileRecentSearches => 'Kërkime së fundi';
 
   @override
   String get mobileSettingsHapticFeedback => 'Dridhje gjatë lëvizjesh';
@@ -45,101 +100,46 @@ class AppLocalizationsSq extends AppLocalizations {
   String get mobileSettingsImmersiveModeSubtitle => 'Fshihni ndërfaqen e sistemit teksa luani. Përdoreni këtë nëse ju bezdisin gjeste sistemi për lëvizjet në skaje të ekranit. Ka vend për lojëra dhe skena Puzzle Storm.';
 
   @override
-  String get mobileNotFollowingAnyUser => 'S’ndiqni ndonjë përdorues.';
-
-  @override
-  String get mobileAllGames => 'Krejt lojërat';
-
-  @override
-  String get mobileRecentSearches => 'Kërkime së fundi';
-
-  @override
-  String get mobileClearButton => 'Spastroje';
-
-  @override
-  String mobilePlayersMatchingSearchTerm(String param) {
-    return 'Lojëtarë me “$param”';
-  }
-
-  @override
-  String get mobileNoSearchResults => 'S’ka përfundime';
-
-  @override
-  String get mobileAreYouSure => 'Jeni i sigurt?';
-
-  @override
-  String get mobilePuzzleStreakAbortWarning => 'You will lose your current streak and your score will be saved.';
-
-  @override
-  String get mobilePuzzleStormNothingToShow => 'S’ka gjë për shfaqje. Luani ndonjë raund Puzzle Storm.';
-
-  @override
-  String get mobileSharePuzzle => 'Ndajeni këtë ushtrim me të tjerët';
-
-  @override
-  String get mobileShareGameURL => 'Ndani URL loje me të tjerë';
+  String get mobileSettingsTab => 'Rregullime';
 
   @override
   String get mobileShareGamePGN => 'Ndani PGN me të tjerë';
 
   @override
+  String get mobileShareGameURL => 'Ndani URL loje me të tjerë';
+
+  @override
   String get mobileSharePositionAsFEN => 'Tregojuni të tjerëve pozicionin si FEN';
 
   @override
-  String get mobileShowVariations => 'Shfaq variante';
-
-  @override
-  String get mobileHideVariation => 'Fshihe variantin';
+  String get mobileSharePuzzle => 'Ndajeni këtë ushtrim me të tjerët';
 
   @override
   String get mobileShowComments => 'Shfaq komente';
 
   @override
-  String get mobilePuzzleStormConfirmEndRun => 'Doni të përfundohen ku raund?';
+  String get mobileShowResult => 'Shfaq përfundimin';
 
   @override
-  String get mobilePuzzleStormFilterNothingToShow => 'S’ka gjë për t’u shfaqur, ju lutemi, ndryshoni filtrat';
-
-  @override
-  String get mobileCancelTakebackOffer => 'Anulojeni ofertën për prapakthim';
-
-  @override
-  String get mobileWaitingForOpponentToJoin => 'Po pritet që të vijë kundërshtari…';
-
-  @override
-  String get mobileBlindfoldMode => 'Me sytë lidhur';
-
-  @override
-  String get mobileLiveStreamers => 'Transmetues drejtpërsëdrejti';
-
-  @override
-  String get mobileCustomGameJoinAGame => 'Merrni pjesë në një lojë';
-
-  @override
-  String get mobileCorrespondenceClearSavedMove => 'Spastroje lëvizjen e ruajtur';
+  String get mobileShowVariations => 'Shfaq variante';
 
   @override
   String get mobileSomethingWentWrong => 'Diç shkoi ters.';
 
   @override
-  String get mobileShowResult => 'Shfaq përfundimin';
+  String get mobileSystemColors => 'Ngjyra sistemi';
 
   @override
-  String get mobilePuzzleThemesSubtitle => 'Luani puzzle-e nga hapjet tuaja të parapëlqyera, ose zgjidhni një temë.';
+  String get mobileTheme => 'Temë';
 
   @override
-  String get mobilePuzzleStormSubtitle => 'Zgjidhni sa më shumë puzzle-e të mundeni brenda 3 minutash.';
+  String get mobileToolsTab => 'Mjete';
 
   @override
-  String mobileGreeting(String param) {
-    return 'Tungjatjeta, $param';
-  }
+  String get mobileWaitingForOpponentToJoin => 'Po pritet që të vijë kundërshtari…';
 
   @override
-  String get mobileGreetingWithoutName => 'Tungjatjeta';
-
-  @override
-  String get mobilePrefMagnifyDraggedPiece => 'Zmadho gurin e tërhequr';
+  String get mobileWatchTab => 'Shiheni';
 
   @override
   String get activityActivity => 'Aktiviteti';
@@ -390,12 +390,6 @@ class AppLocalizationsSq extends AppLocalizations {
   String get broadcastUpcoming => 'I ardhshëm';
 
   @override
-  String get broadcastCompleted => 'I mbaruar';
-
-  @override
-  String get broadcastCompletedHelp => 'Lichess-i e pikas plotësimin e raundit bazuar në lojërat burim. Përdoreni këtë buton, nëse s’ka burim.';
-
-  @override
   String get broadcastRoundName => 'Emër raundi';
 
   @override
@@ -536,6 +530,9 @@ class AppLocalizationsSq extends AppLocalizations {
   String get broadcastStandings => 'Standings';
 
   @override
+  String get broadcastOfficialStandings => 'Official Standings';
+
+  @override
   String broadcastIframeHelp(String param) {
     return 'Më tepër mundësi te $param';
   }
@@ -566,6 +563,39 @@ class AppLocalizationsSq extends AppLocalizations {
   String get broadcastScore => 'Përfundim';
 
   @override
+  String get broadcastAllTeams => 'Krejt ekipet';
+
+  @override
+  String get broadcastTournamentFormat => 'Format turneu';
+
+  @override
+  String get broadcastTournamentLocation => 'Vendndodhje Turney';
+
+  @override
+  String get broadcastTopPlayers => 'Lojtarët kryesues';
+
+  @override
+  String get broadcastTimezone => 'Zonë kohore';
+
+  @override
+  String get broadcastFideRatingCategory => 'Kategori vlerësimi FIDE';
+
+  @override
+  String get broadcastOptionalDetails => 'Hollësi opsionale';
+
+  @override
+  String get broadcastPastBroadcasts => 'Transmetime të kaluara';
+
+  @override
+  String get broadcastAllBroadcastsByMonth => 'Shihni krejt transmetimet sipas muajsh';
+
+  @override
+  String get broadcastBackToLiveMove => 'Mbrapsht te lëvizja “live”';
+
+  @override
+  String get broadcastSinceHideResults => 'Meqë zgjodhët të fshihen përfundimet, krejt tabelat e paraparjeve janë të zbrazëta, për të shmangur tregime.';
+
+  @override
   String broadcastNbBroadcasts(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -578,11 +608,11 @@ class AppLocalizationsSq extends AppLocalizations {
 
   @override
   String challengeChallengesX(String param1) {
-    return 'Challenges: $param1';
+    return 'Sfida: $param1';
   }
 
   @override
-  String get challengeChallengeToPlay => 'Sfidoni në një lojë';
+  String get challengeChallengeToPlay => 'Sfidoni me një lojë';
 
   @override
   String get challengeChallengeDeclined => 'Sfida u refuzua';
@@ -835,6 +865,9 @@ class AppLocalizationsSq extends AppLocalizations {
   String get preferencesInGameOnly => 'In-game only';
 
   @override
+  String get preferencesExceptInGame => 'Except in-game';
+
+  @override
   String get preferencesChessClock => 'Ora e shahut';
 
   @override
@@ -974,6 +1007,9 @@ class AppLocalizationsSq extends AppLocalizations {
 
   @override
   String get preferencesBellNotificationSound => 'Tingull zileje njoftimesh';
+
+  @override
+  String get preferencesBlindfold => 'Me sytë lidhur';
 
   @override
   String get puzzlePuzzles => 'Ushtrime';
@@ -1429,6 +1465,18 @@ class AppLocalizationsSq extends AppLocalizations {
   String get puzzleThemeIntermezzoDescription => 'Në vend që të luhet lëvizja e pritshme, së pari ndërhyni një lëvizje tjetër që paraqet një kërcënim të menjëhershëm, që kundërshtari duhet t\'i përgjigjet. Njihet gjithashtu si \"Zwischenzug\" ose \"Në mes\".';
 
   @override
+  String get puzzleThemeKillBoxMate => 'Kill box mate';
+
+  @override
+  String get puzzleThemeKillBoxMateDescription => 'A rook is next to the enemy king and supported by a queen that also blocks the king\'s escape squares. The rook and the queen catch the enemy king in a 3 by 3 \"kill box\".';
+
+  @override
+  String get puzzleThemeVukovicMate => 'Mat Vukoviç';
+
+  @override
+  String get puzzleThemeVukovicMateDescription => 'Një torre dhe një kalë bëhen tok për ta kapur mbretin mat. Torrja kryen matin teksa mbështetet nga një gur i tretë dhe kali përdoret për të bllokuar kuti shpëtimi të mbretit.';
+
+  @override
   String get puzzleThemeKnightEndgame => 'Fund loje me kalë';
 
   @override
@@ -1644,16 +1692,13 @@ class AppLocalizationsSq extends AppLocalizations {
   String get settingsManagedAccountCannotBeClosed => 'Llogaria juaj administrohet dhe nuk mund të mbyllet.';
 
   @override
-  String get settingsClosingIsDefinitive => 'Mbyllja është përfundimtare. Nuk ka kthim prapa. A jeni i sigurt?';
-
-  @override
   String get settingsCantOpenSimilarAccount => 'S’do të lejoheni të hapni një llogari të re me të njëjtin emër, edhe nëse ndryshohet një nga shkronjat.';
 
   @override
-  String get settingsChangedMindDoNotCloseAccount => 'Ndryshova mendje, mos e mbyll llogarinë time';
+  String get settingsCancelKeepAccount => 'Anuloje dhe mbaje llogarinë time';
 
   @override
-  String get settingsCloseAccountExplanation => 'Jeni i sigurt se doni të mbyllet llogaria juaj? Mbyllja e llogarisë tuaj është një vendim përfundimtar. S’do të jeni MË KURRË në gjendje të ribëni hyrjen.';
+  String get settingsCloseAccountAreYouSure => 'Jeni i sigurt se doni të mbyllet llogarina juaj?';
 
   @override
   String get settingsThisAccountIsClosed => 'Kjo llogari është e mbyllur';
@@ -1991,9 +2036,6 @@ class AppLocalizationsSq extends AppLocalizations {
 
   @override
   String get byCPL => 'nga CPL';
-
-  @override
-  String get openStudy => 'Studim i hapur';
 
   @override
   String get enable => 'Aktivizoje';
@@ -2661,9 +2703,6 @@ class AppLocalizationsSq extends AppLocalizations {
 
   @override
   String get unblock => 'Zhbllokoje';
-
-  @override
-  String get followsYou => 'Ju ndjek juve';
 
   @override
   String xStartedFollowingY(String param1, String param2) {
@@ -3649,6 +3688,9 @@ class AppLocalizationsSq extends AppLocalizations {
   String get followAndChallengeFriends => 'Ndiqni dhe sfidoni shokë';
 
   @override
+  String get noChallenges => 'No challenges.';
+
+  @override
   String get gameAnalysis => 'Analiza e lojës';
 
   @override
@@ -4244,13 +4286,7 @@ class AppLocalizationsSq extends AppLocalizations {
   String get reopenYourAccount => 'Rihapni llogarinë tuaj';
 
   @override
-  String get closedAccountChangedMind => 'Nëse e mbyllët llogarinë tuaj, por prej atëherë keni ndërruar mendje, mund t’ju jepet një shans për të rimarrë llogarinë tuaj.';
-
-  @override
-  String get onlyWorksOnce => 'Kjo do të funksionojë vetëm një herë.';
-
-  @override
-  String get cantDoThisTwice => 'Nëse e mbyllni llogarinë tuaj për herë të dytë, s’do të ketë mënyrë për ta rimarrë.';
+  String get reopenYourAccountDescription => 'Nëse e mbyllët llogarinë tuaj, por që prej atëhere ndërruat mendje, mund të keni një shans për të rimarrë llogarinë tuaj.';
 
   @override
   String get emailAssociatedToaccount => 'Adresë email përshoqëruar llogarisë';
@@ -4345,6 +4381,17 @@ class AppLocalizationsSq extends AppLocalizations {
   }
 
   @override
+  String numberBlunders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Gafa',
+      one: '$count Gafë',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbMistakes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -4356,12 +4403,34 @@ class AppLocalizationsSq extends AppLocalizations {
   }
 
   @override
+  String numberMistakes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Gabime',
+      one: '$count Gabim',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbInaccuracies(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: '$count pasaktësi',
       one: '$count pasaktësi',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberInaccuracies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Pasaktësi',
+      one: '$count Pasaktësi',
     );
     return '$_temp0';
   }
@@ -5083,6 +5152,9 @@ class AppLocalizationsSq extends AppLocalizations {
   String get studyPlaying => 'Po luhet';
 
   @override
+  String get studyShowResults => 'Përfundime';
+
+  @override
   String get studyShowEvalBar => 'Shtylla vlerësimi';
 
   @override
@@ -5425,6 +5497,11 @@ class AppLocalizationsSq extends AppLocalizations {
   String get studyYouCompletedThisLesson => 'Përgëzime! E mbaruat këtë mësim.';
 
   @override
+  String studyPerPage(String param) {
+    return '$param për faqe';
+  }
+
+  @override
   String studyNbChapters(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -5464,6 +5541,180 @@ class AppLocalizationsSq extends AppLocalizations {
       locale: localeName,
       other: 'Hidhni këtu tekstin e PGN-s tuaj, deri në $count lojëra',
       one: 'Hidhni këtu tekstin e PGN-s tuaj, deri në $count lojë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeagoJustNow => 'tani';
+
+  @override
+  String get timeagoRightNow => 'pikërisht tani';
+
+  @override
+  String get timeagoCompleted => 'mbaroi';
+
+  @override
+  String timeagoInNbSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pas $count sekondave',
+      one: 'në $count sekondë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pas $count minutave',
+      one: 'në $count minutë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'në $count orë',
+      one: 'në $count orë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pas $count ditëve',
+      one: 'në $count ditë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pas $count javë',
+      one: 'në $count javë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pas $count muajve',
+      one: 'në $count muaj',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pas $count viteve',
+      one: 'në $count vit',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'para $count minutave',
+      one: '$count minutë më parë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'para $count orëve',
+      one: '$count orë më parë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'para $count ditëve',
+      one: '$count ditë më parë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbWeeksAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'para $count jave',
+      one: '$count javë më parë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'para $count muajve',
+      one: '$count muaj më parë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'para $count viteve',
+      one: '$count vit më parë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Edhe $count minuta',
+      one: 'Edhe $count minutë',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Edhe $count orë',
+      one: 'Edhe $count orë',
     );
     return '$_temp0';
   }

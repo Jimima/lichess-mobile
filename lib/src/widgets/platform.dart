@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lichess_mobile/src/constants.dart';
@@ -5,11 +6,7 @@ import 'package:lichess_mobile/src/styles/styles.dart';
 
 /// A simple widget that builds different things on different platforms.
 class PlatformWidget extends StatelessWidget {
-  const PlatformWidget({
-    super.key,
-    required this.androidBuilder,
-    required this.iosBuilder,
-  });
+  const PlatformWidget({super.key, required this.androidBuilder, required this.iosBuilder});
 
   final WidgetBuilder androidBuilder;
   final WidgetBuilder iosBuilder;
@@ -28,10 +25,7 @@ class PlatformWidget extends StatelessWidget {
   }
 }
 
-typedef ConsumerWidgetBuilder = Widget Function(
-  BuildContext context,
-  WidgetRef ref,
-);
+typedef ConsumerWidgetBuilder = Widget Function(BuildContext context, WidgetRef ref);
 
 /// A widget that builds different things on different platforms with riverpod.
 class ConsumerPlatformWidget extends StatelessWidget {
@@ -72,6 +66,7 @@ class PlatformCard extends StatelessWidget {
     this.color,
     this.shadowColor,
     this.clipBehavior,
+    this.filled = false,
   });
 
   final Widget child;
@@ -81,6 +76,9 @@ class PlatformCard extends StatelessWidget {
   final Color? color;
   final Color? shadowColor;
   final Clip? clipBehavior;
+
+  /// Whether the card should be filled. Only on android.
+  final bool filled;
 
   /// The empty space that surrounds the card.
   ///
@@ -94,39 +92,31 @@ class PlatformCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: kCardTextScaleFactor,
-      child: Theme.of(context).platform == TargetPlatform.iOS
-          ? Card(
-              margin: margin ?? EdgeInsets.zero,
-              elevation: elevation ?? 0,
-              color: color ?? Styles.cupertinoCardColor.resolveFrom(context),
-              shadowColor: shadowColor,
-              shape: borderRadius != null
-                  ? RoundedRectangleBorder(
-                      borderRadius: borderRadius!,
-                    )
-                  : const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    ),
-              semanticContainer: semanticContainer,
-              clipBehavior: clipBehavior,
-              child: child,
-            )
-          : Card(
-              shape: borderRadius != null
-                  ? RoundedRectangleBorder(
-                      borderRadius: borderRadius!,
-                    )
-                  : const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                    ),
-              color: color,
-              shadowColor: shadowColor,
-              semanticContainer: semanticContainer,
-              elevation: elevation,
-              margin: margin,
-              clipBehavior: clipBehavior,
-              child: child,
-            ),
+      child: (filled ? Card.filled : Card.new)(
+        shape:
+            borderRadius != null
+                ? RoundedRectangleBorder(borderRadius: borderRadius!)
+                : const RoundedRectangleBorder(borderRadius: Styles.cardBorderRadius),
+        color: color,
+        shadowColor: shadowColor,
+        semanticContainer: semanticContainer,
+        elevation: elevation,
+        margin: margin,
+        clipBehavior: clipBehavior,
+        child: child,
+      ),
+    );
+  }
+}
+
+class PlatformShareIcon extends StatelessWidget {
+  const PlatformShareIcon({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return PlatformWidget(
+      androidBuilder: (_) => const Icon(Icons.share),
+      iosBuilder: (_) => const Icon(CupertinoIcons.share),
     );
   }
 }

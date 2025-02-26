@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:deep_pick/deep_pick.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lichess_mobile/src/model/account/account_repository.dart';
@@ -23,6 +22,7 @@ import 'package:lichess_mobile/src/utils/l10n_context.dart';
 import 'package:lichess_mobile/src/utils/navigation.dart';
 import 'package:lichess_mobile/src/view/game/game_screen.dart';
 import 'package:lichess_mobile/src/view/play/challenge_list_item.dart';
+import 'package:lichess_mobile/src/view/play/common_play_widgets.dart';
 import 'package:lichess_mobile/src/widgets/adaptive_action_sheet.dart';
 import 'package:lichess_mobile/src/widgets/adaptive_choice_picker.dart';
 import 'package:lichess_mobile/src/widgets/buttons.dart';
@@ -30,40 +30,26 @@ import 'package:lichess_mobile/src/widgets/expanded_section.dart';
 import 'package:lichess_mobile/src/widgets/feedback.dart';
 import 'package:lichess_mobile/src/widgets/list.dart';
 import 'package:lichess_mobile/src/widgets/non_linear_slider.dart';
-import 'package:lichess_mobile/src/widgets/platform.dart';
-
-import 'common_play_widgets.dart';
+import 'package:lichess_mobile/src/widgets/platform_scaffold.dart';
 
 enum _ViewMode { create, challenges }
 
-class CreateCustomGameScreen extends StatelessWidget {
+class CreateCustomGameScreen extends StatefulWidget {
   const CreateCustomGameScreen();
 
-  @override
-  Widget build(BuildContext context) {
-    return PlatformWidget(androidBuilder: _buildAndroid, iosBuilder: _buildIos);
-  }
-
-  Widget _buildIos(BuildContext context) {
-    return const CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(),
-      child: _CupertinoBody(),
+  static Route<dynamic> buildRoute(BuildContext context) {
+    return buildScreenRoute(
+      context,
+      screen: const CreateCustomGameScreen(),
+      title: context.l10n.custom,
     );
   }
 
-  Widget _buildAndroid(BuildContext context) {
-    return const _AndroidBody();
-  }
-}
-
-class _AndroidBody extends StatefulWidget {
-  const _AndroidBody();
-
   @override
-  State<_AndroidBody> createState() => _AndroidBodyState();
+  State<CreateCustomGameScreen> createState() => _CreateCustomGameScreenState();
 }
 
-class _AndroidBodyState extends State<_AndroidBody>
+class _CreateCustomGameScreenState extends State<CreateCustomGameScreen>
     with TickerProviderStateMixin {
   late final TabController _tabController;
 
@@ -89,74 +75,20 @@ class _AndroidBodyState extends State<_AndroidBody>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.custom),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: <Widget>[
-            Tab(text: context.l10n.createAGame),
-            Tab(text: context.l10n.mobileCustomGameJoinAGame),
-          ],
-        ),
+    return PlatformScaffold(
+      appBarTitle: Text(context.l10n.custom),
+      appBarBottom: TabBar(
+        controller: _tabController,
+        tabs: <Widget>[
+          Tab(text: context.l10n.createAGame),
+          Tab(text: context.l10n.mobileCustomGameJoinAGame),
+        ],
       ),
       body: TabBarView(
         controller: _tabController,
         children: <Widget>[
           _CreateGameBody(setViewMode: setViewMode),
           _ChallengesBody(setViewMode: setViewMode),
-        ],
-      ),
-    );
-  }
-}
-
-class _CupertinoBody extends StatefulWidget {
-  const _CupertinoBody();
-
-  @override
-  _CupertinoBodyState createState() => _CupertinoBodyState();
-}
-
-class _CupertinoBodyState extends State<_CupertinoBody> {
-  _ViewMode _selectedSegment = _ViewMode.create;
-
-  void setViewMode(_ViewMode mode) {
-    setState(() {
-      _selectedSegment = mode;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: Styles.bodyPadding,
-            child: CupertinoSlidingSegmentedControl<_ViewMode>(
-              groupValue: _selectedSegment,
-              children: {
-                _ViewMode.create: Text(context.l10n.createAGame),
-                _ViewMode.challenges:
-                    Text(context.l10n.mobileCustomGameJoinAGame),
-              },
-              onValueChanged: (_ViewMode? view) {
-                if (view != null) {
-                  setState(() {
-                    _selectedSegment = view;
-                  });
-                }
-              },
-            ),
-          ),
-          Expanded(
-            child: _selectedSegment == _ViewMode.create
-                ? _CreateGameBody(setViewMode: setViewMode)
-                : _ChallengesBody(setViewMode: setViewMode),
-          ),
         ],
       ),
     );
@@ -181,8 +113,7 @@ class _ChallengesBodyState extends ConsumerState<_ChallengesBody> {
   void initState() {
     super.initState();
 
-    socketClient =
-        ref.read(socketPoolProvider).open(Uri(path: '/lobby/socket/v5'));
+    socketClient = ref.read(socketPoolProvider).open(Uri(path: '/lobby/socket/v5'));
 
     _socketSubscription = socketClient.stream.listen((event) {
       switch (event.topic) {
@@ -191,13 +122,10 @@ class _ChallengesBodyState extends ConsumerState<_ChallengesBody> {
           final data = event.data as Map<String, dynamic>;
           final gameFullId = pick(data['id']).asGameFullIdOrThrow();
           if (mounted) {
-            pushPlatformRoute(
+            Navigator.of(
               context,
               rootNavigator: true,
-              builder: (BuildContext context) {
-                return GameScreen(initialGameId: gameFullId);
-              },
-            );
+            ).push(GameScreen.buildRoute(context, initialGameId: gameFullId));
           }
           widget.setViewMode(_ViewMode.create);
 
@@ -222,17 +150,18 @@ class _ChallengesBodyState extends ConsumerState<_ChallengesBody> {
 
     return challengesAsync.when(
       data: (challenges) {
-        final supportedChallenges = challenges
-            .where((challenge) => challenge.variant.isPlaySupported)
-            .toList();
+        final supportedChallenges =
+            challenges.where((challenge) => challenge.variant.isPlaySupported).toList();
         return ListView.separated(
           itemCount: supportedChallenges.length,
-          separatorBuilder: (context, index) =>
-              const PlatformDivider(height: 1, cupertinoHasLeading: true),
+          separatorBuilder:
+              (context, index) =>
+                  Theme.of(context).platform == TargetPlatform.iOS
+                      ? const PlatformDivider(height: 1, cupertinoHasLeading: true)
+                      : const SizedBox.shrink(),
           itemBuilder: (context, index) {
             final challenge = supportedChallenges[index];
-            final isMySeek =
-                UserId.fromUserName(challenge.username) == session?.user.id;
+            final isMySeek = UserId.fromUserName(challenge.username) == session?.user.id;
 
             return CorrespondenceChallengeListItem(
               challenge: challenge,
@@ -241,36 +170,29 @@ class _ChallengesBodyState extends ConsumerState<_ChallengesBody> {
                 name: challenge.username,
                 title: challenge.title,
               ),
-              onPressed: isMySeek
-                  ? null
-                  : session == null
+              onPressed:
+                  isMySeek
+                      ? null
+                      : session == null
                       ? () {
-                          showPlatformSnackbar(
-                            context,
-                            context.l10n.youNeedAnAccountToDoThat,
-                          );
-                        }
+                        showPlatformSnackbar(context, context.l10n.youNeedAnAccountToDoThat);
+                      }
                       : () {
-                          showConfirmDialog<void>(
-                            context,
-                            title: Text(context.l10n.accept),
-                            isDestructiveAction: true,
-                            onConfirm: (_) {
-                              socketClient.send(
-                                'joinSeek',
-                                challenge.id.toString(),
-                              );
-                            },
-                          );
-                        },
-              onCancel: isMySeek
-                  ? () {
-                      socketClient.send(
-                        'cancelSeek',
-                        challenge.id.toString(),
-                      );
-                    }
-                  : null,
+                        showConfirmDialog<void>(
+                          context,
+                          title: Text(context.l10n.accept),
+                          isDestructiveAction: true,
+                          onConfirm: () {
+                            socketClient.send('joinSeek', challenge.id.toString());
+                          },
+                        );
+                      },
+              onCancel:
+                  isMySeek
+                      ? () {
+                        socketClient.send('cancelSeek', challenge.id.toString());
+                      }
+                      : null,
             );
           },
         );
@@ -278,8 +200,7 @@ class _ChallengesBodyState extends ConsumerState<_ChallengesBody> {
       loading: () {
         return const Center(child: CircularProgressIndicator.adaptive());
       },
-      error: (error, stack) =>
-          Center(child: Text(context.l10n.mobileCustomGameJoinAGame)),
+      error: (error, stack) => Center(child: Text(context.l10n.mobileCustomGameJoinAGame)),
     );
   }
 }
@@ -300,8 +221,8 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
   Widget build(BuildContext context) {
     final accountAsync = ref.watch(accountProvider);
     final preferences = ref.watch(gameSetupPreferencesProvider);
-    final isValidTimeControl = preferences.customTimeSeconds > 0 ||
-        preferences.customIncrementSeconds > 0;
+    final isValidTimeControl =
+        preferences.customTimeSeconds > 0 || preferences.customIncrementSeconds > 0;
 
     final realTimeSelector = [
       Builder(
@@ -316,10 +237,7 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
                     text: '${context.l10n.minutesPerSide}: ',
                     children: [
                       TextSpan(
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                         text: clockLabelInMinutes(customTimeSeconds),
                       ),
                     ],
@@ -329,13 +247,14 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
                   value: customTimeSeconds,
                   values: kAvailableTimesInSeconds,
                   labelBuilder: clockLabelInMinutes,
-                  onChange: Theme.of(context).platform == TargetPlatform.iOS
-                      ? (num value) {
-                          setState(() {
-                            customTimeSeconds = value.toInt();
-                          });
-                        }
-                      : null,
+                  onChange:
+                      Theme.of(context).platform == TargetPlatform.iOS
+                          ? (num value) {
+                            setState(() {
+                              customTimeSeconds = value.toInt();
+                            });
+                          }
+                          : null,
                   onChangeEnd: (num value) {
                     setState(() {
                       customTimeSeconds = value.toInt();
@@ -362,10 +281,7 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
                     text: '${context.l10n.incrementInSeconds}: ',
                     children: [
                       TextSpan(
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                         text: customIncrementSeconds.toString(),
                       ),
                     ],
@@ -374,13 +290,14 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
                 subtitle: NonLinearSlider(
                   value: customIncrementSeconds,
                   values: kAvailableIncrementsInSeconds,
-                  onChange: Theme.of(context).platform == TargetPlatform.iOS
-                      ? (num value) {
-                          setState(() {
-                            customIncrementSeconds = value.toInt();
-                          });
-                        }
-                      : null,
+                  onChange:
+                      Theme.of(context).platform == TargetPlatform.iOS
+                          ? (num value) {
+                            setState(() {
+                              customIncrementSeconds = value.toInt();
+                            });
+                          }
+                          : null,
                   onChangeEnd: (num value) {
                     setState(() {
                       customIncrementSeconds = value.toInt();
@@ -410,10 +327,7 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
                     text: '${context.l10n.daysPerTurn}: ',
                     children: [
                       TextSpan(
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                         text: _daysLabel(daysPerTurn),
                       ),
                     ],
@@ -423,13 +337,14 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
                   value: daysPerTurn,
                   values: kAvailableDaysPerTurn,
                   labelBuilder: _daysLabel,
-                  onChange: Theme.of(context).platform == TargetPlatform.iOS
-                      ? (num value) {
-                          setState(() {
-                            daysPerTurn = value.toInt();
-                          });
-                        }
-                      : null,
+                  onChange:
+                      Theme.of(context).platform == TargetPlatform.iOS
+                          ? (num value) {
+                            setState(() {
+                              daysPerTurn = value.toInt();
+                            });
+                          }
+                          : null,
                   onChangeEnd: (num value) {
                     setState(() {
                       daysPerTurn = value.toInt();
@@ -448,19 +363,16 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
 
     return accountAsync.when(
       data: (account) {
-        final timeControl = account == null
-            ? TimeControl.realTime
-            : preferences.customTimeControl;
+        final timeControl = account == null ? TimeControl.realTime : preferences.customTimeControl;
 
-        final userPerf = account?.perfs[timeControl == TimeControl.realTime
-            ? preferences.perfFromCustom
-            : Perf.correspondence];
+        final userPerf =
+            account?.perfs[timeControl == TimeControl.realTime
+                ? preferences.perfFromCustom
+                : Perf.correspondence];
         return Center(
           child: ListView(
+            padding: MediaQuery.paddingOf(context) + Styles.verticalBodyPadding,
             shrinkWrap: true,
-            padding: Theme.of(context).platform == TargetPlatform.iOS
-                ? Styles.sectionBottomPadding
-                : Styles.verticalBodyPadding,
             children: [
               if (account != null)
                 PlatformListTile(
@@ -470,16 +382,14 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
                     onPressed: () {
                       showChoicePicker(
                         context,
-                        choices: [
-                          TimeControl.realTime,
-                          TimeControl.correspondence,
-                        ],
+                        choices: [TimeControl.realTime, TimeControl.correspondence],
                         selectedItem: preferences.customTimeControl,
-                        labelBuilder: (TimeControl timeControl) => Text(
-                          timeControl == TimeControl.realTime
-                              ? context.l10n.realTime
-                              : context.l10n.correspondence,
-                        ),
+                        labelBuilder:
+                            (TimeControl timeControl) => Text(
+                              timeControl == TimeControl.realTime
+                                  ? context.l10n.realTime
+                                  : context.l10n.correspondence,
+                            ),
                         onSelectedItemChanged: (TimeControl value) {
                           ref
                               .read(gameSetupPreferencesProvider.notifier)
@@ -509,9 +419,7 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
                       selectedItem: preferences.customVariant,
                       labelBuilder: (Variant variant) => Text(variant.label),
                       onSelectedItemChanged: (Variant variant) {
-                        ref
-                            .read(gameSetupPreferencesProvider.notifier)
-                            .setCustomVariant(variant);
+                        ref.read(gameSetupPreferencesProvider.notifier).setCustomVariant(variant);
                       },
                     );
                   },
@@ -534,12 +442,9 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
                   harmonizeCupertinoTitleStyle: true,
                   title: Text(context.l10n.rated),
                   trailing: Switch.adaptive(
-                    applyCupertinoTheme: true,
                     value: preferences.customRated,
                     onChanged: (bool value) {
-                      ref
-                          .read(gameSetupPreferencesProvider.notifier)
-                          .setCustomRated(value);
+                      ref.read(gameSetupPreferencesProvider.notifier).setCustomRated(value);
                     },
                   ),
                 ),
@@ -561,38 +466,30 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: FatButton(
                       semanticsLabel: context.l10n.createAGame,
-                      onPressed: timeControl == TimeControl.realTime
-                          ? isValidTimeControl
-                              ? () {
-                                  pushPlatformRoute(
-                                    context,
-                                    rootNavigator: true,
-                                    builder: (BuildContext context) {
-                                      return GameScreen(
-                                        seek: GameSeek.custom(
-                                          preferences,
-                                          account,
-                                        ),
-                                      );
-                                    },
-                                  );
-                                }
-                              : null
-                          : snapshot.connectionState == ConnectionState.waiting
+                      onPressed:
+                          timeControl == TimeControl.realTime
+                              ? isValidTimeControl
+                                  ? () {
+                                    Navigator.of(context, rootNavigator: true).push(
+                                      GameScreen.buildRoute(
+                                        context,
+                                        seek: GameSeek.custom(preferences, account),
+                                      ),
+                                    );
+                                  }
+                                  : null
+                              : snapshot.connectionState == ConnectionState.waiting
                               ? null
                               : () async {
-                                  _pendingCreateGame = ref
-                                      .read(createGameServiceProvider)
-                                      .newCorrespondenceGame(
-                                        GameSeek.correspondence(
-                                          preferences,
-                                          account,
-                                        ),
-                                      );
+                                _pendingCreateGame = ref
+                                    .read(createGameServiceProvider)
+                                    .newCorrespondenceGame(
+                                      GameSeek.correspondence(preferences, account),
+                                    );
 
-                                  await _pendingCreateGame;
-                                  widget.setViewMode(_ViewMode.challenges);
-                                },
+                                await _pendingCreateGame;
+                                widget.setViewMode(_ViewMode.challenges);
+                              },
                       child: Text(context.l10n.createAGame, style: Styles.bold),
                     ),
                   );
@@ -603,9 +500,7 @@ class _CreateGameBodyState extends ConsumerState<_CreateGameBody> {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator.adaptive()),
-      error: (error, stackTrace) => const Center(
-        child: Text('Could not load account data'),
-      ),
+      error: (error, stackTrace) => const Center(child: Text('Could not load account data')),
     );
   }
 }

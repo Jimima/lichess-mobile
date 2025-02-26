@@ -1,5 +1,5 @@
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'l10n.dart';
 
 // ignore_for_file: type=lint
@@ -9,31 +9,86 @@ class AppLocalizationsSk extends AppLocalizations {
   AppLocalizationsSk([String locale = 'sk']) : super(locale);
 
   @override
-  String get mobileHomeTab => 'Domov';
+  String get mobileAllGames => 'Všetky partie';
 
   @override
-  String get mobilePuzzlesTab => 'Úlohy';
+  String get mobileAreYouSure => 'Ste si istý?';
 
   @override
-  String get mobileToolsTab => 'Nástroje';
+  String get mobileCancelTakebackOffer => 'Zrušiť žiadosť o vrátenie ťahu';
 
   @override
-  String get mobileWatchTab => 'Sledovať';
+  String get mobileClearButton => 'Odstrániť';
 
   @override
-  String get mobileSettingsTab => 'Nastavenia';
+  String get mobileCorrespondenceClearSavedMove => 'Vymazať uložený ťah';
 
   @override
-  String get mobileMustBeLoggedIn => 'Na zobrazenie tejto stránky musíte byť prihlásený.';
-
-  @override
-  String get mobileSystemColors => 'Farby operačného systému';
+  String get mobileCustomGameJoinAGame => 'Pripojiť sa k partii';
 
   @override
   String get mobileFeedbackButton => 'Spätná väzba';
 
   @override
+  String mobileGreeting(String param) {
+    return 'Ahoj, $param';
+  }
+
+  @override
+  String get mobileGreetingWithoutName => 'Ahoj';
+
+  @override
+  String get mobileHideVariation => 'Skryť varianty';
+
+  @override
+  String get mobileHomeTab => 'Domov';
+
+  @override
+  String get mobileLiveStreamers => 'Vysielajúci strímeri';
+
+  @override
+  String get mobileMustBeLoggedIn => 'Na zobrazenie tejto stránky musíte byť prihlásený.';
+
+  @override
+  String get mobileNoSearchResults => 'Nič sa nenašlo';
+
+  @override
+  String get mobileNotFollowingAnyUser => 'Nesledujete žiadneho používateľa.';
+
+  @override
   String get mobileOkButton => 'OK';
+
+  @override
+  String mobilePlayersMatchingSearchTerm(String param) {
+    return 'Hráči s \"$param\"';
+  }
+
+  @override
+  String get mobilePrefMagnifyDraggedPiece => 'Zväčšiť uchopenú figúrku';
+
+  @override
+  String get mobilePuzzleStormConfirmEndRun => 'Chcete ukončiť tento pokus?';
+
+  @override
+  String get mobilePuzzleStormFilterNothingToShow => 'Niet čo zobraziť, prosím, zmeňte filtre';
+
+  @override
+  String get mobilePuzzleStormNothingToShow => 'Niet čo zobraziť. Zahrajte si niekoľko kôl Puzzle Storm.';
+
+  @override
+  String get mobilePuzzleStormSubtitle => 'Vyriešte čo najviac úloh za 3 minúty.';
+
+  @override
+  String get mobilePuzzleStreakAbortWarning => 'Stratíte svoju aktuálnu sériu a vaše skóre sa uloží.';
+
+  @override
+  String get mobilePuzzleThemesSubtitle => 'Riešte úlohy zo svojich obľúbených otvorení alebo si vyberte tému.';
+
+  @override
+  String get mobilePuzzlesTab => 'Úlohy';
+
+  @override
+  String get mobileRecentSearches => 'Posledné vyhľadávania';
 
   @override
   String get mobileSettingsHapticFeedback => 'Vibrovanie zariadenia';
@@ -45,101 +100,46 @@ class AppLocalizationsSk extends AppLocalizations {
   String get mobileSettingsImmersiveModeSubtitle => 'Skrytie používateľského rozhrania systému počas hrania. Túto funkciu použite, ak vám prekážajú navigačné gestá systému na okrajoch obrazovky. Vzťahuje sa na obrazovku počas partie a Puzzle Storm.';
 
   @override
-  String get mobileNotFollowingAnyUser => 'Nesledujete žiadneho používateľa.';
-
-  @override
-  String get mobileAllGames => 'Všetky partie';
-
-  @override
-  String get mobileRecentSearches => 'Posledné vyhľadávania';
-
-  @override
-  String get mobileClearButton => 'Odstrániť';
-
-  @override
-  String mobilePlayersMatchingSearchTerm(String param) {
-    return 'Hráči s \"$param\"';
-  }
-
-  @override
-  String get mobileNoSearchResults => 'Nič sa nenašlo';
-
-  @override
-  String get mobileAreYouSure => 'Ste si istý?';
-
-  @override
-  String get mobilePuzzleStreakAbortWarning => 'Stratíte svoju aktuálnu sériu a vaše skóre sa uloží.';
-
-  @override
-  String get mobilePuzzleStormNothingToShow => 'Niet čo zobraziť. Zahrajte si niekoľko kôl Puzzle Storm.';
-
-  @override
-  String get mobileSharePuzzle => 'Zdieľať túto úlohu';
-
-  @override
-  String get mobileShareGameURL => 'Zdieľať URL partie';
+  String get mobileSettingsTab => 'Nastavenia';
 
   @override
   String get mobileShareGamePGN => 'Zdieľať PGN';
 
   @override
+  String get mobileShareGameURL => 'Zdieľať URL partie';
+
+  @override
   String get mobileSharePositionAsFEN => 'Zdieľať pozíciu vo formáte FEN';
 
   @override
-  String get mobileShowVariations => 'Zobraziť varianty';
-
-  @override
-  String get mobileHideVariation => 'Skryť varianty';
+  String get mobileSharePuzzle => 'Zdieľať túto úlohu';
 
   @override
   String get mobileShowComments => 'Zobraziť komentáre';
 
   @override
-  String get mobilePuzzleStormConfirmEndRun => 'Chcete ukončiť tento pokus?';
+  String get mobileShowResult => 'Zobraziť výsledok';
 
   @override
-  String get mobilePuzzleStormFilterNothingToShow => 'Niet čo zobraziť, prosím, zmeňte filtre';
-
-  @override
-  String get mobileCancelTakebackOffer => 'Zrušiť žiadosť o vrátenie ťahu';
-
-  @override
-  String get mobileWaitingForOpponentToJoin => 'Čaká sa na pripojenie súpera...';
-
-  @override
-  String get mobileBlindfoldMode => 'Naslepo';
-
-  @override
-  String get mobileLiveStreamers => 'Vysielajúci strímeri';
-
-  @override
-  String get mobileCustomGameJoinAGame => 'Pripojiť sa k partii';
-
-  @override
-  String get mobileCorrespondenceClearSavedMove => 'Vymazať uložený ťah';
+  String get mobileShowVariations => 'Zobraziť varianty';
 
   @override
   String get mobileSomethingWentWrong => 'Došlo k chybe.';
 
   @override
-  String get mobileShowResult => 'Zobraziť výsledok';
+  String get mobileSystemColors => 'Farby operačného systému';
 
   @override
-  String get mobilePuzzleThemesSubtitle => 'Riešte úlohy zo svojich obľúbených otvorení alebo si vyberte tému.';
+  String get mobileTheme => 'Vzhľad';
 
   @override
-  String get mobilePuzzleStormSubtitle => 'Vyriešte čo najviac úloh za 3 minúty.';
+  String get mobileToolsTab => 'Nástroje';
 
   @override
-  String mobileGreeting(String param) {
-    return 'Ahoj, $param';
-  }
+  String get mobileWaitingForOpponentToJoin => 'Čaká sa na pripojenie súpera...';
 
   @override
-  String get mobileGreetingWithoutName => 'Ahoj';
-
-  @override
-  String get mobilePrefMagnifyDraggedPiece => 'Zväčšiť uchopenú figúrku';
+  String get mobileWatchTab => 'Sledovať';
 
   @override
   String get activityActivity => 'Aktivita';
@@ -426,12 +426,6 @@ class AppLocalizationsSk extends AppLocalizations {
   String get broadcastUpcoming => 'Blížiace sa';
 
   @override
-  String get broadcastCompleted => 'Ukončené';
-
-  @override
-  String get broadcastCompletedHelp => 'Lichess rozpozná dokončenie kola, ale môže sa pomýliť. Pomocou tejto funkcie ho môžete nastaviť ručne.';
-
-  @override
   String get broadcastRoundName => 'Názov kola';
 
   @override
@@ -556,7 +550,7 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String broadcastStartsAfter(String param) {
-    return 'Starts after $param';
+    return 'Začína po $param';
   }
 
   @override
@@ -570,6 +564,9 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get broadcastStandings => 'Poradie';
+
+  @override
+  String get broadcastOfficialStandings => 'Oficiálne poradie';
 
   @override
   String broadcastIframeHelp(String param) {
@@ -600,6 +597,39 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get broadcastScore => 'Skóre';
+
+  @override
+  String get broadcastAllTeams => 'Všetky tímy';
+
+  @override
+  String get broadcastTournamentFormat => 'Formát turnaja';
+
+  @override
+  String get broadcastTournamentLocation => 'Miesto konania turnaja';
+
+  @override
+  String get broadcastTopPlayers => 'Najlepší hráči';
+
+  @override
+  String get broadcastTimezone => 'Časové pásmo';
+
+  @override
+  String get broadcastFideRatingCategory => 'Kategória FIDE ratingu';
+
+  @override
+  String get broadcastOptionalDetails => 'Nepovinné údaje';
+
+  @override
+  String get broadcastPastBroadcasts => 'Predchádzajúce vysielania';
+
+  @override
+  String get broadcastAllBroadcastsByMonth => 'Zobraziť všetky vysielania podľa mesiacov';
+
+  @override
+  String get broadcastBackToLiveMove => 'Späť na aktuálny ťah';
+
+  @override
+  String get broadcastSinceHideResults => 'Keďže ste sa rozhodli skryť výsledky, všetky náhľadové šachovnice sú prázdne, aby sme Vám neprezradili priveľa.';
 
   @override
   String broadcastNbBroadcasts(int count) {
@@ -873,6 +903,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get preferencesInGameOnly => 'Iba pri partii';
 
   @override
+  String get preferencesExceptInGame => 'S výnimkou počas partie';
+
+  @override
   String get preferencesChessClock => 'Šachové hodiny';
 
   @override
@@ -1012,6 +1045,9 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get preferencesBellNotificationSound => 'Zvuk upozornenia';
+
+  @override
+  String get preferencesBlindfold => 'Naslepo';
 
   @override
   String get puzzlePuzzles => 'Šachové úlohy';
@@ -1477,6 +1513,18 @@ class AppLocalizationsSk extends AppLocalizations {
   String get puzzleThemeIntermezzoDescription => 'Namiesto očakávaného ťahu, zahranie ťahu znamenajúceho okamžitú hrozbu, na ktorú musí protihráč reagovať. Nazývaný tiež \"Zwischenzug\".';
 
   @override
+  String get puzzleThemeKillBoxMate => 'Mat na poli smrti';
+
+  @override
+  String get puzzleThemeKillBoxMateDescription => 'Veža je vedľa súperovho kráľa a podporuje ju dáma, ktorá zároveň blokuje kráľove únikové polia. Veža a dáma chytia súperovho kráľa do pasce na 3 x 3 „poli smrti“.';
+
+  @override
+  String get puzzleThemeVukovicMate => 'Vukovičov mat';
+
+  @override
+  String get puzzleThemeVukovicMateDescription => 'Veža a jazdec sa spoja, aby zmatovali kráľa. Veža je tá, ktorá dáva mat, pričom je podporovaná treťou figúrkou. Jazdec sa využíva na blokovanie kráľových únikových polí.';
+
+  @override
   String get puzzleThemeKnightEndgame => 'Jazdcová koncovka';
 
   @override
@@ -1692,16 +1740,13 @@ class AppLocalizationsSk extends AppLocalizations {
   String get settingsManagedAccountCannotBeClosed => 'Váš účet je spravovaný niekým iným a nemožno ho zrušiť.';
 
   @override
-  String get settingsClosingIsDefinitive => 'Zrušenie je definitívne. Nedá sa vrátiť naspäť. Ste si istí?';
-
-  @override
   String get settingsCantOpenSimilarAccount => 'Nebudete si môcť založiť nový účet s rovnakým menom, ani keď sa bude líšiť veľkosť písmen.';
 
   @override
-  String get settingsChangedMindDoNotCloseAccount => 'Rozmyslel som si to, nerušte môj účet';
+  String get settingsCancelKeepAccount => 'Zrušiť a ponechať si účet';
 
   @override
-  String get settingsCloseAccountExplanation => 'Ste si istí, že chcete zrušiť váš účet? Zrušenie vášho účtu je trvalé rozhodnutie. Už sa NIKDY ZNOVU nebudete môcť prihlásiť.';
+  String get settingsCloseAccountAreYouSure => 'Ste si istí, že chcete zrušiť svoj účet?';
 
   @override
   String get settingsThisAccountIsClosed => 'Účet zrušený.';
@@ -2039,9 +2084,6 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get byCPL => 'CHYBY';
-
-  @override
-  String get openStudy => 'Otvoriť štúdie';
 
   @override
   String get enable => 'Povoliť analýzu';
@@ -2709,9 +2751,6 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String get unblock => 'Odblokovať';
-
-  @override
-  String get followsYou => 'Sleduje Vás';
 
   @override
   String xStartedFollowingY(String param1, String param2) {
@@ -3697,6 +3736,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get followAndChallengeFriends => 'Sledovať a vyzvať priateľov';
 
   @override
+  String get noChallenges => 'Žiadne výzvy.';
+
+  @override
   String get gameAnalysis => 'Analýza hry';
 
   @override
@@ -4292,13 +4334,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get reopenYourAccount => 'Opätovné otvorenie účtu';
 
   @override
-  String get closedAccountChangedMind => 'Ak ste váš účet zatvorili, ale potom ste si to nakoniec rozmysleli, dostali ste poslednú šancu vrátiť sa späť k vášmu účtu.';
-
-  @override
-  String get onlyWorksOnce => 'Toto bude fungovať iba raz.';
-
-  @override
-  String get cantDoThisTwice => 'Ak účet zatvoríte druhýkrát, nebude už možné ho obnoviť.';
+  String get reopenYourAccountDescription => 'Ak ste Váš účet zrušili, ale potom ste si to rozmysleli, máte šancu získať svoj účet späť.';
 
   @override
   String get emailAssociatedToaccount => 'E-mailová adresa priradená k účtu';
@@ -4399,6 +4435,19 @@ class AppLocalizationsSk extends AppLocalizations {
   }
 
   @override
+  String numberBlunders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Hrubých chýb',
+      many: '$count Hrubých chýb',
+      few: '$count Hrubé chyby',
+      one: '$count Hrubá chyba',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbMistakes(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -4412,6 +4461,19 @@ class AppLocalizationsSk extends AppLocalizations {
   }
 
   @override
+  String numberMistakes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Chýb',
+      many: '$count Chýb',
+      few: '$count Chyby',
+      one: '$count Chyba',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String nbInaccuracies(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -4420,6 +4482,19 @@ class AppLocalizationsSk extends AppLocalizations {
       many: '$count nepresností',
       few: '$count nepresnosti',
       one: '$count nepresnosť',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String numberInaccuracies(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Nepresností',
+      many: '$count Nepresností',
+      few: '$count Nepresnosti',
+      one: '$count Nepresnosť',
     );
     return '$_temp0';
   }
@@ -5219,6 +5294,9 @@ class AppLocalizationsSk extends AppLocalizations {
   String get studyPlaying => 'Práve sa hrá';
 
   @override
+  String get studyShowResults => 'Výsledky';
+
+  @override
   String get studyShowEvalBar => 'Ukazovatele hodnotenia';
 
   @override
@@ -5561,6 +5639,11 @@ class AppLocalizationsSk extends AppLocalizations {
   String get studyYouCompletedThisLesson => 'Gratulujeme! Túto lekciu ste ukončili.';
 
   @override
+  String studyPerPage(String param) {
+    return '$param na stránku';
+  }
+
+  @override
   String studyNbChapters(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -5608,6 +5691,210 @@ class AppLocalizationsSk extends AppLocalizations {
       many: 'Váš PGN text vložte sem, maximálne $count partií',
       few: 'Váš PGN text vložte sem, maximálne $count partie',
       one: 'Váš PGN text vložte sem, maximálne $count partiu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeagoJustNow => 'práve teraz';
+
+  @override
+  String get timeagoRightNow => 'práve teraz';
+
+  @override
+  String get timeagoCompleted => 'ukončené';
+
+  @override
+  String timeagoInNbSeconds(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'o $count sekúnd',
+      many: 'o $count sekúnd',
+      few: 'o $count sekundy',
+      one: 'o $count sekundu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMinutes(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'o $count minút',
+      many: 'o $count minút',
+      few: 'o $count minút',
+      one: 'o $count minútu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbHours(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'o $count hodín',
+      many: 'o $count hodín',
+      few: 'o $count hodiny',
+      one: 'o $count hodinu',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'o $count dní',
+      many: 'o $count dní',
+      few: 'o $count dni',
+      one: 'o $count deň',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbWeeks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'o $count týždňov',
+      many: 'o $count týždňov',
+      few: 'o $count týždne',
+      one: 'o $count týždeň',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbMonths(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'o $count mesiacov',
+      many: 'o $count mesiacov',
+      few: 'o $count mesiace',
+      one: 'o $count mesiac',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoInNbYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'o $count rokov',
+      many: 'o $count rokov',
+      few: 'o $count roky',
+      one: 'o $count rok',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pred $count minútami',
+      many: 'pred $count minútami',
+      few: 'pred $count minútami',
+      one: 'pred $count minútou',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pred $count hodinami',
+      many: 'pred $count hodinami',
+      few: 'pred $count hodinami',
+      one: 'pred $count hodinou',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pred $count dňami',
+      many: 'pred $count dňami',
+      few: 'pred $count dňami',
+      one: 'pred $count dňom',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbWeeksAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pred $count týždňami',
+      many: 'pred $count týždňami',
+      few: 'pred $count týždňami',
+      one: 'pred $count týždňom',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMonthsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pred $count mesiacmi',
+      many: 'pred $count mesiacmi',
+      few: 'pred $count mesiacmi',
+      one: 'pred $count mesiacom',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbYearsAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'pred $count rokmi',
+      many: 'pred $count rokmi',
+      few: 'pred $count rokmi',
+      one: 'pred $count rokom',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbMinutesRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ostáva $count minút',
+      many: 'ostáva $count minút',
+      few: 'ostávajú $count minúty',
+      one: 'ostáva $count minúta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeagoNbHoursRemaining(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'ostáva $count hodín',
+      many: 'ostáva $count hodín',
+      few: 'ostávajú $count hodiny',
+      one: 'ostáva $count hodina',
     );
     return '$_temp0';
   }
