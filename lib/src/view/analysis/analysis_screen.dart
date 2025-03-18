@@ -7,9 +7,6 @@ import 'package:lichess_mobile/src/model/analysis/analysis_preferences.dart';
 import 'package:lichess_mobile/src/model/analysis/opening_service.dart';
 import 'package:lichess_mobile/src/model/common/chess.dart';
 import 'package:lichess_mobile/src/model/game/game_share_service.dart';
-import 'package:lichess_mobile/src/model/game/material_diff.dart';
-import 'package:lichess_mobile/src/model/game/player.dart';
-import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
 import 'package:lichess_mobile/src/network/http.dart';
 import 'package:lichess_mobile/src/utils/l10n_context.dart';
 import 'package:lichess_mobile/src/utils/navigation.dart';
@@ -24,13 +21,11 @@ import 'package:lichess_mobile/src/view/board_editor/board_editor_screen.dart';
 import 'package:lichess_mobile/src/view/engine/engine_depth.dart';
 import 'package:lichess_mobile/src/view/engine/engine_gauge.dart';
 import 'package:lichess_mobile/src/view/engine/engine_lines.dart';
-import 'package:lichess_mobile/src/view/game/game_player.dart';
 import 'package:lichess_mobile/src/view/opening_explorer/opening_explorer_view.dart';
 import 'package:lichess_mobile/src/widgets/adaptive_action_sheet.dart';
 import 'package:lichess_mobile/src/widgets/bottom_bar.dart';
 import 'package:lichess_mobile/src/widgets/bottom_bar_button.dart';
 import 'package:lichess_mobile/src/widgets/buttons.dart';
-import 'package:lichess_mobile/src/widgets/clock.dart';
 import 'package:lichess_mobile/src/widgets/feedback.dart';
 import 'package:lichess_mobile/src/widgets/platform_scaffold.dart';
 import 'package:logging/logging.dart';
@@ -61,80 +56,31 @@ class _AnalysisScreen extends ConsumerStatefulWidget {
   final bool enableDrawingShapes;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final gameAsync = ref.watch(archivedGameProvider(id: gameId));
-
-    return gameAsync.when(
-      data: (game) {
-        final serverAnalysis =
-            game.white.analysis != null && game.black.analysis != null
-                ? (white: game.white.analysis!, black: game.black.analysis!)
-                : null;
-        return _LoadedAnalysisScreen(
-          options: options.copyWith(
-            id: game.id,
-            opening: game.meta.opening,
-            division: game.meta.division,
-            serverAnalysis: serverAnalysis,
-          ),
-          pgn: game.makePgn(),
-          enableDrawingShapes: enableDrawingShapes,
-        );
-      },
-      loading: () => const Center(child: CircularProgressIndicator.adaptive()),
-      error: (error, _) {
-        return Center(child: Text('Cannot load game analysis: $error'));
-      },
-    );
-  }
+  ConsumerState<_AnalysisScreen> createState() => _AnalysisScreenState();
 }
 
-class _LoadedAnalysisScreen extends ConsumerWidget {
-  const _LoadedAnalysisScreen({
-    required this.options,
-    required this.pgn,
-    required this.enableDrawingShapes,
-  });
-
-  final AnalysisOptions options;
-  final String pgn;
-
-  final bool enableDrawingShapes;
+class _AnalysisScreenState extends ConsumerState<_AnalysisScreen>
+    with SingleTickerProviderStateMixin {
+  late final List<AnalysisTab> tabs;
+  late final TabController _tabController;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ConsumerPlatformWidget(
-      androidBuilder: _androidBuilder,
-      iosBuilder: _iosBuilder,
-      ref: ref,
-    );
+  void initState() {
+    super.initState();
+
+    tabs = [
+      AnalysisTab.opening,
+      AnalysisTab.moves,
+      if (widget.options.gameId != null) AnalysisTab.summary,
+    ];
+
+    _tabController = TabController(vsync: this, initialIndex: 1, length: tabs.length);
   }
 
-  Widget _androidBuilder(BuildContext context, WidgetRef ref) {
-    final ctrlProvider = analysisControllerProvider(pgn, options);
-
-    return PlatformScaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: PlatformAppBar(
-        title: _Title(options: options),
-        actions: [
-          _EngineDepth(ctrlProvider),
-          AppBarIconButton(
-            onPressed:
-                () => showAdaptiveBottomSheet<void>(
-                  context: context,
-                  isScrollControlled: true,
-                  showDragHandle: true,
-                  isDismissible: true,
-                  builder: (_) => AnalysisSettings(pgn, options),
-                ),
-            semanticsLabel: context.l10n.settingsSettings,
-            icon: const Icon(Icons.settings),
-          ),
-        ],
-      ),
-      body: _Body(pgn: pgn, options: options, enableDrawingShapes: enableDrawingShapes),
-    );
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override

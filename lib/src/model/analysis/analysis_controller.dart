@@ -154,6 +154,7 @@ class AnalysisController extends _$AnalysisController implements PgnTreeNotifier
 
     final currentPath = options.initialMoveCursor == null ? _root.mainlinePath : path;
     final currentNode = _root.nodeAt(currentPath);
+    final previousNode = _root.nodeAt(currentPath.penultimate);
 
     // don't use ref.watch here: we don't want to invalidate state when the
     // analysis preferences change
@@ -180,6 +181,7 @@ class AnalysisController extends _$AnalysisController implements PgnTreeNotifier
       isOnMainline: _root.isOnMainline(currentPath),
       root: _root.view,
       currentNode: AnalysisCurrentNode.fromNode(currentNode),
+      previousNode: previousNode,
       pgnHeaders: pgnHeaders,
       pgnRootComments: rootComments,
       lastMove: lastMove,
@@ -714,6 +716,9 @@ class AnalysisState with _$AnalysisState {
     /// We don't want to use [Node.view] here because it'd copy the whole tree
     /// under the current node and it's expensive.
     required AnalysisCurrentNode currentNode,
+
+    /// the [Node] immediately before the actual [Node] at the 'currentPath'
+    required Node previousNode,
 
     /// The path to the current node in the analysis view.
     required UciPath currentPath,

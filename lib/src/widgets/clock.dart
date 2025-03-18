@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:lichess_mobile/src/constants.dart';
@@ -75,10 +76,11 @@ class Clock extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 5.0),
             child: MediaQuery.withClampedTextScaling(
               maxScaleFactor: kMaxClockTextScaleFactor,
-              child: RichText(
-                softWrap: false,
-                overflow: TextOverflow.ellipsis,
-                text: TextSpan(
+              child: AutoSizeText.rich(
+                maxLines: 1,
+                minFontSize: 0.5,
+                stepGranularity: 0.1,
+                TextSpan(
                   text:
                       hours > 0
                           ? '$hoursDisplay:${mins.toString().padLeft(2, '0')}:$secs'

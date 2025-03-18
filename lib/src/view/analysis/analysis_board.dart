@@ -10,7 +10,11 @@ import 'package:lichess_mobile/src/model/analysis/analysis_preferences.dart';
 import 'package:lichess_mobile/src/model/common/chess.dart';
 import 'package:lichess_mobile/src/model/common/eval.dart';
 import 'package:lichess_mobile/src/model/engine/evaluation_service.dart';
+import 'package:lichess_mobile/src/model/game/game.dart';
+import 'package:lichess_mobile/src/model/game/material_diff.dart';
 import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
+import 'package:lichess_mobile/src/view/game/game_player.dart';
+import 'package:lichess_mobile/src/widgets/clock.dart';
 import 'package:lichess_mobile/src/widgets/pgn.dart';
 
 class AnalysisBoard extends ConsumerStatefulWidget {
@@ -51,11 +55,15 @@ class AnalysisBoardState extends ConsumerState<AnalysisBoard> {
             : null;
 
     final currentNode = analysisState.currentNode;
+    final previousNode = analysisState.previousNode;
     final annotation = showAnnotationsOnBoard ? makeAnnotation(currentNode.nags) : null;
 
     final bestMoves = enableComputerAnalysis ? evalBestMoves ?? currentNode.eval?.bestMoves : null;
 
     final sanMove = currentNode.sanMove;
+
+    print(currentNode);
+    print(previousNode);
 
     final ISet<Shape> bestMoveShapes =
         showBestMoveArrow && analysisState.isEngineAvailable && bestMoves != null
@@ -66,45 +74,125 @@ class AnalysisBoardState extends ConsumerState<AnalysisBoard> {
             )
             : ISet();
 
-    return Chessboard(
-      size: widget.boardSize,
-      fen: analysisState.position.fen,
-      lastMove: analysisState.lastMove as NormalMove?,
-      orientation: analysisState.pov,
-      game: GameData(
-        playerSide:
-            analysisState.position.isGameOver
-                ? PlayerSide.none
-                : analysisState.position.turn == Side.white
-                ? PlayerSide.white
-                : PlayerSide.black,
-        isCheck: boardPrefs.boardHighlights && analysisState.position.isCheck,
-        sideToMove: analysisState.position.turn,
-        validMoves: analysisState.validMoves,
-        promotionMove: analysisState.promotionMove,
-        onMove:
-            (move, {isDrop, captured}) => ref
-                .read(ctrlProvider.notifier)
-                .onUserMove(move, shouldReplace: widget.shouldReplaceChildOnUserMove),
-        onPromotionSelection: (role) => ref.read(ctrlProvider.notifier).onPromotionSelection(role),
-      ),
-      shapes: userShapes.union(bestMoveShapes),
-      annotations:
-          showAnnotationsOnBoard && sanMove != null && annotation != null
-              ? altCastles.containsKey(sanMove.move.uci)
-                  ? IMap({Move.parse(altCastles[sanMove.move.uci]!)!.to: annotation})
-                  : IMap({sanMove.move.to: annotation})
-              : null,
-      settings: boardPrefs.toBoardSettings().copyWith(
-        borderRadius: widget.borderRadius,
-        boxShadow: widget.borderRadius != null ? boardShadows : const <BoxShadow>[],
-        drawShape: DrawShapeOptions(
-          enable: widget.enableDrawingShapes,
-          onCompleteShape: _onCompleteShape,
-          onClearShapes: _onClearShapes,
-          newShapeColor: boardPrefs.shapeColor.color,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: GamePlayer(
+                game: analysisState.archivedGame! as BaseGame,
+                side: analysisState.pov,
+                materialDiff: MaterialDiffSide(
+                  pieces: IMap<Role, int>({
+                    Role.bishop: 1,
+                    Role.knight: 1,
+                    Role.king: 1,
+                    Role.pawn: 1,
+                    Role.queen: 1,
+                    Role.rook: 1,
+                  }),
+                  score: 1,
+                  capturedPieces: IMap<Role, int>({
+                    Role.bishop: 1,
+                    Role.knight: 1,
+                    Role.king: 1,
+                    Role.pawn: 1,
+                    Role.queen: 1,
+                    Role.rook: 1,
+                  }),
+                ),
+                clock: Clock(
+                  timeLeft:
+                      analysisState.currentNode.lichessAnalysisComments?.last.clock ??
+                      Duration(seconds: 0),
+
+                  // currentNode.position.turn == Side.white
+                  //     ? analysisState.currentNode.comments?.last.clock ?? Duration(seconds: 0)
+                  //     : analysisState.previousNode.mainline.last.clock ?? Duration(seconds: 0),
+                ),
+              ),
+            ),
+            Expanded(
+              child: GamePlayer(
+                game: analysisState.archivedGame! as BaseGame,
+                side: analysisState.pov,
+                materialDiff: MaterialDiffSide(
+                  pieces: IMap<Role, int>({
+                    Role.bishop: 1,
+                    Role.knight: 1,
+                    Role.king: 1,
+                    Role.pawn: 1,
+                    Role.queen: 1,
+                    Role.rook: 1,
+                  }),
+                  score: 1,
+                  capturedPieces: IMap<Role, int>({
+                    Role.bishop: 1,
+                    Role.knight: 1,
+                    Role.king: 1,
+                    Role.pawn: 1,
+                    Role.queen: 1,
+                    Role.rook: 1,
+                  }),
+                ),
+                clock: Clock(
+                  timeLeft:
+                      analysisState.currentNode.lichessAnalysisComments?.last.clock ??
+                      Duration(seconds: 0),
+
+                  // currentNode.position.turn == Side.white
+                  //     ? analysisState.currentNode.comments?.last.clock ?? Duration(seconds: 0)
+                  //     : analysisState.previousNode.mainline.last.clock ?? Duration(seconds: 0),
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
+        Chessboard(
+          size: widget.boardSize,
+          fen: analysisState.position.fen,
+          lastMove: analysisState.lastMove as NormalMove?,
+          orientation: analysisState.pov,
+          game: GameData(
+            playerSide:
+                analysisState.position.isGameOver
+                    ? PlayerSide.none
+                    : analysisState.position.turn == Side.white
+                    ? PlayerSide.white
+                    : PlayerSide.black,
+            isCheck: boardPrefs.boardHighlights && analysisState.position.isCheck,
+            sideToMove: analysisState.position.turn,
+            validMoves: analysisState.validMoves,
+            promotionMove: analysisState.promotionMove,
+            onMove:
+                (move, {isDrop, captured}) => ref
+                    .read(ctrlProvider.notifier)
+                    .onUserMove(move, shouldReplace: widget.shouldReplaceChildOnUserMove),
+            onPromotionSelection:
+                (role) => ref.read(ctrlProvider.notifier).onPromotionSelection(role),
+          ),
+          shapes: userShapes.union(bestMoveShapes),
+          annotations:
+              showAnnotationsOnBoard && sanMove != null && annotation != null
+                  ? altCastles.containsKey(sanMove.move.uci)
+                      ? IMap({Move.parse(altCastles[sanMove.move.uci]!)!.to: annotation})
+                      : IMap({sanMove.move.to: annotation})
+                  : null,
+          settings: boardPrefs.toBoardSettings().copyWith(
+            borderRadius: widget.borderRadius,
+            boxShadow: widget.borderRadius != null ? boardShadows : const <BoxShadow>[],
+            drawShape: DrawShapeOptions(
+              enable: widget.enableDrawingShapes,
+              onCompleteShape: _onCompleteShape,
+              onClearShapes: _onClearShapes,
+              newShapeColor: boardPrefs.shapeColor.color,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
