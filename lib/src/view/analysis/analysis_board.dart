@@ -11,11 +11,7 @@ import 'package:lichess_mobile/src/model/common/chess.dart';
 import 'package:lichess_mobile/src/model/common/eval.dart';
 import 'package:lichess_mobile/src/model/engine/evaluation_preferences.dart';
 import 'package:lichess_mobile/src/model/engine/evaluation_service.dart';
-import 'package:lichess_mobile/src/model/game/game.dart';
-import 'package:lichess_mobile/src/model/game/material_diff.dart';
 import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
-import 'package:lichess_mobile/src/view/game/game_player.dart';
-import 'package:lichess_mobile/src/widgets/clock.dart';
 import 'package:lichess_mobile/src/widgets/pgn.dart';
 
 class AnalysisBoard extends ConsumerStatefulWidget {
@@ -53,7 +49,6 @@ class AnalysisBoardState extends ConsumerState<AnalysisBoard> {
     final showBestMoveArrow = enableComputerAnalysis && analysisPrefs.showBestMoveArrow;
     final showAnnotationsOnBoard = enableComputerAnalysis && analysisPrefs.showAnnotations;
     final currentNode = analysisState.currentNode;
-    final previousNode = analysisState.previousNode;
     final annotation = showAnnotationsOnBoard ? makeAnnotation(currentNode.nags) : null;
 
     final localBestMoves =
@@ -61,7 +56,7 @@ class AnalysisBoardState extends ConsumerState<AnalysisBoard> {
             ? ref.watch(engineEvaluationProvider.select((value) => value.eval?.bestMoves))
             : null;
 
-    final bestMoves = enableComputerAnalysis ? evalBestMoves ?? currentNode.eval?.bestMoves : null;
+    final bestMoves = pickBestMoves(localBestMoves: localBestMoves, savedEval: currentNode.eval);
 
     final sanMove = currentNode.sanMove;
 
@@ -73,9 +68,6 @@ class AnalysisBoardState extends ConsumerState<AnalysisBoard> {
               boardPrefs.pieceSet.assets,
             )
             : ISet();
-
-    final annotation = showAnnotationsOnBoard ? makeAnnotation(currentNode.nags) : null;
-    final sanMove = currentNode.sanMove;
 
     return Chessboard(
       size: widget.boardSize,

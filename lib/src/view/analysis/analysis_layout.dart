@@ -1,13 +1,17 @@
 import 'package:dartchess/dartchess.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:lichess_mobile/l10n/l10n.dart';
 import 'package:lichess_mobile/src/constants.dart';
+import 'package:lichess_mobile/src/model/game/material_diff.dart';
 import 'package:lichess_mobile/src/styles/lichess_icons.dart';
 import 'package:lichess_mobile/src/styles/styles.dart';
 import 'package:lichess_mobile/src/utils/l10n_context.dart';
 import 'package:lichess_mobile/src/utils/screen.dart';
+import 'package:lichess_mobile/src/view/game/game_player.dart';
 import 'package:lichess_mobile/src/widgets/adaptive_action_sheet.dart';
 import 'package:lichess_mobile/src/widgets/buttons.dart';
+import 'package:lichess_mobile/src/widgets/clock.dart';
 import 'package:lichess_mobile/src/widgets/platform.dart';
 
 /// The height of the board header or footer in the analysis layout.
@@ -301,6 +305,20 @@ class AnalysisLayout extends StatelessWidget {
                       if (engineGaugeBuilder != null)
                         engineGaugeBuilder!(context, Orientation.portrait),
                       if (engineLines != null) engineLines!,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Player Name'),
+                          MaterialDifferenceDisplay(
+                            materialDiff: MaterialDiffSide(
+                              pieces: {Role.bishop: 1}.toIMap(),
+                              score: 2,
+                              capturedPieces: {Role.bishop: 2}.toIMap(),
+                            ),
+                          ),
+                          Clock(timeLeft: Duration(minutes: 10)),
+                        ],
+                      ),
                       Padding(
                         padding:
                             isTablet
@@ -331,6 +349,20 @@ class AnalysisLayout extends StatelessWidget {
                               isTablet && boardHeader == null && boardFooter != null
                                   ? tabletBoardRadius
                                   : null,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Player Name Black'), //TODO flip when board flipped
+                                MaterialDifferenceDisplay(
+                                  materialDiff: MaterialDiffSide(
+                                    pieces: {Role.bishop: 1}.toIMap(),
+                                    score: 2,
+                                    capturedPieces: {Role.bishop: 2}.toIMap(),
+                                  ),
+                                ),
+                                Clock(timeLeft: Duration(minutes: 10)),
+                              ],
                             ),
                             if (boardFooter != null)
                               Container(

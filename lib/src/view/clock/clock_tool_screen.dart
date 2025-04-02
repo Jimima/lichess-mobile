@@ -64,15 +64,8 @@ class _BodyState extends ConsumerState<_Body> {
   Widget build(BuildContext context) {
     final state = ref.watch(clockToolControllerProvider);
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-    ]);
-
     return OrientationBuilder(
       builder: (context, orientation) {
-        print(orientation);
         return (orientation == Orientation.portrait ? Column.new : Row.new)(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

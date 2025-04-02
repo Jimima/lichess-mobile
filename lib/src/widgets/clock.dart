@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:lichess_mobile/src/constants.dart';
 import 'package:lichess_mobile/src/utils/screen.dart';
 
-const _kClockFontSize = 26.0;
-const _kClockTenthFontSize = 20.0;
-const _kClockHundredsFontSize = 18.0;
+const _kClockFontSize = 10.0; //TODO stop making all the clocks tiny
+const _kClockTenthFontSize = 9.0;
+const _kClockHundredsFontSize = 8.0;
 
 const _showTenthsThreshold = Duration(seconds: 10);
 
@@ -22,7 +22,10 @@ class Clock extends StatelessWidget {
     this.clockStyle,
     this.emergencyThreshold,
     this.padLeft = false,
-    this.padding = const EdgeInsets.symmetric(vertical: 3.0, horizontal: 5.0),
+    this.padding = const EdgeInsets.symmetric(
+      vertical: 0.0,
+      horizontal: 2.0,
+    ), //Padding around the clock
     super.key,
   });
 
@@ -82,7 +85,7 @@ class Clock extends StatelessWidget {
               maxScaleFactor: kMaxClockTextScaleFactor,
               child: AutoSizeText.rich(
                 maxLines: 1,
-                minFontSize: 0.5,
+                minFontSize: 0.1,
                 stepGranularity: 0.1,
                 TextSpan(
                   text:
