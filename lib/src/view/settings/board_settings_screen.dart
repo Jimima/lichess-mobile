@@ -10,12 +10,16 @@ import 'package:lichess_mobile/src/utils/navigation.dart';
 import 'package:lichess_mobile/src/utils/screen.dart';
 import 'package:lichess_mobile/src/utils/system.dart';
 import 'package:lichess_mobile/src/widgets/adaptive_choice_picker.dart';
+import 'package:lichess_mobile/src/widgets/buttons.dart';
 import 'package:lichess_mobile/src/widgets/list.dart';
 import 'package:lichess_mobile/src/widgets/platform_scaffold.dart';
 import 'package:lichess_mobile/src/widgets/settings.dart';
 
 class BoardSettingsScreen extends StatelessWidget {
-  const BoardSettingsScreen({super.key});
+  const BoardSettingsScreen({super.key, this.showCloseButton = false});
+
+  /// Whether to show a close button in the app bar instead of the back button.
+  final bool showCloseButton;
 
   static Route<dynamic> buildRoute(BuildContext context, {bool fullscreenDialog = false}) {
     return buildScreenRoute(
@@ -29,6 +33,15 @@ class BoardSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
+      appBarLeading:
+          showCloseButton
+              ? Theme.of(context).platform == TargetPlatform.iOS
+                  ? AppBarTextButton(
+                    onPressed: () => Navigator.maybePop(context),
+                    child: Text(context.l10n.close),
+                  )
+                  : const CloseButton()
+              : null,
       appBarTitle: Text(context.l10n.preferencesGameBehavior),
       body: const _Body(),
     );
@@ -68,6 +81,30 @@ class _Body extends ConsumerWidget {
                   );
                 } else {
                   Navigator.of(context).push(PieceShiftMethodSettingsScreen.buildRoute(context));
+                }
+              },
+            ),
+            SettingsListTile(
+              settingsLabel: Text(
+                context.l10n.preferencesCastleByMovingTheKingTwoSquaresOrOntoTheRook,
+              ),
+              settingsValue: boardPrefs.castlingMethod.l10n(context.l10n),
+              showCupertinoTrailingValue: false,
+              onTap: () {
+                if (Theme.of(context).platform == TargetPlatform.android) {
+                  showChoicePicker(
+                    context,
+                    choices: CastlingMethod.values,
+                    selectedItem: boardPrefs.castlingMethod,
+                    labelBuilder: (t) => Text(t.l10n(context.l10n)),
+                    onSelectedItemChanged: (CastlingMethod? value) {
+                      ref
+                          .read(boardPreferencesProvider.notifier)
+                          .setCastlingMethod(value ?? CastlingMethod.kingOverRook);
+                    },
+                  );
+                } else {
+                  Navigator.of(context).push(CastlingMethodSettingsScreen.buildRoute(context));
                 }
               },
             ),
@@ -258,6 +295,46 @@ class PieceShiftMethodSettingsScreen extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CastlingMethodSettingsScreen extends ConsumerWidget {
+  const CastlingMethodSettingsScreen({super.key});
+
+  static Route<dynamic> buildRoute(BuildContext context) {
+    return buildScreenRoute(
+      context,
+      screen: const CastlingMethodSettingsScreen(),
+      title: context.l10n.preferencesCastleByMovingTheKingTwoSquaresOrOntoTheRook,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final castlingMethod = ref.watch(
+      boardPreferencesProvider.select((state) => state.castlingMethod),
+    );
+
+    void onChanged(CastlingMethod? value) {
+      ref
+          .read(boardPreferencesProvider.notifier)
+          .setCastlingMethod(value ?? CastlingMethod.kingOverRook);
+    }
+
+    return CupertinoPageScaffold(
+      navigationBar: const CupertinoNavigationBar(),
+      child: ListView(
+        children: [
+          ChoicePicker(
+            notchedTile: true,
+            choices: CastlingMethod.values,
+            selectedItem: castlingMethod,
+            titleBuilder: (t) => Text(t.l10n(context.l10n)),
+            onSelectedItemChanged: onChanged,
+          ),
+        ],
       ),
     );
   }

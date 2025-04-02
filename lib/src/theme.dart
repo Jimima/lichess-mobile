@@ -5,18 +5,6 @@ import 'package:lichess_mobile/src/model/settings/general_preferences.dart';
 import 'package:lichess_mobile/src/styles/styles.dart';
 import 'package:lichess_mobile/src/utils/color_palette.dart';
 
-const kPageTransitionsTheme = PageTransitionsTheme(
-  builders: {
-    TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),
-    TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-  },
-);
-
-const kProgressIndicatorTheme = ProgressIndicatorThemeData(
-  // ignore: deprecated_member_use
-  year2023: false,
-);
-
 const kSliderTheme = SliderThemeData(
   // ignore: deprecated_member_use
   year2023: false,
@@ -129,13 +117,18 @@ extension CustomThemeBuildContext on BuildContext {
     textTheme: cupertinoTextTheme(themeDark.colorScheme),
   );
 
+  final cupertinoFloatingActionButtonTheme = FloatingActionButtonThemeData(
+    backgroundColor: themeLight.colorScheme.secondaryFixedDim,
+    foregroundColor: themeLight.colorScheme.onSecondaryFixedVariant,
+  );
+
   return (
     light: themeLight.copyWith(
       cupertinoOverrideTheme: lightCupertino,
       splashFactory: isIOS ? NoSplash.splashFactory : null,
       cardTheme:
           isIOS
-              ? CardTheme(
+              ? CardThemeData(
                 color: themeLight.colorScheme.surfaceContainerLowest,
                 elevation: 0,
                 margin: EdgeInsets.zero,
@@ -146,10 +139,9 @@ extension CustomThemeBuildContext on BuildContext {
           isIOS
               ? BottomSheetThemeData(backgroundColor: lightCupertino.scaffoldBackgroundColor)
               : null,
+      floatingActionButtonTheme: isIOS ? cupertinoFloatingActionButtonTheme : null,
       menuTheme:
           isIOS ? _makeCupertinoMenuThemeData(themeLight.colorScheme.surfaceContainerLowest) : null,
-      pageTransitionsTheme: kPageTransitionsTheme,
-      progressIndicatorTheme: kProgressIndicatorTheme,
       sliderTheme: kSliderTheme,
       extensions: [
         lichessCustomColors.harmonized(themeLight.colorScheme),
@@ -162,7 +154,7 @@ extension CustomThemeBuildContext on BuildContext {
       splashFactory: isIOS ? NoSplash.splashFactory : null,
       cardTheme:
           isIOS
-              ? CardTheme(
+              ? CardThemeData(
                 color: themeDark.colorScheme.surfaceContainerHigh,
                 elevation: 0,
                 margin: EdgeInsets.zero,
@@ -173,9 +165,8 @@ extension CustomThemeBuildContext on BuildContext {
           isIOS
               ? BottomSheetThemeData(backgroundColor: darkCupertino.scaffoldBackgroundColor)
               : null,
+      floatingActionButtonTheme: isIOS ? cupertinoFloatingActionButtonTheme : null,
       menuTheme: isIOS ? _makeCupertinoMenuThemeData(themeDark.colorScheme.surface) : null,
-      pageTransitionsTheme: kPageTransitionsTheme,
-      progressIndicatorTheme: kProgressIndicatorTheme,
       sliderTheme: kSliderTheme,
       extensions: [lichessCustomColors.harmonized(themeDark.colorScheme)],
     ),
@@ -224,14 +215,20 @@ extension CustomThemeBuildContext on BuildContext {
     ),
     cupertinoOverrideTheme: cupertinoTheme,
     listTileTheme: isIOS ? _cupertinoListTileTheme(cupertinoTheme) : null,
-    cardTheme: isIOS ? const CardTheme(elevation: 0, margin: EdgeInsets.zero) : null,
+    cardTheme: isIOS ? const CardThemeData(elevation: 0, margin: EdgeInsets.zero) : null,
     bottomSheetTheme: BottomSheetThemeData(
       backgroundColor:
           isIOS
               ? lighten(baseTheme.colorScheme.surface, 0.1).withValues(alpha: 0.9)
               : baseTheme.colorScheme.surface.withValues(alpha: 0.9),
     ),
-    dialogTheme: DialogTheme(backgroundColor: baseTheme.colorScheme.surface.withValues(alpha: 0.9)),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: baseTheme.colorScheme.secondaryFixedDim,
+      foregroundColor: baseTheme.colorScheme.onSecondaryFixedVariant,
+    ),
+    dialogTheme: DialogThemeData(
+      backgroundColor: baseTheme.colorScheme.surface.withValues(alpha: 0.9),
+    ),
     menuTheme:
         isIOS
             ? _makeCupertinoMenuThemeData(
@@ -249,14 +246,13 @@ extension CustomThemeBuildContext on BuildContext {
     splashFactory: isIOS ? NoSplash.splashFactory : null,
     pageTransitionsTheme: PageTransitionsTheme(
       builders: {
-        TargetPlatform.android: FadeForwardsPageTransitionsBuilder(
+        TargetPlatform.android: ZoomPageTransitionsBuilder(
           backgroundColor: seedColor.withValues(alpha: 0),
         ),
         TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
       },
     ),
 
-    progressIndicatorTheme: kProgressIndicatorTheme,
     sliderTheme: kSliderTheme,
     extensions: [lichessCustomColors.harmonized(baseTheme.colorScheme)],
   );

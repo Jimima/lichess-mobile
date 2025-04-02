@@ -9,6 +9,7 @@ import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
 import 'package:lichess_mobile/src/model/analysis/analysis_preferences.dart';
 import 'package:lichess_mobile/src/model/common/chess.dart';
 import 'package:lichess_mobile/src/model/common/eval.dart';
+import 'package:lichess_mobile/src/model/engine/evaluation_preferences.dart';
 import 'package:lichess_mobile/src/model/engine/evaluation_service.dart';
 import 'package:lichess_mobile/src/model/game/game.dart';
 import 'package:lichess_mobile/src/model/game/material_diff.dart';
@@ -46,27 +47,26 @@ class AnalysisBoardState extends ConsumerState<AnalysisBoard> {
     final analysisState = ref.watch(ctrlProvider).requireValue;
     final boardPrefs = ref.watch(boardPreferencesProvider);
     final analysisPrefs = ref.watch(analysisPreferencesProvider);
-    final enableComputerAnalysis = analysisPrefs.enableComputerAnalysis;
+    final enginePrefs = ref.watch(engineEvaluationPreferencesProvider);
+
+    final enableComputerAnalysis = analysisState.isComputerAnalysisAllowedAndEnabled;
     final showBestMoveArrow = enableComputerAnalysis && analysisPrefs.showBestMoveArrow;
     final showAnnotationsOnBoard = enableComputerAnalysis && analysisPrefs.showAnnotations;
-    final evalBestMoves =
-        enableComputerAnalysis
-            ? ref.watch(engineEvaluationProvider.select((s) => s.eval?.bestMoves))
-            : null;
-
     final currentNode = analysisState.currentNode;
     final previousNode = analysisState.previousNode;
     final annotation = showAnnotationsOnBoard ? makeAnnotation(currentNode.nags) : null;
+
+    final localBestMoves =
+        analysisState.isEngineAvailable(enginePrefs) && showBestMoveArrow
+            ? ref.watch(engineEvaluationProvider.select((value) => value.eval?.bestMoves))
+            : null;
 
     final bestMoves = enableComputerAnalysis ? evalBestMoves ?? currentNode.eval?.bestMoves : null;
 
     final sanMove = currentNode.sanMove;
 
-    print(currentNode);
-    print(previousNode);
-
     final ISet<Shape> bestMoveShapes =
-        showBestMoveArrow && analysisState.isEngineAvailable && bestMoves != null
+        bestMoves != null && showBestMoveArrow
             ? computeBestMoveShapes(
               bestMoves,
               currentNode.position.turn,
@@ -74,125 +74,47 @@ class AnalysisBoardState extends ConsumerState<AnalysisBoard> {
             )
             : ISet();
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: GamePlayer(
-                game: analysisState.archivedGame! as BaseGame,
-                side: analysisState.pov,
-                materialDiff: MaterialDiffSide(
-                  pieces: IMap<Role, int>({
-                    Role.bishop: 1,
-                    Role.knight: 1,
-                    Role.king: 1,
-                    Role.pawn: 1,
-                    Role.queen: 1,
-                    Role.rook: 1,
-                  }),
-                  score: 1,
-                  capturedPieces: IMap<Role, int>({
-                    Role.bishop: 1,
-                    Role.knight: 1,
-                    Role.king: 1,
-                    Role.pawn: 1,
-                    Role.queen: 1,
-                    Role.rook: 1,
-                  }),
-                ),
-                clock: Clock(
-                  timeLeft:
-                      analysisState.currentNode.lichessAnalysisComments?.last.clock ??
-                      Duration(seconds: 0),
+    final annotation = showAnnotationsOnBoard ? makeAnnotation(currentNode.nags) : null;
+    final sanMove = currentNode.sanMove;
 
-                  // currentNode.position.turn == Side.white
-                  //     ? analysisState.currentNode.comments?.last.clock ?? Duration(seconds: 0)
-                  //     : analysisState.previousNode.mainline.last.clock ?? Duration(seconds: 0),
-                ),
-              ),
-            ),
-            Expanded(
-              child: GamePlayer(
-                game: analysisState.archivedGame! as BaseGame,
-                side: analysisState.pov,
-                materialDiff: MaterialDiffSide(
-                  pieces: IMap<Role, int>({
-                    Role.bishop: 1,
-                    Role.knight: 1,
-                    Role.king: 1,
-                    Role.pawn: 1,
-                    Role.queen: 1,
-                    Role.rook: 1,
-                  }),
-                  score: 1,
-                  capturedPieces: IMap<Role, int>({
-                    Role.bishop: 1,
-                    Role.knight: 1,
-                    Role.king: 1,
-                    Role.pawn: 1,
-                    Role.queen: 1,
-                    Role.rook: 1,
-                  }),
-                ),
-                clock: Clock(
-                  timeLeft:
-                      analysisState.currentNode.lichessAnalysisComments?.last.clock ??
-                      Duration(seconds: 0),
-
-                  // currentNode.position.turn == Side.white
-                  //     ? analysisState.currentNode.comments?.last.clock ?? Duration(seconds: 0)
-                  //     : analysisState.previousNode.mainline.last.clock ?? Duration(seconds: 0),
-                ),
-              ),
-            ),
-          ],
+    return Chessboard(
+      size: widget.boardSize,
+      fen: analysisState.currentPosition.fen,
+      lastMove: analysisState.lastMove as NormalMove?,
+      orientation: analysisState.pov,
+      game: boardPrefs.toGameData(
+        variant: analysisState.variant,
+        position: analysisState.currentPosition,
+        playerSide:
+            analysisState.currentPosition.isGameOver
+                ? PlayerSide.none
+                : analysisState.currentPosition.turn == Side.white
+                ? PlayerSide.white
+                : PlayerSide.black,
+        promotionMove: analysisState.promotionMove,
+        onMove:
+            (move, {isDrop, captured}) => ref
+                .read(ctrlProvider.notifier)
+                .onUserMove(move, shouldReplace: widget.shouldReplaceChildOnUserMove),
+        onPromotionSelection: (role) => ref.read(ctrlProvider.notifier).onPromotionSelection(role),
+      ),
+      shapes: userShapes.union(bestMoveShapes),
+      annotations:
+          showAnnotationsOnBoard && sanMove != null && annotation != null
+              ? altCastles.containsKey(sanMove.move.uci)
+                  ? IMap({Move.parse(altCastles[sanMove.move.uci]!)!.to: annotation})
+                  : IMap({sanMove.move.to: annotation})
+              : null,
+      settings: boardPrefs.toBoardSettings().copyWith(
+        borderRadius: widget.borderRadius,
+        boxShadow: widget.borderRadius != null ? boardShadows : const <BoxShadow>[],
+        drawShape: DrawShapeOptions(
+          enable: widget.enableDrawingShapes,
+          onCompleteShape: _onCompleteShape,
+          onClearShapes: _onClearShapes,
+          newShapeColor: boardPrefs.shapeColor.color,
         ),
-        Chessboard(
-          size: widget.boardSize,
-          fen: analysisState.position.fen,
-          lastMove: analysisState.lastMove as NormalMove?,
-          orientation: analysisState.pov,
-          game: GameData(
-            playerSide:
-                analysisState.position.isGameOver
-                    ? PlayerSide.none
-                    : analysisState.position.turn == Side.white
-                    ? PlayerSide.white
-                    : PlayerSide.black,
-            isCheck: boardPrefs.boardHighlights && analysisState.position.isCheck,
-            sideToMove: analysisState.position.turn,
-            validMoves: analysisState.validMoves,
-            promotionMove: analysisState.promotionMove,
-            onMove:
-                (move, {isDrop, captured}) => ref
-                    .read(ctrlProvider.notifier)
-                    .onUserMove(move, shouldReplace: widget.shouldReplaceChildOnUserMove),
-            onPromotionSelection:
-                (role) => ref.read(ctrlProvider.notifier).onPromotionSelection(role),
-          ),
-          shapes: userShapes.union(bestMoveShapes),
-          annotations:
-              showAnnotationsOnBoard && sanMove != null && annotation != null
-                  ? altCastles.containsKey(sanMove.move.uci)
-                      ? IMap({Move.parse(altCastles[sanMove.move.uci]!)!.to: annotation})
-                      : IMap({sanMove.move.to: annotation})
-                  : null,
-          settings: boardPrefs.toBoardSettings().copyWith(
-            borderRadius: widget.borderRadius,
-            boxShadow: widget.borderRadius != null ? boardShadows : const <BoxShadow>[],
-            drawShape: DrawShapeOptions(
-              enable: widget.enableDrawingShapes,
-              onCompleteShape: _onCompleteShape,
-              onClearShapes: _onClearShapes,
-              newShapeColor: boardPrefs.shapeColor.color,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 

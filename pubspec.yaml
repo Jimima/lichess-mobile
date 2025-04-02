@@ -2,19 +2,19 @@ name: lichess_mobile
 description: Lichess mobile app V2
 publish_to: "none"
 
-version: 0.14.8+001408 # See README.md for details about versioning
+version: 0.14.14+001414 # See README.md for details about versioning
 
 environment:
-  sdk: '^3.8.0-70.0'
+  sdk: ^3.8.0-171.0.dev
   # We're using the beta channel for the flutter version
-  flutter: "3.30.0-0.1"
+  flutter: 3.31.0-0.1.pre
 
 dependencies:
   app_settings: ^5.1.1
   async: ^2.10.0
   auto_size_text: ^3.0.0
   cached_network_image: ^3.2.2
-  chessground: ^7.0.0-beta.1
+  chessground: ^7.1.0
   clock: ^1.1.1
   collection: ^1.17.0
   connectivity_plus: ^6.0.2
@@ -22,7 +22,7 @@ dependencies:
   crypto: ^3.0.3
   cupertino_http: ^2.0.0
   cupertino_icons: ^1.0.2
-  dartchess: ^0.10.0
+  dartchess: ^0.11.0
   deep_pick: ^1.0.0
   device_info_plus: ^11.0.0
   dynamic_system_colors: ^1.8.0
@@ -33,7 +33,7 @@ dependencies:
   fl_chart: ^0.70.0
   flutter:
     sdk: flutter
-  flutter_appauth: ^8.0.0+1
+  flutter_appauth: ^9.0.0
   flutter_displaymode: ^0.6.0
   flutter_layout_grid: ^2.0.1
   flutter_linkify: ^6.0.0
@@ -54,7 +54,7 @@ dependencies:
   l10n_esperanto:
     git:
       url: https://github.com/veloce/l10n_esperanto.git
-      ref: 40abcece5be4610620a8dcc506901d9be84bab1b
+      ref: 62d45c60f7840a4591318bb477172136c999f946
   linkify: ^5.0.0
   logging: ^1.1.0
   material_color_utilities: ^0.11.1
@@ -69,7 +69,7 @@ dependencies:
   share_plus: ^10.0.0
   shared_preferences: ^2.1.0
   signal_strength_indicator: ^0.4.1
-  sound_effect: ^0.0.2
+  sound_effect: ^0.1.0
   sqflite: ^2.2.5
   stockfish:
     git:
@@ -88,10 +88,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.3.4
+  freezed_lint: ^0.0.7
   json_serializable: ^6.5.4
   lint: ^2.0.1
   mocktail: ^1.0.0
-  network_image_mock: ^2.1.1
+  mocktail_image_network: ^1.2.0
   riverpod_generator: ^2.1.0
   riverpod_lint: ^2.3.3
   sqflite_common_ffi: ^2.2.3

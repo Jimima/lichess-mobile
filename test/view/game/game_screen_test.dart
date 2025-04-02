@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/testing.dart';
+import 'package:lichess_mobile/src/model/common/chess.dart';
 import 'package:lichess_mobile/src/model/common/id.dart';
 import 'package:lichess_mobile/src/model/common/service/sound_service.dart';
 import 'package:lichess_mobile/src/model/game/game_socket_events.dart';
 import 'package:lichess_mobile/src/model/lobby/game_seek.dart';
+import 'package:lichess_mobile/src/model/settings/board_preferences.dart';
+import 'package:lichess_mobile/src/model/settings/preferences_storage.dart';
 import 'package:lichess_mobile/src/network/http.dart';
 import 'package:lichess_mobile/src/network/socket.dart';
 import 'package:lichess_mobile/src/styles/lichess_icons.dart';
@@ -139,6 +142,79 @@ void main() {
       expect(find.text('Waiting for opponent to join...'), findsNothing);
       expect(find.text('3+2'), findsNothing);
     });
+  });
+
+  group('Castling', () {
+    const String castlingSetupPgn = 'e4 e5 Nf3 Nf6 Bc4 Bc5 d3 d6 Bd2 Bd7 Nc3 Nc6 Qe2 Qe7';
+
+    for (final castlingMethod in CastlingMethod.values) {
+      testWidgets('respect castling preference ($castlingMethod)', (tester) async {
+        final fakeSocket = FakeWebSocketChannel();
+        await createTestGame(
+          fakeSocket,
+          pgn: castlingSetupPgn,
+          defaultPreferences: {
+            PrefCategory.board.storageKey: jsonEncode(
+              BoardPrefs.defaults.copyWith(castlingMethod: castlingMethod).toJson(),
+            ),
+          },
+          tester,
+        );
+
+        expect(find.byKey(const Key('e1-whiteking')), findsOneWidget);
+
+        await tester.tap(find.byKey(const Key('e1-whiteking')));
+        await tester.pump();
+
+        switch (castlingMethod) {
+          case CastlingMethod.kingOverRook:
+            // kingOverRook acts as either kingTwoSquares or kingOverRook
+            expect(find.byKey(const Key('f1-dest')), findsOneWidget);
+            expect(find.byKey(const Key('g1-dest')), findsOneWidget);
+            expect(find.byKey(const Key('h1-dest')), findsOneWidget);
+            expect(find.byKey(const Key('c1-dest')), findsOneWidget);
+            expect(find.byKey(const Key('d1-dest')), findsOneWidget);
+            expect(find.byKey(const Key('a1-dest')), findsOneWidget);
+          case CastlingMethod.kingTwoSquares:
+            expect(find.byKey(const Key('f1-dest')), findsOneWidget);
+            expect(find.byKey(const Key('g1-dest')), findsOneWidget);
+            expect(find.byKey(const Key('h1-dest')), findsNothing);
+            expect(find.byKey(const Key('c1-dest')), findsOneWidget);
+            expect(find.byKey(const Key('d1-dest')), findsOneWidget);
+            expect(find.byKey(const Key('a1-dest')), findsNothing);
+        }
+      });
+    }
+
+    for (final castlingMethod in CastlingMethod.values) {
+      testWidgets('chess960: $castlingMethod', (tester) async {
+        final fakeSocket = FakeWebSocketChannel();
+        await createTestGame(
+          fakeSocket,
+          pgn: castlingSetupPgn,
+          variant: Variant.chess960,
+          initialFen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+          defaultPreferences: {
+            PrefCategory.board.storageKey: jsonEncode(
+              BoardPrefs.defaults.copyWith(castlingMethod: castlingMethod).toJson(),
+            ),
+          },
+          tester,
+        );
+
+        await tester.tap(find.byKey(const Key('e1-whiteking')));
+
+        await tester.pump();
+
+        // in chess960, castling is only king over rook, no matter the preference
+        expect(find.byKey(const Key('f1-dest')), findsOneWidget);
+        expect(find.byKey(const Key('g1-dest')), findsNothing);
+        expect(find.byKey(const Key('h1-dest')), findsOneWidget);
+        expect(find.byKey(const Key('c1-dest')), findsNothing);
+        expect(find.byKey(const Key('d1-dest')), findsOneWidget);
+        expect(find.byKey(const Key('a1-dest')), findsOneWidget);
+      });
+    }
   });
 
   group('Clock', () {
@@ -481,6 +557,47 @@ void main() {
       expect(find.text('Computer analysis'), findsOneWidget); // computer analysis is available
     });
   });
+
+  group('Chat', () {
+    group('Enabled', () {
+      testWidgets('onNewMessage', (WidgetTester tester) async {
+        final mockSoundService = MockSoundService();
+        when(
+          () => mockSoundService.play(Sound.confirmation, volume: any(named: 'volume')),
+        ).thenAnswer((_) async {});
+        final fakeSocket = FakeWebSocketChannel();
+        await createTestGame(
+          fakeSocket,
+          tester,
+          pgn: 'e4 e5',
+          overrides: [soundServiceProvider.overrideWith((_) => mockSoundService)],
+        );
+        fakeSocket.addIncomingMessages(['{"t":"message","d":{"u":"Magnus","t":"Hello!"}}']);
+        await tester.pump(const Duration(milliseconds: 100));
+        verify(
+          () => mockSoundService.play(Sound.confirmation, volume: any(named: 'volume')),
+        ).called(1);
+      });
+    });
+
+    group('Disabled', () {
+      testWidgets('onNewMessage', (WidgetTester tester) async {
+        final mockSoundService = MockSoundService();
+        when(() => mockSoundService.play(Sound.confirmation)).thenAnswer((_) async {});
+        final fakeSocket = FakeWebSocketChannel();
+        await createTestGame(
+          fakeSocket,
+          tester,
+          pgn: 'e4 e5',
+          defaultPreferences: {PrefCategory.game.storageKey: '{"enableChat": false}'},
+          overrides: [soundServiceProvider.overrideWith((_) => mockSoundService)],
+        );
+        fakeSocket.addIncomingMessages(['{"t":"message","d":{"u":"Magnus","t":"Hello!"}}']);
+        await tester.pump(const Duration(milliseconds: 100));
+        verifyNever(() => mockSoundService.play(Sound.confirmation));
+      });
+    });
+  });
 }
 
 Finder findClockWithTime(String text, {bool skipOffstage = true}) {
@@ -518,6 +635,8 @@ Future<void> playMoveWithServerAck(
 Future<void> createTestGame(
   FakeWebSocketChannel socket,
   WidgetTester tester, {
+  Variant variant = Variant.standard,
+  String? initialFen,
   Side? youAre = Side.white,
   String? pgn,
   int socketVersion = 0,
@@ -530,11 +649,13 @@ Future<void> createTestGame(
     emerg: Duration(seconds: 30),
   ),
   FullEventTestCorrespondenceClock? correspondenceClock,
+  Map<String, Object>? defaultPreferences,
   List<Override>? overrides,
 }) async {
   final app = await makeTestProviderScopeApp(
     tester,
     home: const GameScreen(initialGameId: GameFullId('qVChCOTcHSeW')),
+    defaultPreferences: defaultPreferences,
     overrides: [
       lichessClientProvider.overrideWith((ref) => LichessClient(client, ref)),
       webSocketChannelFactoryProvider.overrideWith((ref) {
@@ -549,8 +670,10 @@ Future<void> createTestGame(
 
   socket.addIncomingMessages([
     makeFullEvent(
+      variant: variant,
       const GameId('qVChCOTc'),
       pgn ?? '',
+      initialFen: initialFen,
       whiteUserName: 'Peter',
       blackUserName: 'Steven',
       youAre: youAre,

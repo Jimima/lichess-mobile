@@ -188,6 +188,7 @@ class _BroadcastRoundScreenState extends ConsumerState<BroadcastRoundScreen>
           Tab(text: context.l10n.players),
         ],
       ),
+      appBarAutomaticBackgroundVisibility: false,
       appBarActions: [
         AppBarIconButton(
           icon: const Icon(Icons.settings),
@@ -266,7 +267,6 @@ class _BroadcastRoundScreenState extends ConsumerState<BroadcastRoundScreen>
         );
 
         return _buildContent(context, asyncTour, roundState);
-
       case _:
         return _buildContent(context, asyncTour, loadingRound);
     }

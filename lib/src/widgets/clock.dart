@@ -22,6 +22,7 @@ class Clock extends StatelessWidget {
     this.clockStyle,
     this.emergencyThreshold,
     this.padLeft = false,
+    this.padding = const EdgeInsets.symmetric(vertical: 3.0, horizontal: 5.0),
     super.key,
   });
 
@@ -40,6 +41,9 @@ class Clock extends StatelessWidget {
 
   /// Whether to pad with a leading zero (default is `false`).
   final bool padLeft;
+
+  /// Padding around the clock.
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +77,7 @@ class Clock extends StatelessWidget {
                     : effectiveClockStyle.backgroundColor,
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3.0, horizontal: 5.0),
+            padding: padding,
             child: MediaQuery.withClampedTextScaling(
               maxScaleFactor: kMaxClockTextScaleFactor,
               child: AutoSizeText.rich(

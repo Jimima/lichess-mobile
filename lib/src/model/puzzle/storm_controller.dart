@@ -157,7 +157,7 @@ class StormController extends _$StormController {
             state = newState;
           }
         },
-        onError: (_, __) {
+        onError: (_, _) {
           state = newState;
         },
       );
@@ -334,8 +334,6 @@ class StormState with _$StormState {
   Move? get lastMove => moveIndex == -1 ? null : Move.parse(puzzle.solution[moveIndex]);
 
   bool get isOver => moveIndex >= puzzle.solution.length - 1;
-
-  IMap<Square, ISet<Square>> get validMoves => makeLegalMoves(position);
 }
 
 enum StormMode { initial, running, ended }

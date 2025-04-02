@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lichess_mobile/src/model/account/account_repository.dart';
 import 'package:lichess_mobile/src/model/common/id.dart';
+import 'package:lichess_mobile/src/model/common/service/sound_service.dart';
 import 'package:lichess_mobile/src/model/common/speed.dart';
 import 'package:lichess_mobile/src/model/game/chat_controller.dart';
 import 'package:lichess_mobile/src/model/game/game_controller.dart';
@@ -96,12 +97,21 @@ class GameBody extends ConsumerWidget {
 
     final boardPreferences = ref.watch(boardPreferencesProvider);
     final blindfoldMode = ref.watch(gamePreferencesProvider.select((prefs) => prefs.blindfoldMode));
+    final enableChat = ref.watch(
+      gamePreferencesProvider.select((prefs) => prefs.enableChat ?? false),
+    );
 
     final gameStateAsync = ref.watch(ctrlProvider);
 
     return gameStateAsync.when(
       data: (gameState) {
-        final (position, legalMoves) = gameState.currentPosition;
+        final isChatEnabled = enableChat && !gameState.isZenModeActive;
+        if (isChatEnabled) {
+          ref.listen(
+            chatControllerProvider(id),
+            (prev, state) => _chatListener(prev, state, context: context, ref: ref),
+          );
+        }
         final youAre = gameState.game.youAre ?? Side.white;
         final archivedBlackClock = gameState.game.archivedBlackClockAt(gameState.stepCursor);
         final archivedWhiteClock = gameState.game.archivedWhiteClockAt(gameState.stepCursor);
@@ -238,18 +248,16 @@ class GameBody extends ConsumerWidget {
                         blindfoldMode: blindfoldMode,
                       ),
                       orientation: isBoardTurned ? youAre.opposite : youAre,
-                      fen: position.fen,
                       lastMove: gameState.game.moveAt(gameState.stepCursor) as NormalMove?,
-                      gameData: GameData(
+                      interactiveBoardParams: (
+                        variant: gameState.game.meta.variant,
+                        position: gameState.currentPosition,
                         playerSide:
                             gameState.game.playable && !gameState.isReplaying
                                 ? youAre == Side.white
                                     ? PlayerSide.white
                                     : PlayerSide.black
                                 : PlayerSide.none,
-                        isCheck: boardPreferences.boardHighlights && position.isCheck,
-                        sideToMove: position.turn,
-                        validMoves: legalMoves,
                         promotionMove: gameState.promotionMove,
                         onMove: (move, {isDrop}) {
                           ref.read(ctrlProvider.notifier).userMove(move, isDrop: isDrop);
@@ -327,6 +335,18 @@ class GameBody extends ConsumerWidget {
         );
       },
     );
+  }
+
+  void _chatListener(
+    AsyncValue<ChatState>? prev,
+    AsyncValue<ChatState> state, {
+    required BuildContext context,
+    required WidgetRef ref,
+  }) {
+    if (prev == null || !prev.hasValue || !state.hasValue) return;
+    if (state.requireValue.unreadMessages > prev.requireValue.unreadMessages) {
+      ref.read(soundServiceProvider).play(Sound.confirmation, volume: 0.5);
+    }
   }
 
   void _stateListener(
@@ -511,7 +531,7 @@ class _GameBottomBar extends ConsumerWidget {
               )
             else if (gameState.game.finished)
               BottomBarButton(
-                label: context.l10n.gameAnalysis,
+                label: context.l10n.analysis,
                 icon: Icons.biotech,
                 onTap: () {
                   Navigator.of(
@@ -540,12 +560,10 @@ class _GameBottomBar extends ConsumerWidget {
                 icon: Icons.flag,
               )
             else
-              BottomBarButton(
-                label: context.l10n.flipBoard,
-                onTap: () {
-                  ref.read(isBoardTurnedProvider.notifier).toggle();
-                },
-                icon: CupertinoIcons.arrow_2_squarepath,
+              const BottomBarButton(
+                label: 'No game action available',
+                onTap: null,
+                icon: Icons.pending_outlined,
               ),
             if (gameState.game.meta.speed == Speed.correspondence && !gameState.game.finished)
               BottomBarButton(

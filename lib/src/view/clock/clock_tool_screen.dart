@@ -7,6 +7,7 @@ import 'package:lichess_mobile/src/model/common/time_increment.dart';
 import 'package:lichess_mobile/src/utils/immersive_mode.dart';
 import 'package:lichess_mobile/src/utils/l10n_context.dart';
 import 'package:lichess_mobile/src/utils/navigation.dart';
+import 'package:lichess_mobile/src/utils/screen.dart';
 import 'package:lichess_mobile/src/view/clock/clock_settings.dart';
 import 'package:lichess_mobile/src/view/clock/custom_clock_settings.dart';
 import 'package:lichess_mobile/src/widgets/adaptive_bottom_sheet.dart';
@@ -30,11 +31,37 @@ class ClockToolScreen extends StatelessWidget {
 
 enum TilePosition { bottom, top }
 
-class _Body extends ConsumerWidget {
+class _Body extends ConsumerStatefulWidget {
   const _Body();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends ConsumerState<_Body> {
+  bool isTablet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final view = WidgetsBinding.instance.platformDispatcher.views.first;
+    final data = MediaQueryData.fromView(view);
+    isTablet = data.size.shortestSide >= FormFactor.tablet;
+    if (isTablet) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    }
+  }
+
+  @override
+  void dispose() {
+    if (isTablet) {
+      SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(clockToolControllerProvider);
 
     SystemChrome.setPreferredOrientations([
@@ -111,8 +138,15 @@ class ClockTile extends ConsumerWidget {
       emergencyBackgroundColor: const Color(0xFF673431),
     );
 
+    final clockOrientation = ref.watch(clockToolControllerProvider).clockOrientation;
+
     return RotatedBox(
-      quarterTurns: orientation == Orientation.portrait && position == TilePosition.top ? 2 : 0,
+      quarterTurns:
+          clockOrientation.isPortrait
+              ? (position == TilePosition.top
+                  ? clockOrientation.oppositeQuarterTurns
+                  : clockOrientation.quarterTurns)
+              : clockOrientation.quarterTurns,
       child: Stack(
         alignment: Alignment.center,
         fit: StackFit.expand,
@@ -138,31 +172,27 @@ class ClockTile extends ConsumerWidget {
                       }
                       : null,
               child: Padding(
-                padding: const EdgeInsets.all(40),
+                padding: const EdgeInsets.all(48),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FittedBox(
-                      child: AnimatedCrossFade(
-                        duration: const Duration(milliseconds: 300),
-                        firstChild: ValueListenableBuilder(
-                          valueListenable: clockState.getDuration(playerType),
-                          builder: (context, value, _) {
-                            return Clock(
-                              padLeft: true,
-                              clockStyle: clockStyle,
-                              timeLeft: value,
-                              active: clockState.isActivePlayer(playerType),
-                            );
-                          },
+                    Expanded(
+                      child: FittedBox(
+                        child: AnimatedCrossFade(
+                          duration: const Duration(milliseconds: 300),
+                          firstChild: _ClockDisplay(
+                            clockState: clockState,
+                            playerType: playerType,
+                            clockStyle: clockStyle,
+                          ),
+                          secondChild: const Icon(Icons.flag),
+                          crossFadeState:
+                              clockState.isFlagged(playerType)
+                                  ? CrossFadeState.showSecond
+                                  : CrossFadeState.showFirst,
                         ),
-                        secondChild: const Icon(Icons.flag),
-                        crossFadeState:
-                            clockState.isFlagged(playerType)
-                                ? CrossFadeState.showSecond
-                                : CrossFadeState.showFirst,
                       ),
                     ),
                   ],
@@ -184,6 +214,19 @@ class ClockTile extends ConsumerWidget {
               ),
             ),
           ),
+          if (orientation == Orientation.portrait && clockOrientation.isPortrait)
+            Positioned(
+              top: 24,
+              left: 24,
+              child: RotatedBox(
+                quarterTurns: 2,
+                child: _ClockDisplay(
+                  clockState: clockState,
+                  playerType: playerType,
+                  clockStyle: clockStyle,
+                ),
+              ),
+            ),
           Positioned(
             bottom: MediaQuery.paddingOf(context).bottom + 48.0,
             child: AnimatedOpacity(
@@ -225,6 +268,34 @@ class ClockTile extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ClockDisplay extends StatelessWidget {
+  const _ClockDisplay({
+    required this.clockState,
+    required this.playerType,
+    required this.clockStyle,
+  });
+
+  final ClockState clockState;
+  final Side playerType;
+  final ClockStyle clockStyle;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: clockState.getDuration(playerType),
+      builder: (context, value, _) {
+        return Clock(
+          padLeft: true,
+          clockStyle: clockStyle,
+          timeLeft: value,
+          active: clockState.isActivePlayer(playerType),
+          padding: EdgeInsets.zero,
+        );
+      },
     );
   }
 }

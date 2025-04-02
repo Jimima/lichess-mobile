@@ -11,6 +11,7 @@ import 'package:lichess_mobile/src/model/analysis/analysis_controller.dart';
 import 'package:lichess_mobile/src/model/auth/auth_session.dart';
 import 'package:lichess_mobile/src/model/common/chess.dart';
 import 'package:lichess_mobile/src/model/common/id.dart';
+import 'package:lichess_mobile/src/model/engine/evaluation_preferences.dart';
 import 'package:lichess_mobile/src/model/engine/evaluation_service.dart';
 import 'package:lichess_mobile/src/model/game/game_repository_providers.dart';
 import 'package:lichess_mobile/src/model/puzzle/puzzle_angle.dart';
@@ -117,7 +118,7 @@ class _Title extends ConsumerWidget {
           .when(
             data: (data) => Text(data),
             loading: () => const SizedBox.shrink(),
-            error: (_, __) => Text(key.replaceAll('_', ' ')),
+            error: (_, _) => Text(key.replaceAll('_', ' ')),
           ),
     };
   }
@@ -275,9 +276,7 @@ class _Body extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ctrlProvider = puzzleControllerProvider(initialPuzzleContext);
     final puzzleState = ref.watch(ctrlProvider);
-
-    final boardPreferences = ref.watch(boardPreferencesProvider);
-
+    final enginePrefs = ref.watch(engineEvaluationPreferencesProvider);
     final currentEvalBest = ref.watch(engineEvaluationProvider.select((s) => s.eval?.bestMove));
     final evalBestMove = (currentEvalBest ?? puzzleState.node.eval?.bestMove) as NormalMove?;
 
@@ -288,20 +287,18 @@ class _Body extends ConsumerWidget {
             bottom: false,
             child: BoardTable(
               orientation: puzzleState.pov,
-              fen: puzzleState.fen,
               lastMove: puzzleState.lastMove as NormalMove?,
-              gameData: GameData(
+              interactiveBoardParams: (
+                variant: Variant.standard,
+                position: puzzleState.currentPosition,
                 playerSide:
-                    puzzleState.mode == PuzzleMode.load || puzzleState.position.isGameOver
+                    puzzleState.mode == PuzzleMode.load || puzzleState.currentPosition.isGameOver
                         ? PlayerSide.none
                         : puzzleState.mode == PuzzleMode.view
                         ? PlayerSide.both
                         : puzzleState.pov == Side.white
                         ? PlayerSide.white
                         : PlayerSide.black,
-                isCheck: boardPreferences.boardHighlights && puzzleState.position.isCheck,
-                sideToMove: puzzleState.position.turn,
-                validMoves: puzzleState.validMoves,
                 promotionMove: puzzleState.promotionMove,
                 onMove: (move, {isDrop}) {
                   ref.read(ctrlProvider.notifier).onUserMove(move);
@@ -309,9 +306,10 @@ class _Body extends ConsumerWidget {
                 onPromotionSelection: (role) {
                   ref.read(ctrlProvider.notifier).onPromotionSelection(role);
                 },
+                premovable: null,
               ),
               shapes:
-                  puzzleState.isEngineEnabled && evalBestMove != null
+                  puzzleState.isEngineAvailable(enginePrefs) && evalBestMove != null
                       ? ISet([
                         Arrow(
                           color: const Color(0x66003088),
@@ -323,12 +321,13 @@ class _Body extends ConsumerWidget {
                       ? ISet([Circle(color: ShapeColor.green.color, orig: puzzleState.hintSquare!)])
                       : null,
               engineGauge:
-                  puzzleState.isEngineEnabled
+                  puzzleState.isEngineAvailable(enginePrefs)
                       ? (
-                        orientation: puzzleState.pov,
                         isLocalEngineAvailable: true,
-                        position: puzzleState.position,
+                        orientation: puzzleState.pov,
+                        position: puzzleState.currentPosition,
                         savedEval: puzzleState.node.eval,
+                        serverEval: puzzleState.node.serverEval,
                       )
                       : null,
               showEngineGaugePlaceholder: true,
@@ -445,6 +444,7 @@ class _BottomBarState extends ConsumerState<_BottomBar> {
   Widget build(BuildContext context) {
     final ctrlProvider = puzzleControllerProvider(widget.initialPuzzleContext);
     final puzzleState = ref.watch(ctrlProvider);
+    final enginePrefs = ref.watch(engineEvaluationPreferencesProvider);
 
     return PlatformBottomBar(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -489,13 +489,31 @@ class _BottomBarState extends ConsumerState<_BottomBar> {
             icon: Icons.menu,
           ),
         if (puzzleState.mode == PuzzleMode.view)
-          BottomBarButton(
-            onTap: () {
-              ref.read(ctrlProvider.notifier).toggleLocalEvaluation();
+          Builder(
+            builder: (context) {
+              Future<void>? toggleFuture;
+              return FutureBuilder<void>(
+                future: toggleFuture,
+                builder: (context, snapshot) {
+                  return BottomBarButton(
+                    onTap:
+                        snapshot.connectionState != ConnectionState.waiting
+                            ? () async {
+                              toggleFuture = ref.read(ctrlProvider.notifier).toggleEvaluation();
+                              try {
+                                await toggleFuture;
+                              } finally {
+                                toggleFuture = null;
+                              }
+                            }
+                            : null,
+                    label: context.l10n.toggleLocalEvaluation,
+                    icon: CupertinoIcons.gauge,
+                    highlighted: puzzleState.isEngineAvailable(enginePrefs),
+                  );
+                },
+              );
             },
-            label: context.l10n.toggleLocalEvaluation,
-            icon: CupertinoIcons.gauge,
-            highlighted: puzzleState.isLocalEvalEnabled,
           ),
         if (puzzleState.mode == PuzzleMode.view)
           RepeatButton(
