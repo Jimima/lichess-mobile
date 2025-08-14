@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lichess_mobile/l10n/l10n.dart';
 import 'package:lichess_mobile/src/constants.dart';
 import 'package:lichess_mobile/src/model/game/material_diff.dart';
+import 'package:lichess_mobile/src/model/game/player.dart';
 import 'package:lichess_mobile/src/styles/lichess_icons.dart';
 import 'package:lichess_mobile/src/styles/styles.dart';
 import 'package:lichess_mobile/src/utils/l10n_context.dart';
@@ -130,6 +131,9 @@ class AnalysisLayout extends StatelessWidget {
     required this.boardBuilder,
     required this.children,
     required this.pov,
+    this.materialDiff,
+    this.whitePlayer,
+    this.blackPlayer,
     this.boardHeader,
     this.boardFooter,
     this.engineGaugeBuilder,
@@ -147,6 +151,11 @@ class AnalysisLayout extends StatelessWidget {
 
   /// The side the board is displayed from.
   final Side pov;
+
+  final MaterialDiff? materialDiff;
+
+  final Player? whitePlayer;
+  final Player? blackPlayer;
 
   /// A widget to show above the board.
   ///
@@ -305,19 +314,13 @@ class AnalysisLayout extends StatelessWidget {
                       if (engineGaugeBuilder != null)
                         engineGaugeBuilder!(context, Orientation.portrait),
                       if (engineLines != null) engineLines!,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Player Name'),
-                          MaterialDifferenceDisplay(
-                            materialDiff: MaterialDiffSide(
-                              pieces: {Role.bishop: 1}.toIMap(),
-                              score: 2,
-                              capturedPieces: {Role.bishop: 2}.toIMap(),
-                            ),
-                          ),
-                          Clock(timeLeft: Duration(minutes: 10)),
-                        ],
+                      AnalysisScreenPlayerBar(
+                        //TODO pass in the correct material diff
+                        materialDiff: MaterialDiffSide(
+                          pieces: {Role.bishop: 1}.toIMap(), //TODO get the matDIff
+                          score: 5, //TODO get the score
+                          capturedPieces: {Role.bishop: 2}.toIMap(), //TODO get the captured pieces
+                        ),
                       ),
                       Padding(
                         padding:
@@ -350,19 +353,15 @@ class AnalysisLayout extends StatelessWidget {
                                   ? tabletBoardRadius
                                   : null,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Player Name Black'), //TODO flip when board flipped
-                                MaterialDifferenceDisplay(
-                                  materialDiff: MaterialDiffSide(
-                                    pieces: {Role.bishop: 1}.toIMap(),
-                                    score: 2,
-                                    capturedPieces: {Role.bishop: 2}.toIMap(),
-                                  ),
-                                ),
-                                Clock(timeLeft: Duration(minutes: 10)),
-                              ],
+                            AnalysisScreenPlayerBar(
+                              playerName: 'A long player name for the bottom player just to test',
+                              //TODO pass in the correct material diff
+                              materialDiff: MaterialDiffSide(
+                                pieces: {Role.bishop: 1}.toIMap(), //TODO get the matDIff
+                                score: 5, //TODO get the score
+                                capturedPieces:
+                                    {Role.bishop: 2}.toIMap(), //TODO get the captured pieces
+                              ),
                             ),
                             if (boardFooter != null)
                               Container(
@@ -409,6 +408,37 @@ class AnalysisLayout extends StatelessWidget {
         ),
         if (bottomBar != null) bottomBar!,
       ],
+    );
+  }
+}
+
+class AnalysisScreenPlayerBar extends StatelessWidget {
+  final String? playerName;
+  final Duration timeLeft;
+  final MaterialDiffSide? materialDiff;
+
+  const AnalysisScreenPlayerBar({
+    super.key,
+    this.playerName,
+    this.timeLeft = Duration.zero,
+    this.materialDiff,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 20.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Flexible(
+            child: Text(playerName ?? 'White', maxLines: 1, overflow: TextOverflow.ellipsis),
+          ), //TODO get the player colour from somewhere
+          MaterialDifferenceDisplay(materialDiff: materialDiff),
+          Clock(timeLeft: timeLeft),
+        ],
+      ),
     );
   }
 }

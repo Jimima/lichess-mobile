@@ -1,14 +1,13 @@
 import 'dart:async';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:lichess_mobile/src/constants.dart';
 import 'package:lichess_mobile/src/utils/screen.dart';
 
-const _kClockFontSize = 10.0; //TODO stop making all the clocks tiny
-const _kClockTenthFontSize = 9.0;
-const _kClockHundredsFontSize = 8.0;
+const _kClockFontSize = 26.0;
+const _kClockTenthFontSize = 20.0;
+const _kClockHundredsFontSize = 18.0;
 
 const _showTenthsThreshold = Duration(seconds: 10);
 
@@ -20,12 +19,10 @@ class Clock extends StatelessWidget {
     required this.timeLeft,
     this.active = false,
     this.clockStyle,
+    this.minFontSizeOverride,
     this.emergencyThreshold,
     this.padLeft = false,
-    this.padding = const EdgeInsets.symmetric(
-      vertical: 0.0,
-      horizontal: 2.0,
-    ), //Padding around the clock
+    this.padding = const EdgeInsets.symmetric(vertical: 3.0, horizontal: 5.0),
     super.key,
   });
 
@@ -41,6 +38,9 @@ class Clock extends StatelessWidget {
 
   /// Clock style to use.
   final ClockStyle? clockStyle;
+
+  /// The minimum font size override for the clock time.
+  final double? minFontSizeOverride;
 
   /// Whether to pad with a leading zero (default is `false`).
   final bool padLeft;
@@ -83,11 +83,8 @@ class Clock extends StatelessWidget {
             padding: padding,
             child: MediaQuery.withClampedTextScaling(
               maxScaleFactor: kMaxClockTextScaleFactor,
-              child: AutoSizeText.rich(
-                maxLines: 1,
-                minFontSize: 0.1,
-                stepGranularity: 0.1,
-                TextSpan(
+              child: RichText(
+                text: TextSpan(
                   text:
                       hours > 0
                           ? '$hoursDisplay:${mins.toString().padLeft(2, '0')}:$secs'

@@ -8,6 +8,7 @@ import 'package:lichess_mobile/src/model/analysis/opening_service.dart';
 import 'package:lichess_mobile/src/model/common/chess.dart';
 import 'package:lichess_mobile/src/model/engine/evaluation_preferences.dart';
 import 'package:lichess_mobile/src/model/game/game_share_service.dart';
+import 'package:lichess_mobile/src/model/game/material_diff.dart';
 import 'package:lichess_mobile/src/network/http.dart';
 import 'package:lichess_mobile/src/utils/l10n_context.dart';
 import 'package:lichess_mobile/src/utils/navigation.dart';
@@ -178,6 +179,9 @@ class _Body extends ConsumerWidget {
       smallBoard: analysisPrefs.smallBoard,
       tabController: controller,
       pov: pov,
+      materialDiff: MaterialDiff(
+        black: MaterialDiffSide(pieces: currentNode.position.board.pieces, score: 100, capturedPieces: null),
+      ),
       boardBuilder:
           (context, boardSize, borderRadius) => AnalysisBoard(
             options,
